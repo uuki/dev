@@ -1,0 +1,18 @@
+{
+  "frontMatter.framework.id": "next",
+  "frontMatter.content.publicFolder": "public",
+  "frontMatter.content.defaultFileType": "mdx",
+  "frontMatter.content.pageFolders": [
+    {
+      "title": "Pages",
+      "path": "[[workspace]]/pages",
+      "excludeSubdir": true
+    },
+    {
+      "title": "Blog posts",
+      "path": "[[workspace]]/docs"
+    }
+  ],
+  "frontMatter.dashboard.openOnStart": false,
+  "frontMatter.content.autoUpdateDate": true
+}
