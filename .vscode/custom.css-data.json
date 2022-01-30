@@ -1,0 +1,28 @@
+{
+  "version": 1.1,
+  "properties": [],
+  "atDirectives": [
+    {
+      "name": "@import-normalize",
+      "description": "PostCSS Normalize lets you use the parts of normalize.css or sanitize.css that you need from your browserslist.",
+      "references": [
+        {
+          "name": "postcss-normalize",
+          "url": "https://www.npmjs.com/package/postcss-normalize"
+        }
+      ]
+    },
+    {
+      "name": "@import-glob",
+      "description": "The plugin postcss-import can now import each file",
+      "references": [
+        {
+          "name": "postcss-import-ext-glob",
+          "url": "https://www.npmjs.com/package/postcss-import-ext-glob"
+        }
+      ]
+    }
+  ],
+  "pseudoClasses": [],
+  "pseudoElements": []
+}

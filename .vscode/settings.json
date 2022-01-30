@@ -14,5 +14,6 @@
     }
   ],
   "frontMatter.dashboard.openOnStart": false,
-  "frontMatter.content.autoUpdateDate": true
+  "frontMatter.content.autoUpdateDate": true,
+  "css.customData": ["./.vscode/custom.css-data.json"]
 }
