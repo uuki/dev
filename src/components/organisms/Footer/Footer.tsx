@@ -3,7 +3,7 @@ import { ListMenu } from '@/components/molecules/ListMenu'
 import { SiTwitter, SiGithub, SiRss } from 'react-icons/si'
 import { Link } from '@/components/atoms/Link'
 
-const Footer = memo(() => {
+const Footer = () => {
   const SocialItems = [
     {
       url: 'https://twitter.com/uuki_dev',
@@ -40,6 +40,6 @@ const Footer = memo(() => {
       </div>
     </footer>
   )
-})
+}
 
-export { Footer }
+export default memo(Footer)

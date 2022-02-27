@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import React, { memo } from 'react'
 import { Link } from '@/components/atoms/Link'
 import { BadgeOrigin } from '@/components/atoms/BadgeOrigin'
 import { ListTag } from '@/components/molecules/ListTag'
@@ -7,7 +7,7 @@ import { PostFrontMatter } from '@/types/Post'
 
 export type CardProps = PostFrontMatter & {}
 
-const Card = memo(({ slug, title, date, tags, origin, url }: CardProps) => {
+const Card = ({ slug, title, date, tags, origin, url }: CardProps) => {
   return (
     <article className="rounded-md bg-white shadow-theme px-[25px] py-[16px]">
       <div className="mb-[5px]">
@@ -26,6 +26,6 @@ const Card = memo(({ slug, title, date, tags, origin, url }: CardProps) => {
       </div>
     </article>
   )
-})
+}
 
-export { Card }
+export default memo(Card)

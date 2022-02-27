@@ -1,4 +1,3 @@
-/* eslint-disable react/display-name */
 import { ReactNode, useMemo } from 'react'
 import { ComponentMap, getMDXComponent } from 'mdx-bundler/client'
 import { Link } from '@/components/atoms/Link/Link'
@@ -15,7 +14,6 @@ export const MDXComponents: ComponentMap = {
   img: MDXImage,
   pre: Pre,
   wrapper: ({ layout = 'PostLayout', ...rest }: WrapperProps) => {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const Layout = require(`@/layouts/${layout}`)[layout]
     return <Layout {...rest} />
   },
