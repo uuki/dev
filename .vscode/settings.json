@@ -5,15 +5,20 @@
   "frontMatter.content.pageFolders": [
     {
       "title": "Pages",
-      "path": "[[workspace]]/pages",
+      "path": "[[workspace]]/src/data/pages",
       "excludeSubdir": true
     },
     {
       "title": "Blog posts",
-      "path": "[[workspace]]/docs"
+      "path": "[[workspace]]/src/data/docs"
     }
   ],
   "frontMatter.dashboard.openOnStart": false,
   "frontMatter.content.autoUpdateDate": true,
-  "css.customData": ["./.vscode/custom.css-data.json"]
+  "frontMatter.templates.prefix": "",
+  "css.customData": [
+    "./.vscode/custom.css-data.json"
+  ],
+  "[markdown]": {
+  }
 }
