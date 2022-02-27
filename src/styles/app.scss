@@ -1,11 +1,87 @@
-@charset "utf-8";
-
-@import './foundations/variables/*';
 @import './foundations/mixins/*';
 @import './foundations/functions/*';
-@import './object/utility/*';
 @import './foundations/*.scss';
-@import './foundations/plugins/*'; // Add styles for the library, if necessary.
-@import './layout/*';
-@import './object/component/*.scss';
-@import './object/project/*.scss';
+@import './foundations/plugins/*';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .flex-container {
+    @apply flex flex-col justify-between min-h-screen;
+  }
+  .px-content {
+    @apply md:px-[40px] sm:px-[15px];
+  }
+  .px-content-narrow {
+    @apply max-w-[880px] mx-auto md:px-[40px] sm:px-[15px];
+  }
+}
+
+@layer utilities {
+  .shadow-theme {
+    box-shadow: 0 0 5px rgba(62, 66, 65, 0.02);
+  }
+  .shadow-button {
+    transition: box-shadow 400ms;
+    box-shadow: 0 0 6px rgba(62, 66, 65, 0.2);
+    &:hover {
+      box-shadow: 0 0 3px rgba(62, 66, 65, 0.2);
+    }
+  }
+  .shadow-tooltip {
+    box-shadow: 0 0 6px rgba(62, 66, 65, 0.2);
+  }
+  .link-in-out {
+    @include linkInOut('black-400');
+  }
+  .link-in-out-white {
+    @include linkInOut('white');
+  }
+  .link-opacity {
+    @apply md:transition-[opacity] md:duration-[400ms] md:hover:opacity-60;
+  }
+  .list-delimiter-comma {
+    @apply after:content-[','] last:after:hidden;
+  }
+  .list-delimiter-pipe {
+    @apply after:content-['|'] last:after:hidden;
+  }
+  .details-reset {
+    > summary {
+      display: block;
+      &::-webkit-details-marker {
+        display: none;
+      }
+    }
+  }
+  .details-overlay {
+    @apply relative;
+    > summary {
+      @apply before:hidden before:fixed before:top-0 before:right-0 before:bottom-0 before:left-0;
+    }
+
+    &[open] > summary {
+      @apply before:block cursor-default z-[-1];
+    }
+  }
+  .dropdown-toggler {
+    @apply after:inline-block after:w-0 after:border-t-[5px] after:border-r-[4px] after:border-l-[4px] after:border-t-black-400 after:border-r-transparent after:border-l-transparent after:ml-[4px] after:mb-[1px] after:transition-transform;
+
+    [open] & {
+      @apply after:rotate-180;
+    }
+  }
+  .transition-button {
+    transition-property: opacity, transform;
+    transition-duration: 200ms;
+  }
+  .rehype-heading {
+    position: absolute;
+    top: 1rem;
+    transform: translateX(calc(-100% - 3px)) translateY(-50%);
+    opacity: 0;
+    line-height: 1;
+  }
+}

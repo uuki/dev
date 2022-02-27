@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://uuki.dev</id>
+    <title>uuki.dev</title>
+    <updated>2022-02-27T14:44:47.668Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <author>
+        <name>uuki</name>
+        <email>uuki.dev@gmail.com</email>
+    </author>
+    <link rel="alternate" href="https://uuki.dev"/>
+    <link rel="self" href="https://uuki.dev/atom.xml"/>
+    <subtitle>uukiの技術ブログ</subtitle>
+    <logo>https://uuki.dev/static/icon/favicon.ico</logo>
+    <rights>All rights reserved 2022, uuki.dev</rights>
+    <entry>
+        <title type="html"><![CDATA[external]]></title>
+        <id>https:/uuki.dev/data/docs/external</id>
+        <link href="https:/uuki.dev/data/docs/external"/>
+        <updated>2022-02-20T12:57:50.996Z</updated>
+        <summary type="html"><![CDATA[外部メディア]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[記事タイトルが入りますサンプルサンプルサンプルサンプルサンプルサンプルサンプルサンプルサ]]></title>
+        <id>https:/uuki.dev/data/docs/test</id>
+        <link href="https:/uuki.dev/data/docs/test"/>
+        <updated>2022-02-20T12:57:50.996Z</updated>
+        <summary type="html"><![CDATA[test]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[testaaa]]></title>
+        <id>https:/uuki.dev/data/docs/test2</id>
+        <link href="https:/uuki.dev/data/docs/test2"/>
+        <updated>2022-02-20T12:57:50.996Z</updated>
+        <summary type="html"><![CDATA[test]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[testaaa]]></title>
+        <id>https:/uuki.dev/data/docs/test3</id>
+        <link href="https:/uuki.dev/data/docs/test3"/>
+        <updated>2022-02-20T12:57:50.996Z</updated>
+        <summary type="html"><![CDATA[test]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[testaaa]]></title>
+        <id>https:/uuki.dev/data/docs/test4</id>
+        <link href="https:/uuki.dev/data/docs/test4"/>
+        <updated>2022-02-20T12:57:50.996Z</updated>
+        <summary type="html"><![CDATA[test]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[testaaa]]></title>
+        <id>https:/uuki.dev/data/docs/test5</id>
+        <link href="https:/uuki.dev/data/docs/test5"/>
+        <updated>2022-02-20T12:57:50.996Z</updated>
+        <summary type="html"><![CDATA[test]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[testaaa]]></title>
+        <id>https:/uuki.dev/data/docs/test6</id>
+        <link href="https:/uuki.dev/data/docs/test6"/>
+        <updated>2022-02-20T12:57:50.996Z</updated>
+        <summary type="html"><![CDATA[test]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[何某かの記事]]></title>
+        <id>https:/uuki.dev/data/docs/test7</id>
+        <link href="https:/uuki.dev/data/docs/test7"/>
+        <updated>2022-02-20T12:57:50.996Z</updated>
+        <summary type="html"><![CDATA[test]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[testaaa]]></title>
+        <id>https:/uuki.dev/data/docs/test8</id>
+        <link href="https:/uuki.dev/data/docs/test8"/>
+        <updated>2022-02-20T12:57:50.996Z</updated>
+        <summary type="html"><![CDATA[test]]></summary>
+    </entry>
+</feed>

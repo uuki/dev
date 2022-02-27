@@ -1,0 +1,8 @@
+@mixin linkInOut($lineColor) {
+  @apply inline-block relative transition-[color] duration-[400ms] hover:after:left-0 hover:after:right-auto hover:after:w-full;
+
+  &::after {
+    @apply transition-[width] duration-[400ms] content-[''] absolute right-0 bottom-[-1px] w-0 h-[1px] bg-#{$lineColor};
+    transform: translate3d(0, 0, 0);
+  }
+}

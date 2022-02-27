@@ -1,0 +1,76 @@
+{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "uuki.dev",
+    "home_page_url": "https://uuki.dev",
+    "feed_url": "https://uuki.dev/feed.json",
+    "description": "uukiの技術ブログ",
+    "icon": "https://uuki.dev/static/icon/favicon.ico",
+    "author": {
+        "name": "uuki"
+    },
+    "items": [
+        {
+            "content_html": "",
+            "url": "https:/uuki.dev/data/docs/external",
+            "title": "external",
+            "summary": "外部メディア",
+            "date_modified": "2022-02-20T12:57:50.996Z"
+        },
+        {
+            "content_html": "",
+            "url": "https:/uuki.dev/data/docs/test",
+            "title": "記事タイトルが入りますサンプルサンプルサンプルサンプルサンプルサンプルサンプルサンプルサ",
+            "summary": "test",
+            "date_modified": "2022-02-20T12:57:50.996Z"
+        },
+        {
+            "content_html": "",
+            "url": "https:/uuki.dev/data/docs/test2",
+            "title": "testaaa",
+            "summary": "test",
+            "date_modified": "2022-02-20T12:57:50.996Z"
+        },
+        {
+            "content_html": "",
+            "url": "https:/uuki.dev/data/docs/test3",
+            "title": "testaaa",
+            "summary": "test",
+            "date_modified": "2022-02-20T12:57:50.996Z"
+        },
+        {
+            "content_html": "",
+            "url": "https:/uuki.dev/data/docs/test4",
+            "title": "testaaa",
+            "summary": "test",
+            "date_modified": "2022-02-20T12:57:50.996Z"
+        },
+        {
+            "content_html": "",
+            "url": "https:/uuki.dev/data/docs/test5",
+            "title": "testaaa",
+            "summary": "test",
+            "date_modified": "2022-02-20T12:57:50.996Z"
+        },
+        {
+            "content_html": "",
+            "url": "https:/uuki.dev/data/docs/test6",
+            "title": "testaaa",
+            "summary": "test",
+            "date_modified": "2022-02-20T12:57:50.996Z"
+        },
+        {
+            "content_html": "",
+            "url": "https:/uuki.dev/data/docs/test7",
+            "title": "何某かの記事",
+            "summary": "test",
+            "date_modified": "2022-02-20T12:57:50.996Z"
+        },
+        {
+            "content_html": "",
+            "url": "https:/uuki.dev/data/docs/test8",
+            "title": "testaaa",
+            "summary": "test",
+            "date_modified": "2022-02-20T12:57:50.996Z"
+        }
+    ]
+}

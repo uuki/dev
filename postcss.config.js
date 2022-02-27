@@ -1,8 +1,7 @@
 module.exports = {
   plugins: {
+    tailwindcss: {},
     'postcss-normalize': {},
-    'postcss-custom-media': {},
-    'postcss-flexbugs-fixes': {},
     'postcss-preset-env': {
       autoprefixer: {
         flexbox: false,

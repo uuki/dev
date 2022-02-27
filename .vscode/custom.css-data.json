@@ -21,6 +21,26 @@
           "url": "https://www.npmjs.com/package/postcss-import-ext-glob"
         }
       ]
+    },
+    {
+      "name": "@tailwind",
+      "description": "A utility-first CSS framework for rapid UI development.",
+      "references": [
+        {
+          "name": "tailwindcss",
+          "url": "https://tailwindcss.com/"
+        }
+      ]
+    },
+    {
+      "name": "@layer",
+      "description": "The @layer rule declares a cascade layer, with the option to assign style rules.",
+      "references": [
+        {
+          "name": "at-layer",
+          "url": "https://www.w3.org/TR/css-cascade-5/#at-layer"
+        }
+      ]
     }
   ],
   "pseudoClasses": [],

@@ -1,11 +1,6 @@
 // https://github.com/csstools/postcss-normalize#postcss-import-usage
 @import-normalize();
 
-html {
-  font-size: 10px;
-  box-sizing: border-box;
-}
-
 *,
 ::before,
 ::after {
@@ -15,49 +10,18 @@ html {
 body {
   margin: auto;
   word-wrap: break-word;
-  font-family: var(--font_base);
-  font-size: 1.6rem;
   -webkit-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   font-feature-settings: 'palt';
-
-  .no-scroll-chain & {
-    overscroll-behavior-y: none;
-  }
 }
 
 a {
   text-decoration: none;
 }
 
-/**
- * As needed.
- */
-
 // ::selection {
 //   background: var(--any-color);
 //   color: var(--any-color);
-// }
-
-// input {
-//   ::-webkit-contacts-auto-fill-button {
-//     visibility: hidden;
-//     display: none !important;
-//     pointer-events: none;
-//     position: absolute;
-//     right: 0;
-//   }
-// }
-
-// input::-ms-clear,
-// input::-ms-reveal {
-//   display: none;
-//   width: 0;
-//   height: 0;
-// }
-
-// select::-ms-expand {
-//   display: none;
 // }
