@@ -13,6 +13,9 @@ type GetFileRevisionProps = {
 
 export const getFileRevision = async ({ slug, limit = 0 }: GetFileRevisionProps): Promise<PostRevision[]> => {
   const file = path.join(root, configManage.contents_path, slug)
+  if (/\.DS_Store$/.test(file)) {
+    return []
+  }
   const filePath = fs.existsSync(`${file}.mdx`) ? `${file}.mdx` : `${file}.md`
   const childProcessExec = promisify(exec)
 

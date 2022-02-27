@@ -56,6 +56,9 @@ export function dateSortDesc(a: string, b: string) {
 
 export async function getFileBySlug<T extends 'pages' | 'blog'>(type: T, slug: string) {
   const file = path.join(root, pathPattern[type], slug)
+  if (/\.DS_Store$/.test(file)) {
+    return
+  }
   const filePath = fs.existsSync(`${file}.mdx`) ? `${file}.mdx` : `${file}.md`
   const source = fs.readFileSync(filePath, 'utf8')
 
@@ -119,7 +122,7 @@ export async function getAllFiles() {
   const files = fs.readdirSync(dir).map((file) => path.join(dir, file))
   const posts: PostFrontMatter[] = files
     .map((file) => {
-      if (!/\.mdx$/.test(file)) {
+      if (!/\.mdx|\.DS_Store$/.test(file)) {
         return false
       }
       const fileName = path.basename(file)

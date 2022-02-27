@@ -12,7 +12,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 
 export default function About({ page }: Props) {
-  const { frontMatter, mdxSource } = page
+  const { frontMatter, mdxSource } = page!
 
   return (
     <div>
