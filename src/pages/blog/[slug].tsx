@@ -42,10 +42,11 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>
 
 const Post = ({ post, history }: Props) => {
   const { frontMatter, mdxSource } = post
+
   return (
     <>
-      <MetaBasic title={`${tag} - Tags`} description={''} />
-      <MetaOpenGraph type="website" title={`${tag} Tags`} description={''} />
+      <MetaBasic title={frontMatter.title} />
+      <MetaOpenGraph type="article" title={frontMatter.title} />
 
       <MDXLayoutRenderer layout="PostLayout" frontMatter={frontMatter} mdxSource={mdxSource} history={history} />
     </>

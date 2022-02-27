@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import { bundleMDX } from 'mdx-bundler'
-import readingTime from 'reading-time'
+import readingTime, { ReadTimeResults } from 'reading-time'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
 import externalLinks from 'remark-external-links'
@@ -59,7 +59,7 @@ export async function getFileBySlug<T extends 'pages' | 'blog'>(type: T, slug: s
   const filePath = fs.existsSync(`${file}.mdx`) ? `${file}.mdx` : `${file}.md`
   const source = fs.readFileSync(filePath, 'utf8')
 
-  const { code, frontmatter } = await bundleMDX({
+  const { code, frontmatter }: { code: string; frontmatter: PostFrontMatter } = await bundleMDX({
     cwd: path.join(root, 'components'),
     source,
     xdmOptions(options) {
@@ -93,16 +93,25 @@ export async function getFileBySlug<T extends 'pages' | 'blog'>(type: T, slug: s
     },
   })
 
-  return {
+  const data: {
+    frontMatter: PostFrontMatter & {
+      date: string
+      fileName: string
+      readingTime: ReadTimeResults
+      slug: string
+    }
+    mdxSource: string
+  } = {
     frontMatter: {
       ...frontmatter,
-      date: frontmatter.date ? new Date(frontmatter.date).toISOString() : null,
+      date: frontmatter.date ? new Date(frontmatter.date).toISOString() : '',
       fileName: path.basename(filePath),
       readingTime: readingTime(code),
       slug: slug || path.basename(filePath),
     },
     mdxSource: code,
   }
+  return data
 }
 
 export async function getAllFiles() {
