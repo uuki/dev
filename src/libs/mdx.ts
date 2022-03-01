@@ -122,7 +122,7 @@ export async function getAllFiles() {
   const files = fs.readdirSync(dir).map((file) => path.join(dir, file))
   const posts: PostFrontMatter[] = files
     .map((file) => {
-      if (!/\.mdx|\.DS_Store$/.test(file)) {
+      if (!/\.mdx$/.test(file)) {
         return false
       }
       const fileName = path.basename(file)

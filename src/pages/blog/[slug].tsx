@@ -5,6 +5,7 @@ import MetaOpenGraph from '@/components/functional/meta/MetaOpenGraph'
 import { getFiles, formatSlug, getAllFiles, getFileBySlug } from '@/libs/mdx'
 import { getFileRevision } from '@/libs/git'
 import generateRss from '@/utils/generateRss'
+import configMeta from '@/config/meta'
 
 export async function getStaticPaths(context: GetStaticPathsContext) {
   const posts = await getFiles()
@@ -46,7 +47,11 @@ const Post = ({ post, history }: Props) => {
   return (
     <>
       <MetaBasic title={frontMatter.title} />
-      <MetaOpenGraph type="article" title={frontMatter.title} />
+      <MetaOpenGraph
+        type="article"
+        title={frontMatter.title}
+        image={`${configMeta.site_url}/api/image?title=${encodeURIComponent(`${frontMatter.title}`)}`}
+      />
 
       <MDXLayoutRenderer layout="PostLayout" frontMatter={frontMatter} mdxSource={mdxSource} history={history} />
     </>

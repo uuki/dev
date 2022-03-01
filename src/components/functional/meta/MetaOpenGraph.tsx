@@ -20,7 +20,7 @@ const MetaOpenGraph = function ({ type, title, description, image }: OpenGraphMe
       <meta property="og:type" content={type} />
       <meta property="og:site_name" content={configMeta.site_name} />
       <meta property="og:url" content={`${configMeta.site_url}${router?.asPath}`} />
-      <meta property="og:image" content={image ? image : configMeta.site_url} />
+      {image && <meta property="og:image" content={image} />}
       <meta property="og:locale" content="ja_JP" />
       <meta property="twitter:card" content="summary_large_image" />
     </Head>
