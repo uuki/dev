@@ -24,10 +24,8 @@ export const getFileRevision = async ({ slug, limit = 0 }: GetFileRevisionProps)
    */
   const { stdout, stderr } = await childProcessExec(
     `git log ${limit ? `-${limit}` : ''} --pretty=format:"[%h,%ad]" --no-merges ${filePath}`
-    // `git log ${limit ? `-${limit}` : ''} --pretty=format:"[%h,%ad]" --no-merges package.json`
   )
 
-  console.log(`[${stdout ? stdout.replace(/\[(.*)\,(.*)\]/g, '["$1", "$2"]').replace(/\r\n|\n|\r/g, ',') : ''}]`)
   const parseRevs = JSON.parse(
     `[${stdout ? stdout.replace(/\[(.*)\,(.*)\]/g, '["$1", "$2"]').replace(/\r\n|\n|\r/g, ',') : ''}]`
   ).filter(Boolean)

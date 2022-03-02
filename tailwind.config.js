@@ -64,7 +64,18 @@ module.exports = {
         easeInOutBack: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
       },
       fontFamily: {
-        sans: ['InterVariable', ...defaultTheme.fontFamily.sans],
+        sans: [
+          'system-ui',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          'Helvetica Neue',
+          'Hiragino Sans',
+          'Hiragino Kaku Gothic ProN',
+          'ヒラギノ角ゴ ProN W3',
+          'Meiryo',
+          'メイリオ',
+          'sans-serif',
+        ],
       },
       colors: {
         // theme
@@ -107,7 +118,7 @@ module.exports = {
       typography: (theme) => ({
         DEFAULT: {
           css: {
-            color: theme('colors.gray.700'),
+            color: theme('colors.text.400'),
             fontWeight: '400',
             a: {
               color: theme('colors.green.100'),
@@ -190,6 +201,7 @@ module.exports = {
               color: theme('colors.gray.900'),
               borderLeftColor: theme('colors.gray.200'),
             },
+            ul: {},
           },
         },
         dark: {
