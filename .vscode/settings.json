@@ -22,5 +22,6 @@
   "[markdown]": {
   },
   "frontMatter.framework.startCommand": "yarn dev",
-  "frontMatter.preview.host": "http://localhost:3000"
+  "frontMatter.preview.host": "http://localhost:3000",
+  "frontMatter.preview.pathName": "blog"
 }

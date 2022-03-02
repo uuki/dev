@@ -4,7 +4,7 @@
         <title>uuki.dev</title>
         <link>https://uuki.dev</link>
         <description>uukiの技術ブログ</description>
-        <lastBuildDate>Tue, 01 Mar 2022 15:09:02 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 02 Mar 2022 15:11:31 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>ja</language>
@@ -13,9 +13,8 @@
             <url>https://uuki.dev/static/icon/favicon.ico</url>
             <link>https://uuki.dev</link>
         </image>
-        <copyright>All rights reserved 2022, uuki.dev</copyright>
         <item>
-            <title><![CDATA[create-blog]]></title>
+            <title><![CDATA[mdxで投稿するブログを立ち上げた所感]]></title>
             <link>https:/uuki.dev/data/docs/create-blog</link>
             <guid>https:/uuki.dev/data/docs/create-blog</guid>
             <pubDate>Sun, 27 Feb 2022 16:41:21 GMT</pubDate>

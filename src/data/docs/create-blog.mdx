@@ -1,14 +1,97 @@
 ---
-title: create-blog
+title: mdxで投稿するブログを立ち上げた所感
 slug: create-blog
-description: ''
-author: ''
-date: '2022-02-27T16:41:21.740Z'
-lastmod: '2022-02-27T16:45:19.691Z'
-draft: true
+description: ""
+author: ""
+date: 2022-02-27T16:41:21.740Z
+lastmod: 2022-03-02T15:14:20.697Z
+draft: false
 tags:
   - note
-image: ''
-media: ''
+image: ""
+media: ""
 ---
 
+このブログは、[nextjs-netlify-blog-template](https://github.com/wutali/nextjs-netlify-blog-template)や[tailwind-nextjs-starter-blog](https://github.com/timlrx/tailwind-nextjs-starter-blog)をベースに構築しています。
+
+## こんな人に向いていそう
+
+- 静的サイトとして運用想定でインフラを管理したくない
+- 普段mdでドキュメントを書いておりそのままのフォーマットで管理したい
+
+## インフラ管理について
+
+Vercelを個人でちゃんと使った事がなかったため、Next.js(SSG)+Vercelの形にしました。  
+好みや要件次第で他にも、Netlify、Amplifyなどが活用できるかと思います。
+
+## フォーマットについて
+
+自身が普段、mdで業務ドキュメントを管理している事もあり、  
+極力ブログでも同じフォーマットで管理しようとした中で、いくつか候補の候補に絞りました。
+
+1つ目はNotion APIを使ったものです。  
+フォーマットも保持できる上、管理画面のホスティングが不要な感じで便利そうだなと思いつつ、
+これは単に自身の使い方の問題なのですが、mdをそのまま置いておく管理にしたいと考え今回は断念しました。
+
+普段からNotionで管理されてる方は、[ijjk/notion-blog](https://github.com/ijjk/notion-blog) のような
+Starter repogitoryも存在しており、こちらの方法が早いかと思います。
+
+次点が今回採用したmdx形式です。  
+こちらは管理画面が欲しければどうするかを考える必要がありますが、  
+ドキュメントは基本、置いておくだけで運用可能です。
+
+イメージしていた内容も一通り可能そうだったため、こちらに方法に落ち着きました。
+
+## 管理画面について
+
+mdxの場合、Notionと異なり投稿やメタ情報については自身で管理する必要があります。  
+（静的サイトジェネレータを使わない場合）  
+ラクな運用方法を探していた所、VSCodeの拡張機能としてmdxの管理ができる[Front Matter](https://marketplace.visualstudio.com/items?itemName=eliostruyf.vscode-front-matter)プラグインがありました。
+
+このプラグインはVSCode自体をCMS管理画面として、投稿管理の他いくつか設定を書くと、
+投稿テンプレートの作成や、保存時に更新日時を自動で書き換えてくれるなど便利な機能が含まれています。
+
+### 編集時の画面
+![FrontMatterプラグインの編集画面](202203/frontmatter.png)
+
+### Dashboard
+![FrontMatterプラグインのダッシュボード](202203/dashboard.png)
+
+## 実際に使ってみて
+
+mdxの処理部分は冒頭に記載の通り、starterプロジェクト等ほぼままではありますが、  
+処理を理解するために一通りさらった中で、`mdx-bundler`の`getMDXComponent`から返されるcomponentに、propを指定する事で
+各要素を置換できる機能（[component-substitution](https://github.com/kentcdodds/mdx-bundler/blob/main/README.md#component-substitution)）は便利だと思いました。
+ドキュメント用にカスタムコンポーネントを使いたい場合も自前でパース周りを定義する必要がなく快適です。
+
+また、ベースにいくつか変更を加えた部分があり、それらについても記載してみます。
+
+### og:imageの自動生成
+
+これに関しては、プログラミングをするパンダ さんの[サイトのOGP画像を自動生成する](https://zenn.dev/panda_program/articles/generate-og-image) の記事が分かりやすく、参考になりました。
+絵文字対応やハマりどころは、marusho さんの[node-canvasでのOGP動的生成でハマったポイント](https://blog.marusho.io/node-canvas-on-next)を参考にさせて頂きました。
+
+### スタイルに関して
+
+普段ReactではCSS Moduleを好んで使っていたのですが、  
+まだ確定ではないものの、CSS loaderの方で[こういった動き](https://zenn.dev/jxck/scraps/dc8780fd5b8ea6)があるとの事で、  
+今回はTailwindを使ってみました。
+
+Tailwindは以前少し触った程度でしたが、改めて使ってみてJITがデフォルトで有効になっているなど導入しやすくなっている印象です。
+
+今回スタイリングについては、考え方自体はCSS Modulesを使った時と同様、
+`layout`や`container`の単位からコンポーネントを定義していった中で、細かく定義していくとやはり長くなるので、
+UIを定義する適度な単位ごとに`@apply`を切るなどしました。（もう少し詰めたい）
+
+手クセでUIをイメージしてclass名で検索をかけそうになったタイミングがあったりしましたが、
+この辺りはutilityベースのアタマに切り替えられると、切る単位などいい感じの設計に落ちてきそうな気がしています。
+
+（これは環境起因だと思いますが、IntelliSenseが、打ちかけたclass名が同じでも出たり出なかったりしたのだけ気になりました。なんだろう）
+
+## おわりに
+[ブログのリポジトリ](https://github.com/uuki/dev)はpublicにしています。  
+最近Reactを書き始めた流れでNext.jsの学習も兼ねているため謎の箇所もあるかもしれませんが、  
+何かの参考になれば幸いです。
+
+余談ですが、VSCodeのFrontMatterプラグインのイシューを見ていたところ[vscode.devでも使えるようにしたい雰囲気の起票](https://github.com/estruyf/vscode-front-matter/issues/161)がありましたので、
+いずれブラウザからも叩けるようになるかもしれません。

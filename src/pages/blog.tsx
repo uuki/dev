@@ -9,7 +9,7 @@ export const POSTS_PER_PAGE = 2
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const posts = await getAllFiles()
-  return { props: { posts } }
+  return { props: { posts: JSON.parse(JSON.stringify(posts)) } }
 }
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>

@@ -54,6 +54,11 @@ export function dateSortDesc(a: string, b: string) {
   return 0
 }
 
+export function safeDateString(date: string | Date): string {
+  const d = date instanceof Date ? date : new Date(date)
+  return d.toISOString()
+}
+
 export async function getFileBySlug<T extends 'pages' | 'blog'>(type: T, slug: string) {
   const file = path.join(root, pathPattern[type], slug)
   if (/\.DS_Store$/.test(file)) {
@@ -107,7 +112,7 @@ export async function getFileBySlug<T extends 'pages' | 'blog'>(type: T, slug: s
   } = {
     frontMatter: {
       ...frontmatter,
-      date: frontmatter.date ? new Date(frontmatter.date).toISOString() : '',
+      date: frontmatter.date ? safeDateString(frontmatter.date) : '',
       fileName: path.basename(filePath),
       readingTime: readingTime(code),
       slug: slug || path.basename(filePath),
@@ -131,7 +136,7 @@ export async function getAllFiles() {
 
       return {
         ...frontMatter,
-        date: new Date(frontMatter.date).toISOString(),
+        date: safeDateString(frontMatter.date),
         slug: formatSlug(fileName),
       }
     })

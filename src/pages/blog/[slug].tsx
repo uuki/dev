@@ -33,7 +33,7 @@ export async function getStaticProps({ params }: GetStaticPropsContext<{ slug: s
 
   return {
     props: {
-      post,
+      post: JSON.parse(JSON.stringify(post)),
       history,
     },
   }
@@ -42,7 +42,7 @@ export async function getStaticProps({ params }: GetStaticPropsContext<{ slug: s
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 
 const Post = ({ post, history }: Props) => {
-  const { frontMatter, mdxSource } = post!
+  const { frontMatter, mdxSource } = post
 
   return (
     <>

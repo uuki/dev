@@ -18,7 +18,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   const posts = await getAllFiles()
   return {
     props: {
-      posts,
+      posts: JSON.parse(JSON.stringify(posts)),
     },
   }
 }

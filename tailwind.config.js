@@ -108,6 +108,7 @@ module.exports = {
         DEFAULT: {
           css: {
             color: theme('colors.gray.700'),
+            fontWeight: '400',
             a: {
               color: theme('colors.green.100'),
               transition: 'color 400ms',
