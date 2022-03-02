@@ -22,7 +22,7 @@ export async function getStaticProps({ params }: GetStaticPropsContext<{ tag: st
 
   return {
     props: {
-      posts: filteredPosts,
+      posts: JSON.parse(JSON.stringify(filteredPosts)),
       tag: params!.tag,
     },
   }

@@ -4,7 +4,7 @@ slug: create-blog
 description: ""
 author: ""
 date: 2022-02-27T16:41:21.740Z
-lastmod: 2022-03-02T15:14:20.697Z
+lastmod: 2022-03-02T15:21:35.837Z
 draft: false
 tags:
   - note
@@ -65,6 +65,18 @@ mdxの処理部分は冒頭に記載の通り、starterプロジェクト等ほ�
 ドキュメント用にカスタムコンポーネントを使いたい場合も自前でパース周りを定義する必要がなく快適です。
 
 また、ベースにいくつか変更を加えた部分があり、それらについても記載してみます。
+
+### 編集履歴
+
+gitにドキュメントの変更履歴が存在する場合、  
+`git log`からcommit hashを取得し、GitHubのcompareページへのリンクを  
+タイトル下のメタ情報部分に編集履歴として表示しています。
+
+簡易的な処理ですが、`blog/[slug].tsx`の`getStaticProps`の処理の中で、
+`git log`に`--pretty=format`を付けて叩き、扱いやすいように加工して、出力するような形です。
+指定できるフォーマットは[こちら](https://git-scm.com/docs/pretty-formats#_pretty_formats) にドキュメントがあります。
+
+ちなみに、gitから履歴を取るアイデアは、mizchi さんがブログ（[mizchi.dev](https://mizchi.dev/)）で実装されてるのを参考にしました。
 
 ### og:imageの自動生成
 

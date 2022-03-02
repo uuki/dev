@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://uuki.dev</id>
     <title>uuki.dev</title>
-    <updated>2022-03-02T15:11:31.766Z</updated>
+    <updated>2022-03-02T15:24:08.932Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <author>
         <name>uuki</name>
@@ -12,6 +12,7 @@
     <link rel="self" href="https://uuki.dev/atom.xml"/>
     <subtitle>uukiの技術ブログ</subtitle>
     <logo>https://uuki.dev/static/icon/favicon.ico</logo>
+    <rights>All rights reserved 2022, uuki.dev</rights>
     <entry>
         <title type="html"><![CDATA[mdxで投稿するブログを立ち上げた所感]]></title>
         <id>https:/uuki.dev/data/docs/create-blog</id>
