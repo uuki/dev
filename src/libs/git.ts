@@ -26,8 +26,10 @@ export const getFileRevision = async ({ slug, limit = 0 }: GetFileRevisionProps)
     `git log ${limit ? `-${limit}` : ''} --pretty=format:"[%h,%ad]" --no-merges ${filePath}`
     // `git log ${limit ? `-${limit}` : ''} --pretty=format:"[%h,%ad]" --no-merges package.json`
   )
+
+  console.log(`[${stdout ? stdout.replace(/\[(.*)\,(.*)\]/g, '["$1", "$2"]').replace(/\r\n|\n|\r/g, ',') : ''}]`)
   const parseRevs = JSON.parse(
-    `[${stdout ? stdout.replace(/\[(.*)\,(.*)\]/g, '["$1", "$2"]').replace('\n', ',') : ''}]`
+    `[${stdout ? stdout.replace(/\[(.*)\,(.*)\]/g, '["$1", "$2"]').replace(/\r\n|\n|\r/g, ',') : ''}]`
   ).filter(Boolean)
   const formatRevs = parseRevs.reduce((acc: PostRevision[], cur: string[]) => {
     acc.push({
