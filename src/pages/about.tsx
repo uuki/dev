@@ -6,7 +6,7 @@ import { getFileBySlug } from '@/libs/mdx'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const page = await getFileBySlug('pages', 'about')
-  return { props: { page } }
+  return { props: { page: JSON.parse(JSON.stringify(page)) } }
 }
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>
