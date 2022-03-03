@@ -13,12 +13,12 @@ const Card = ({ slug, title, date, tags, origin, url }: CardProps) => {
       <div className="mb-[5px]">
         <BadgeOrigin name={origin} />
       </div>
-      <h2 className="md:text-[23px] sm:text-[18px] font-bold mb-[7px]">
+      <h2 className="md:text-[21px] sm:text-[18px] font-bold mb-[7px]">
         <Link href={url || `/blog/${slug}`} className="inline-block link-opacity">
           {title}
         </Link>
       </h2>
-      <div className="mb-[3px]">
+      <div className="mb-[7px]">
         <ListTag tags={tags} />
       </div>
       <div>

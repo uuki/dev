@@ -126,7 +126,7 @@ module.exports = {
               '&:hover': {
                 color: `${theme('colors.green.200')}`,
               },
-              code: { color: theme('colors.primary.400') },
+              code: { color: theme('colors.navy.400') },
             },
             h1: {
               position: 'relative',
@@ -166,8 +166,8 @@ module.exports = {
               backgroundColor: theme('colors.gray.800'),
             },
             code: {
-              color: theme('colors.pink.500'),
-              backgroundColor: theme('colors.gray.100'),
+              color: theme('colors.white'),
+              backgroundColor: theme('colors.navy.600'),
               paddingLeft: '4px',
               paddingRight: '4px',
               paddingTop: '2px',
@@ -194,12 +194,12 @@ module.exports = {
               color: theme('colors.gray.500'),
             },
             'ul li::marker': {
-              backgroundColor: theme('colors.gray.500'),
+              backgroundColor: theme('colors.navy.400'),
             },
-            strong: { color: theme('colors.gray.600') },
+            strong: { color: theme('colors.navy.400') },
             blockquote: {
-              color: theme('colors.gray.900'),
-              borderLeftColor: theme('colors.gray.200'),
+              color: theme('colors.navy.600'),
+              borderLeftColor: theme('colors.meta'),
             },
             ul: {},
             '.yt-lite': {

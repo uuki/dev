@@ -8,6 +8,14 @@
 @tailwind utilities;
 
 @layer components {
+  .image-container {
+    display: inline-block;
+    border-radius: 6px;
+    line-height: 0;
+    span {
+      overflow: visible !important;
+    }
+  }
   .flex-container {
     @apply flex flex-col justify-between min-h-screen;
   }
@@ -29,6 +37,9 @@
     &:hover {
       box-shadow: 0 0 3px rgba(62, 66, 65, 0.2);
     }
+  }
+  .shadow-media {
+    box-shadow: 0 0 8px rgba(62, 66, 65, 0.3);
   }
   .shadow-tooltip {
     box-shadow: 0 0 6px rgba(62, 66, 65, 0.2);

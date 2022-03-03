@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react'
 import { Header } from '@/components/organisms/Header'
 import { Footer } from '@/components/organisms/Footer'
 import { PostHeader } from '@/components/atoms/PostHeader'
+import { ListTag } from '@/components/molecules/ListTag'
 import { ListMeta } from '@/components/molecules/ListMeta'
 import { ListSocial } from '@/components/molecules/ListSocial'
 import { PostRevision } from '@/types/Post'
@@ -15,17 +16,20 @@ interface PostLayoutProps {
 }
 
 const PostLayout = ({ children, frontMatter, history }: PostLayoutProps) => {
-  const { date, slug, title, readingTime } = frontMatter
+  const { date, slug, title, tags, readingTime } = frontMatter
 
   return (
     <div className="bg-bg">
       <Header />
-      <main>
+      <main className="flex-1">
         <article className="py-[60px]">
           <div className="px-content-narrow">
             <div className="md:mb-[95px] sm:mb-[46px]">
               <PostHeader>{title}</PostHeader>
-              <div className="mt-[6px]">
+              <div className="md:mt-[3px] sm:mt-[6px]">
+                <ListTag tags={tags} />
+              </div>
+              <div className="md:mt-[7px] sm:mt-[8px]">
                 <ListMeta date={date} readingTime={readingTime} history={history} />
               </div>
             </div>

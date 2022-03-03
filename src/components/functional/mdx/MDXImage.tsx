@@ -8,8 +8,8 @@ export type MDXImageProps = {
 
 const MDXImage = ({ alt, src }: MDXImageProps) => {
   return (
-    <span>
-      <Image src={require(`@/data/images/${src}`)} alt={alt} />
+    <span className="image-container shadow-media">
+      <Image src={require(`@/data/images/${src}`)} alt={alt} className="rounded-md" />
     </span>
   )
 }

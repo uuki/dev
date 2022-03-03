@@ -1,13 +1,14 @@
+import { Tag } from '@/components/atoms/Tag'
 import { Tags } from '@/types/Tag'
 
 export type ListTagProps = Tags
 
 const ListTag = ({ tags }: { tags: ListTagProps }) => {
   return (
-    <ul className="flex flex-wrap text-[0.75rem] font-bold text-meta">
+    <ul className="flex flex-wrap">
       {tags.map((it) => (
-        <li key={it} className="list-delimiter-comma mr-[5px]">
-          {it}
+        <li key={it} className="mr-[10px]">
+          <Tag>{it}</Tag>
         </li>
       ))}
     </ul>
