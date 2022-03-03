@@ -6,7 +6,7 @@ import { Footer } from '@/components/organisms/Footer'
 import { PageHeader } from '@/components/atoms/PageHeader'
 import { SiTwitter, SiGithub } from 'react-icons/si'
 import { HiOutlineMail } from 'react-icons/hi'
-import configManage from '@/config/manage'
+import config from '@/config/manage'
 import { PostStaticFrontMatter } from '@/types/Post'
 
 type AboutLayoutProps = {
@@ -18,15 +18,15 @@ const AboutLayout = ({ children, frontMatter }: AboutLayoutProps) => {
   const { title, description } = frontMatter
   const ContactItem = [
     {
-      url: `https://twitter.com/${configManage.twitter}`,
+      url: `https://twitter.com/${config.TWITTER}`,
       icon: <SiTwitter />,
     },
     {
-      url: `https://github.com/${configManage.github}`,
+      url: `https://github.com/${config.GITHUB}`,
       icon: <SiGithub />,
     },
     {
-      url: `mailto:${configManage.email}`,
+      url: `mailto:${config.EMAIL}`,
       icon: <HiOutlineMail className="text-[1.125rem]" />,
     },
   ]

@@ -28,7 +28,7 @@ export async function getStaticProps({ params }: GetStaticPropsContext<{ tag: st
   }
 }
 
-const POSTS_PER_PAGE = 2
+const POSTS_PER_PAGE = 10
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 

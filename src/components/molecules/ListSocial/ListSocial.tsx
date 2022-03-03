@@ -1,5 +1,5 @@
 import { SiTwitter, SiHatenabookmark, SiPocket } from 'react-icons/si'
-import configMeta from '@/config/meta'
+import config from '@/config/meta'
 
 type ListSocialProps = {
   pathname: string
@@ -7,8 +7,8 @@ type ListSocialProps = {
 }
 
 const ListSocial = ({ pathname, text = '' }: ListSocialProps) => {
-  const url = encodeURIComponent(`${configMeta.site_url.replace(/\/$/, '')}${pathname}`)
-  const urlText = text ? `${encodeURIComponent(text)} - ${configMeta.site_name}` : ''
+  const url = encodeURIComponent(`${config.SITE_URL.replace(/\/$/, '')}${pathname}`)
+  const urlText = text ? `${encodeURIComponent(text)} - ${config.SITE_NAME}` : ''
 
   const params = {
     twitter: {

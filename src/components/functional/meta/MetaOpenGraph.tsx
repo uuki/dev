@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import configMeta from '@/config/meta'
+import config from '@/config/meta'
 
 type OpenGraphMetaProps = {
   // url: string
@@ -15,11 +15,11 @@ const MetaOpenGraph = function ({ type, title, description, image }: OpenGraphMe
 
   return (
     <Head>
-      {title && <meta property="og:title" content={[title, configMeta.site_name].join(' | ')} />}
-      <meta property="og:description" content={description ? description : configMeta.site_description} />
+      {title && <meta property="og:title" content={[title, config.SITE_NAME].join(' | ')} />}
+      <meta property="og:description" content={description ? description : config.SITE_DESCRIPTION} />
       <meta property="og:type" content={type} />
-      <meta property="og:site_name" content={configMeta.site_name} />
-      <meta property="og:url" content={`${configMeta.site_url}${router?.asPath}`} />
+      <meta property="og:site_name" content={config.SITE_NAME} />
+      <meta property="og:url" content={`${config.SITE_URL}${router?.asPath}`} />
       {image && <meta property="og:image" content={image} />}
       <meta property="og:locale" content="ja_JP" />
       <meta property="twitter:card" content="summary_large_image" />

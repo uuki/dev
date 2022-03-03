@@ -12,8 +12,8 @@ export async function getStaticProps() {
 export default function Tags({ tags }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <>
-      <MetaBasic title={'Tags'} description={''} />
-      <MetaOpenGraph type="website" title={'Tags'} description={''} />
+      <MetaBasic title={'Tags'} />
+      <MetaOpenGraph type="website" title={'Tags'} />
       <TagsLayout tags={tags} />
     </>
   )

@@ -5,7 +5,7 @@ import MetaOpenGraph from '@/components/functional/meta/MetaOpenGraph'
 import { ArchiveLayout } from '@/layouts/ArchiveLayout'
 import { getAllFiles } from '@/libs/mdx'
 
-export const POSTS_PER_PAGE = 2
+export const POSTS_PER_PAGE = 10
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const posts = await getAllFiles()

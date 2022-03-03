@@ -2,7 +2,6 @@ import Image from 'next/image'
 import configOrigin from '@/config/origin.yml'
 import { PostOrigin } from '@/types/Post'
 // import { genInlineFromIcon } from '@/libs/reactIcons'
-// import sourceIconHatena from '../../public/icons/hatena.svg'
 
 export type OriginProps = PostOrigin & {
   name?: string

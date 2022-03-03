@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import { format } from 'date-fns'
 import { Link } from '@/components/atoms/Link'
 import { PostRevision } from '@/types/Post'
-import configManage from '@/config/manage'
+import config from '@/config/manage'
 
 export type PostHistoryProps = { history: PostRevision[] }
 
@@ -23,7 +23,7 @@ const PostHistoryItem = ({
     <>
       {index < history.length - 1 ? (
         <Link
-          href={`${configManage.github_rep_url.replace(/\/$/, '')}/compare/${hash}..${history[index + 1].hash}`}
+          href={`${config.GITHUB_REP_URL.replace(/\/$/, '')}/compare/${hash}..${history[index + 1].hash}`}
           className={`${styleLink} ${styleItem}`}
         >
           <>{children}</>

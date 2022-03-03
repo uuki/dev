@@ -33,6 +33,16 @@
       ]
     },
     {
+      "name": "@apply",
+      "description": "@applyを使用して、既存のユーティリティクラスを独自のカスタムCSSにインライン化します。",
+      "references": [
+        {
+          "name": "@apply",
+          "url": "https://tailwindcss.jp/docs/functions-and-directives#apply"
+        }
+      ]
+    },
+    {
       "name": "@layer",
       "description": "The @layer rule declares a cascade layer, with the option to assign style rules.",
       "references": [

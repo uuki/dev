@@ -5,12 +5,12 @@ import slugify from 'slugify'
 import { PostFrontMatter } from '@/types/Post'
 import { getFiles } from './mdx'
 import { root } from '@/utils/files'
-import configManage from '@/config/manage'
+import config from '@/config/manage'
 
 export async function getAllTags() {
   const files = await getFiles()
   const tagCount: Record<string, number> = {}
-  const dir = path.join(root, configManage.contents_path)
+  const dir = path.join(root, config.CONTENTS_PATH)
 
   files.forEach((file) => {
     const source = fs.readFileSync(path.join(dir, file), 'utf8')

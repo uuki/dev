@@ -16,7 +16,7 @@ import { AiOutlineLink } from 'react-icons/ai'
 import { root } from '@/utils/files'
 import { nonBoolean } from '@/utils/typeGuard'
 import { PostFrontMatter } from '@/types/Post'
-import configManage from '@/config/manage'
+import config from '@/config/manage'
 
 const jsxIconLink = AiOutlineLink({})
 const icon = s(
@@ -35,12 +35,12 @@ const icon = s(
 )
 
 const pathPattern = {
-  pages: configManage.pages_path,
-  blog: configManage.contents_path,
+  pages: config.PAGES_PATH,
+  blog: config.CONTENTS_PATH,
 }
 
 export function getFiles() {
-  const contentsPath = path.join(root, configManage.contents_path)
+  const contentsPath = path.join(root, config.CONTENTS_PATH)
   return fs.promises.readdir(contentsPath)
 }
 
@@ -123,7 +123,7 @@ export async function getFileBySlug<T extends 'pages' | 'blog'>(type: T, slug: s
 }
 
 export async function getAllFiles() {
-  const dir = path.join(root, configManage.contents_path)
+  const dir = path.join(root, config.CONTENTS_PATH)
   const files = fs.readdirSync(dir).map((file) => path.join(dir, file))
   const posts: PostFrontMatter[] = files
     .map((file) => {

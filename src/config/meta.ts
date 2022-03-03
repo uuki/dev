@@ -1,11 +1,13 @@
-import config from '@root/site.config.yml'
-
 type MetaConfigProps = {
-  readonly site_name: string
-  readonly site_url: string
-  readonly site_description: string
-  readonly twitter_account: string
-  readonly github_account: string
+  readonly SITE_NAME: string
+  readonly SITE_URL: string
+  readonly SITE_DESCRIPTION: string
 }
 
-export default config.meta as MetaConfigProps
+const config: MetaConfigProps = {
+  SITE_NAME: process.env.NEXT_PUBLIC_META_SITE_NAME || '',
+  SITE_URL: process.env.NEXT_PUBLIC_META_SITE_URL || '',
+  SITE_DESCRIPTION: process.env.NEXT_PUBLIC_META_SITE_DESCRIPTION || '',
+}
+
+export default config

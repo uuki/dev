@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import configMeta from '@/config/meta'
+import config from '@/config/meta'
 
 type BasicMetaProps = {
   title?: string
@@ -9,8 +9,8 @@ type BasicMetaProps = {
 const MetaBasic = ({ title, description }: BasicMetaProps) => {
   return (
     <Head>
-      <title>{title ? [title, configMeta.site_name].join(' | ') : configMeta.site_name}</title>
-      <meta name="description" content={description ? description : configMeta.site_description} />
+      <title>{title ? [title, config.SITE_NAME].join(' | ') : config.SITE_NAME}</title>
+      <meta name="description" content={description ? description : config.SITE_DESCRIPTION} />
     </Head>
   )
 }

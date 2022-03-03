@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import { root } from '@/utils/files'
-import configManage from '@/config/manage'
+import config from '@/config/manage'
 import { exec } from 'child_process'
 import { promisify } from 'util'
 import { PostRevision } from '@/types/Post'
@@ -12,7 +12,7 @@ type GetFileRevisionProps = {
 }
 
 export const getFileRevision = async ({ slug, limit = 0 }: GetFileRevisionProps): Promise<PostRevision[]> => {
-  const file = path.join(root, configManage.contents_path, slug)
+  const file = path.join(root, config.CONTENTS_PATH, slug)
   if (/\.DS_Store$/.test(file)) {
     return []
   }

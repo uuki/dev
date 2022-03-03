@@ -1,5 +1,5 @@
 import Image from 'next/image'
-// import configManage from '@/config/manage'
+// import config from '@/config/manage'
 
 export type MDXImageProps = {
   src?: string

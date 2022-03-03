@@ -1,72 +1,38 @@
-// import configMeta from '@/config/meta'
-// import { escape } from '@/utils/htmlEscaper'
-// import { PostFrontMatter } from '@/types/Post'
-
-// const generateRssItem = (post: PostFrontMatter) => `
-//   <item>
-//     <guid>${configMeta.site_url}/blog/${post.slug}</guid>
-//     <title>${escape(post.title)}</title>
-//     <link>${configMeta.site_url}/blog/${post.slug}</link>
-//     ${post.summary && `<description>${escape(post.summary)}</description>`}
-//     <pubDate>${new Date(post.date).toUTCString()}</pubDate>
-//     <author>${configMeta.email} (uuki)</author>
-//     ${post.tags && post.tags.map((t) => `<category>${t}</category>`).join('')}
-//   </item>
-// `
-
-// const generateRss = (posts: PostFrontMatter[], page = 'feed.xml') => `
-//   <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-//     <channel>
-//       <title>${escape(configMeta.title)}</title>
-//       <link>${configMeta.siteUrl}/blog</link>
-//       <description>${escape(configMeta.description)}</description>
-//       <language>${configMeta.language}</language>
-//       <managingEditor>${configMeta.email} (uuki)</managingEditor>
-//       <webMaster>${configMeta.email} (uuki)</webMaster>
-//       <lastBuildDate>${new Date(posts[0].date).toUTCString()}</lastBuildDate>
-//       <atom:link href="${configMeta.siteUrl}/${page}" rel="self" type="application/rss+xml"/>
-//       ${posts.map(generateRssItem).join('')}
-//     </channel>
-//   </rss>
-// `
-
-// export default generateRss
-
 import fs from 'fs'
 import { join } from 'path'
 import { Feed } from 'feed'
-import configMeta from '@/config/meta'
-import configManage from '@/config/manage'
+import meta from '@/config/meta'
+import manage from '@/config/manage'
 import { escape } from '@/utils/htmlEscaper'
 import { PostFrontMatter } from '@/types/Post'
 
 export const generateRss = (posts: PostFrontMatter[]) => {
   const feed = new Feed({
-    title: escape(configMeta.site_name),
-    description: escape(configMeta.site_description),
-    id: configMeta.site_url,
-    link: configMeta.site_url,
+    title: escape(meta.SITE_NAME),
+    description: escape(meta.SITE_DESCRIPTION),
+    id: meta.SITE_URL,
+    link: meta.SITE_URL,
     language: 'ja',
-    image: `${configMeta.site_url}/static/icon/favicon.ico`,
+    image: `${meta.SITE_URL}/static/icon/favicon.ico`,
     copyright: `All rights reserved ${new Date().getFullYear()}, uuki.dev`,
     // ...(posts[0].lastmod && { updated: `${new Date(posts[0].lastmod)}`}),
     feedLinks: {
-      rss2: `${configMeta.site_url}/feed.xml`,
-      json: `${configMeta.site_url}/feed.json`,
-      atom: `${configMeta.site_url}/atom.xml`,
+      rss2: `${meta.SITE_URL}/feed.xml`,
+      json: `${meta.SITE_URL}/feed.json`,
+      atom: `${meta.SITE_URL}/atom.xml`,
     },
     author: {
       name: 'uuki',
-      email: configManage.email,
+      email: manage.EMAIL,
     },
   })
 
   posts.forEach((post) => {
     feed.addItem({
-      guid: join(configMeta.site_url, configManage.contents_path, post.slug),
+      guid: join(meta.SITE_URL, manage.CONTENTS_PATH, post.slug),
       title: `${escape(post.title)}`,
       ...(post.description && { description: escape(post.description) }),
-      link: join(configMeta.site_url, configManage.contents_path, post.slug),
+      link: join(meta.SITE_URL, manage.CONTENTS_PATH, post.slug),
       content: '',
       date: new Date(post.date),
     })
