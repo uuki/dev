@@ -202,6 +202,9 @@ module.exports = {
               borderLeftColor: theme('colors.gray.200'),
             },
             ul: {},
+            '.yt-lite': {
+              margin: '30px 0',
+            },
           },
         },
         dark: {
