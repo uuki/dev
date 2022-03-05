@@ -14,7 +14,7 @@ const options = {
   },
   text: {
     fontSize: 32,
-    lineHeight: 38,
+    lineHeight: 42,
     color: '#3a3d3d',
   },
   baseImagePath: '/public/images/og-image.png',
