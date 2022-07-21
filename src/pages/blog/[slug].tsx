@@ -46,10 +46,11 @@ const Post = ({ post, history }: Props) => {
 
   return (
     <>
-      <MetaBasic title={frontMatter.title} />
+      <MetaBasic title={frontMatter.title} description={frontMatter.description} />
       <MetaOpenGraph
         type="article"
         title={frontMatter.title}
+        description={frontMatter.description}
         image={`${config.SITE_URL}/api/image?title=${encodeURIComponent(`${frontMatter.title}`)}`}
       />
 
