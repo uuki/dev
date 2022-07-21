@@ -20,7 +20,7 @@ module.exports = {
   generateRobotsTxt: true,
   generateIndexSitemap: false,
   outDir: './public',
-  transform: async (config, path) => {
+  transform: (config, path) => {
     if (isIgnorePath(path)) {
       return null
     }
