@@ -9,7 +9,7 @@ const options = {
   canvasWidth: 600,
   canvasHeight: 315,
   font: {
-    path: '/public/fonts/NotoSansJP-Bold.otf',
+    path: '/public/static/fonts/NotoSansJP-Bold.otf',
     family: 'NotoSansJP',
   },
   text: {
@@ -17,7 +17,7 @@ const options = {
     lineHeight: 42,
     color: '#3a3d3d',
   },
-  baseImagePath: '/public/images/og-image.png',
+  baseImagePath: '/public/static/images/og-image.png',
   textWrap: {
     width: 480,
     maxLine: 6,

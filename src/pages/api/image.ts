@@ -10,7 +10,7 @@ export default async (req: any, res: any) => {
     const img = await generateOgImage(req.query?.title || '')
     res.end(img)
   } catch (err) {
-    const filePath = resolve(cwd, 'public/images/site-image.png')
+    const filePath = resolve(cwd, 'public/static/images/site-image.png')
     const siteImg = fs.readFileSync(filePath)
     res.end(siteImg)
   }

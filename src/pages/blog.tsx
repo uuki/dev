@@ -9,6 +9,7 @@ export const POSTS_PER_PAGE = 10
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const posts = await getAllFiles()
+
   return { props: { posts: JSON.parse(JSON.stringify(posts)) } }
 }
 

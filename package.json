@@ -3,9 +3,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "yarn clean && next build && next-sitemap --config sitemap.config.js",
     "start": "next start",
     "lint": "next lint",
+    "clean": "rimraf \"**/.DS_Store\" && rimraf \"public/!(static)**\"",
     "now-build": "yum install libuuid-devel libmount-devel zlib-devel && cp /lib64/{libuuid,libmount,libblkid,libz}.so.1 node_modules/canvas/build/Release/ && yarn build"
   },
   "resolutions": {
@@ -55,11 +56,13 @@
     "eslint-config-next": "12.0.9",
     "js-yaml-loader": "^1.2.2",
     "next-mdx-remote": "^3.0.8",
+    "next-sitemap": "^3.1.11",
     "node-sass-glob-importer": "^5.3.2",
     "postcss": "^8.4.6",
     "postcss-normalize": "^10.0.1",
     "postcss-preset-env": "^7.3.1",
     "resolve-url-loader": "4.0.0",
+    "rimraf": "^3.0.2",
     "sass": "^1.49.0",
     "tailwindcss": "^3.0.23",
     "typescript": "4.5.5",
