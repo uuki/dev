@@ -1,0 +1,108 @@
+---
+title: Laravel on Docker環境でWebpackのHMRが効かないケースへの対応
+slug: laravel-docker-webpack
+description: ""
+author: ""
+date: 2022-08-20T13:56:06.336Z
+lastmod: 2022-08-20T16:03:12.188Z
+draft: false
+tags:
+  - Webpack
+  - Docker
+  - Webpack
+image: ""
+media: ""
+---
+MPA構成のHMR指定に地味な点でこれまで何度かハマってしまったため自分用に備忘録を残しておく。
+
+## 環境
+
+- webpack@5.74.0 (非mix)
+- webpack-dev-server@4.7.4
+- webpack-cli@4.10.0
+
+## 確認すべき事
+
+### dev-serverのHMRオプションが本当に有効になっているか
+
+config上、`hot: true` を指定しても有効にならないケースがある。これは、おそらく[公式ドキュメント](https://webpack.js.org/configuration/dev-server/#devserverhot)に記載されている下記の仕様が関係しており、環境により`HotModuleReplacementPlugin`が正常にロードされない場合に無効となるようだ。
+
+> Since webpack-dev-server v4, HMR is enabled by default. It automatically applies webpack.HotModuleReplacementPlugin which is required to enable HMR. So you don't have to add this plugin to your webpack.config.js when hot is set to true in config or via the CLI option --hot. See the HMR concepts page for more information.
+
+現在の状態は、アプリケーション立ち上げ後にコンソール上に表示されるログで確認できる。
+
+```shell
+[webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading disabled, Progress disabled, Overlay enabled.
+```
+
+もし`Hot Module Replacement disabled`となっている場合には、`—-hot` オプションを付与することで自動的にプラグインが追加される。
+
+
+### リバースプロキシの設定を忘れていないか
+
+ホスト／コンテナ間でHMRを通すためWeb用に作成しているコンテナで開発サーバーのポートを内部通せるようになっている、または空けているポートと設定が間違っていないかを確認し、設定が抜けている場合、docker-composeで対象コンテナに`<dev-server-port>:<web-port>`を指定。(devServerとコンテナのportは重複しないようにする)
+
+
+例：
+
+```yaml
+web:
+  build:
+    ...
+  ports:
+    - '3030:8080'
+```
+
+### 変更を検知させようとしているファイルが正しく import されているか
+
+Entryポイントかその範囲下でロード出来ていない場合など、`Nothing hot updated.` となる。
+
+### `publicPath` の指定が振り分けられているか
+
+webpack.config.js、bladeそれぞれ、開発時は開発サーバーに向ける。
+
+```js
+isDev ? `http://${DEV_HOST}:${NODE_PORT}` : '/'
+```
+
+```html
+http://${DEV_HOST}:${NODE_PORT}/js/app.js
+```
+
+## 最終的な設定
+
+- Webコンテナのport設定を`3081:8080`とした場合
+- blade更新時のリロードを無効とする場合、明示的に`liveReload: false`も指定しておく
+
+```js
+  devServer: {
+    host: 'localhost',
+    port: '3000',
+    client: {
+      overlay: true,
+      webSocketURL: `ws://localhost:3000/ws`,
+    },
+    proxy: {
+      '*': `http://0.0.0.0:3081/`,
+    },
+    hot: 'only',
+    liveReload: false,
+    static: {
+      directory: path.resolve(__dirname, 'path-to-laravel/public'),
+    },
+    devMiddleware: {
+      writeToDisk: true,
+      publicPath: `http://localhost:3000/`,
+    },
+    watchFiles: [
+      'path-to-laravel/resources/**/*.blade.php',
+      'path-to-laravel/public/css/*.css',
+      'path-to-laravel/public/js/*.js',
+    ],
+  },
+```
+
+## 補足
+
+- `static`はWebpack@4の`contentBase`と同様
+- `hot: 'only'` は、ビルド失敗時のページ更新を無効とする設定。（[ドキュメント](https://webpack.js.org/configuration/dev-server/#devserverhot)）
