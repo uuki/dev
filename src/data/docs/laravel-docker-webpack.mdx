@@ -4,12 +4,12 @@ slug: laravel-docker-webpack
 description: ""
 author: ""
 date: 2022-08-20T13:56:06.336Z
-lastmod: 2022-08-20T16:03:12.188Z
+lastmod: 2022-08-20T16:20:18.040Z
 draft: false
 tags:
   - Webpack
   - Docker
-  - Webpack
+  - Laravel
 image: ""
 media: ""
 ---
@@ -50,7 +50,7 @@ web:
   build:
     ...
   ports:
-    - '3030:8080'
+    - '3081:8080'
 ```
 
 ### 変更を検知させようとしているファイルが正しく import されているか
@@ -62,11 +62,11 @@ Entryポイントかその範囲下でロード出来ていない場合など、
 webpack.config.js、bladeそれぞれ、開発時は開発サーバーに向ける。
 
 ```js
-isDev ? `http://${DEV_HOST}:${NODE_PORT}` : '/'
+isDev ? 'http://localhost:3000' : '/'
 ```
 
 ```html
-http://${DEV_HOST}:${NODE_PORT}/js/app.js
+http://localhost:3000/js/app.js
 ```
 
 ## 最終的な設定
@@ -80,10 +80,10 @@ http://${DEV_HOST}:${NODE_PORT}/js/app.js
     port: '3000',
     client: {
       overlay: true,
-      webSocketURL: `ws://localhost:3000/ws`,
+      webSocketURL: 'ws://localhost:3000/ws',
     },
     proxy: {
-      '*': `http://0.0.0.0:3081/`,
+      '*': 'http://0.0.0.0:3081/',
     },
     hot: 'only',
     liveReload: false,
@@ -92,7 +92,7 @@ http://${DEV_HOST}:${NODE_PORT}/js/app.js
     },
     devMiddleware: {
       writeToDisk: true,
-      publicPath: `http://localhost:3000/`,
+      publicPath: 'http://localhost:3000/',
     },
     watchFiles: [
       'path-to-laravel/resources/**/*.blade.php',
