@@ -4,7 +4,7 @@ slug: laravel-docker-webpack
 description: ""
 author: ""
 date: 2022-08-20T13:56:06.336Z
-lastmod: 2022-08-20T16:20:18.040Z
+lastmod: 2022-08-20T16:26:30.615Z
 draft: false
 tags:
   - Webpack
@@ -104,5 +104,6 @@ http://localhost:3000/js/app.js
 
 ## 補足
 
+- CORSの設定は必要に応じて、`allowedHosts`、`headers`で行う
 - `static`はWebpack@4の`contentBase`と同様
 - `hot: 'only'` は、ビルド失敗時のページ更新を無効とする設定。（[ドキュメント](https://webpack.js.org/configuration/dev-server/#devserverhot)）
