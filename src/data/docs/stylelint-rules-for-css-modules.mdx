@@ -1,0 +1,34 @@
+---
+title: stylelintのCSS Modules用mode切り替え対応
+slug: stylelint-rules-for-css-modules
+description: ""
+date: 2022-08-25T16:11:48.784Z
+preview: ""
+draft: ""
+tags:
+  - Stylelint
+  - CSS Modules
+categories: ""
+lastmod: 2022-08-25T17:00:52.477Z
+image: ""
+media: ""
+---
+
+stylelint を導入したプロジェクトで CSS Modules を使う際、
+rulesにmode用の指定が抜けているとエラーになるため、下記のように設定する。[^1]
+
+## modeセレクタ用の登録
+
+```js
+ "rules": {
+    ...
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["global", "local"]
+      }
+    ]
+  }
+```
+
+[^1]: 手動の設定でなくとも、pluginなどにより解決できる可能性があります。
