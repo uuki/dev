@@ -9,13 +9,13 @@ tags:
   - Stylelint
   - CSS Modules
 categories: ""
-lastmod: 2022-08-25T17:03:15.395Z
+lastmod: 2022-08-25T17:20:40.961Z
 image: ""
 media: ""
 ---
 
 stylelint を導入したプロジェクトで CSS Modules を使う際、
-rulesにmode用の指定が抜けているとエラーになるため、下記のように設定する。[^1]
+rulesにmode切り替え用のセレクタ（[css-modules/css-modules#exceptions](https://github.com/css-modules/css-modules#exceptions)）が抜けているとエラーになるため、下記のように設定する。[^1]
 
 ## modeセレクタ用の登録
 
