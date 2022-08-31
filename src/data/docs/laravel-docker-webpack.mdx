@@ -4,7 +4,7 @@ slug: laravel-docker-webpack
 description: ""
 author: ""
 date: 2022-08-20T13:56:06.336Z
-lastmod: 2022-08-20T16:26:30.615Z
+lastmod: 2022-08-31T14:08:15.306Z
 draft: false
 tags:
   - Webpack
@@ -107,3 +107,51 @@ http://localhost:3000/js/app.js
 - CORSの設定は必要に応じて、`allowedHosts`、`headers`で行う
 - `static`はWebpack@4の`contentBase`と同様
 - `hot: 'only'` は、ビルド失敗時のページ更新を無効とする設定。（[ドキュメント](https://webpack.js.org/configuration/dev-server/#devserverhot)）
+
+## 追記（'22, 8/31）
+
+HMRによる更新時 `output.path` に、変更を通知するため`[name].[hash].hot-update.[ext]`ファイルが出力される。  
+上記の構成のままではcssやjsの hot-update が出力され続けてしまうため、下記のように対応する。
+
+### Webpack 4系
+
+※ rimraf 等を使い `hot` 配下を削除するような処理を任意の方法で作っておく事
+
+```js
+module.exports = {
+  ...
+  output: {
+    ...
+    hotUpdateChunkFilename: 'hot/hot-update.js',
+    hotUpdateMainFilename: 'hot/hot-update.json',
+  },
+}
+```
+
+### Webpack 5系
+
+5のリリース以降、hotUpdate*系のオプションが廃止されたというドキュメントは見つけられていないが、v5.74.0 では対応されていなかったため[event-hooks-webpack-plugin](https://www.npmjs.com/package/event-hooks-webpack-plugin)を使い対処する。  
+参考：[Webpack 5 リリース (2020-10-10)](https://webpack.js.org/blog/2020-10-10-webpack-5-release/#:~:text=hotUpdateChunkFilename)
+
+※ rimraf のcallback関数が未指定だとWebpackの処理が止まるため、空の関数を入れている
+
+```js
+const rimraf = require('rimraf');
+const EventHooksPlugin = require('event-hooks-webpack-plugin');
+
+module.exports = {
+  ...
+  plugins: [
+    ...
+    new EventHooksPlugin({
+      afterCompile: () => {
+        rimraf('path-to-laravel/public/**/*.hot-update.json', () => {});
+        rimraf('path-to-laravel/public/**/*.hot-update.js', () => {});
+        rimraf('path-to-laravel/public/**/*.hot-update.js.map', () => {});
+      },
+    }),
+  ],
+}
+```
+
+これで、hot-update ファイルが増え続ける状態はひとまず解消される
