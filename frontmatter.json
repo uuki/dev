@@ -1,4 +1,59 @@
 {
   "$schema": "https://frontmatter.codes/frontmatter.schema.json",
-  "frontMatter.templates.enabled": true
+  "frontMatter.templates.enabled": true,
+  "frontMatter.taxonomy.tags": [
+    "ColofulBox",
+    "Nodejs",
+    "CSS Modules",
+    "Stylelint",
+    "Laravel",
+    "Docker",
+    "Webpack",
+    "Lit",
+    "Workflow",
+    "Web Components",
+    "GitHub",
+    "note"
+  ],
+  "frontMatter.taxonomy.contentTypes": [
+    {
+      "name": "default",
+      "pageBundle": false,
+      "fields": [
+        {
+          "title": "Title",
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "title": "Description",
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "title": "Publishing date",
+          "name": "date",
+          "type": "datetime",
+          "default": "{{now}}",
+          "isPublishDate": true
+        },
+        {
+          "title": "Is in draft",
+          "name": "draft",
+          "type": "boolean"
+        },
+        {
+          "title": "Tags",
+          "name": "tags",
+          "type": "tags"
+        },
+        {
+          "title": "Origin",
+          "name": "origin",
+          "type": "choice",
+          "choices": ["qiita", "zenn", "hatena"]
+        }
+      ]
+    }
+  ]
 }
