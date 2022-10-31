@@ -1,0 +1,43 @@
+---
+title: Colofulbox上でwebpackビルド時メモリ不足になる場合の対応
+slug: nodejs-on-colorfulbox
+description: ""
+author: ""
+date: 2022-10-31T10:24:05.900Z
+lastmod: 2022-10-31T11:32:37.646Z
+draft: false
+tags:
+  - colofulbox
+  - nodejs
+  - webpack
+image: ""
+media: ""
+---
+
+最近関わったプロジェクトの環境にColofulbox（レンタルサーバー - CloudLinux）が使われており、
+フロントエンドソースのビルドをサーバー上で行おうとした所、下記のエラーでコケた。
+
+```shell
+[webpack-cli] RangeError: WebAssembly.Instance(): Out of memory: wasm memory
+```
+
+## 結論
+
+もし、`webpack@5.7x`以降を使っている場合、可能であれば`webpack@5.60.0`以下に下げる事で解決する可能性がある。
+（今回私は解決しましたが、webpack.config.js の処理内容によると思います）
+
+```shell
+# Node.js v16.17.0
+yarn add -D webpack@5.60.0
+```
+
+## 詳細
+
+事例を調べたところwebpackのリポジトリにこのような起票が見つかった。
+
+- ["npx webpack" fails with "RangeError: WebAssembly.Instance(): Out of memory: wasm memory"](https://github.com/webpack/webpack/issues/15584)
+
+Node.jsは@16.x系前後であれば大きく挙動に変わりなく環境起因の可能性が高そうで、コメントに記載されている通り`ulimit -a`でユーザーが使用可能なリソースを制限する設定を確認したところ、Colorfulboxでは（当時）仮想メモリが4GB程度に設定されていた。  
+
+V8がwasmで10GBのメモリを使いguard regionsを実装するというコメントについての詳細は追いきれなかったが、バージョン周りの変更で少し検証した限りエラー内容の通り`ulimit`によるメモリ制限を超えている可能性が高いのではないかと感じた。  
+もし別の環境で発生していて権限的に可能であれば、同コマンドで任意の容量を再設定しても解決できるかもしれない。
