@@ -1,27 +1,7 @@
 {
-  "frontMatter.framework.id": "next",
-  "frontMatter.content.publicFolder": "public",
-  "frontMatter.content.defaultFileType": "mdx",
-  "frontMatter.content.pageFolders": [
-    {
-      "title": "Pages",
-      "path": "[[workspace]]/src/data/pages",
-      "excludeSubdir": true
-    },
-    {
-      "title": "Blog posts",
-      "path": "[[workspace]]/src/data/docs"
-    }
-  ],
-  "frontMatter.dashboard.openOnStart": false,
-  "frontMatter.content.autoUpdateDate": true,
-  "frontMatter.templates.prefix": "",
   "css.customData": [
     "./.vscode/custom.css-data.json"
   ],
   "[markdown]": {
-  },
-  "frontMatter.framework.startCommand": "yarn dev",
-  "frontMatter.preview.host": "http://localhost:3000",
-  "frontMatter.preview.pathName": "blog"
+  }
 }

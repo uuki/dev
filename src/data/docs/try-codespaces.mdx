@@ -1,0 +1,35 @@
+---
+title: 無料枠が付いたGitHub CodespacesでVSCode FrontMatter使ってみた
+slug: try-codespaces
+description: ""
+date: 2022-11-10T15:45:19.601Z
+lastmod: 2022-11-10T18:06:16.394Z
+draft: true
+tags:
+  - Codespaces
+  - FrontMatter
+image: ""
+origin: ""
+---
+
+先日、[GitHub Universe 2022](https://github.blog/2022-11-09-everything-new-from-github-universe-2022/)の中でCodespacesを個人ユーザー（無料及びPro）が60h/monthまで無料枠として利用できるようになったと発表があった事を聞き、折角なのでCodespaces上で短めに執筆してみた。
+
+Codespacesとは、という方は公式と合わせてコチラの記事が分かりやすい。  
+[GitHub Codespaces が GA しました（概要、課金など色々まとめ）](https://qiita.com/uikou/items/1feb83865f9d638807ad)
+
+このブログは普段メモしたmdを気軽にpublishできるようmdxをSSGでホストできる形をとっており、フォーマット、日付、タグ、下書きなどの管理には簡易的なCMSとして[VSCode FrontMatter Plugin](https://frontmatter.codes/)を使っている。
+
+大分前にこのプラグインのリポジトリでvscode.devに対応したいといった趣旨の起票を見かけていたが、今回Codespaces上でインストールしたところ問題なく動いた。
+
+![Codespaces上で表示しているDashboard](2022/11/dashboard.png)
+
+Codespaces側の挙動としては、開発サーバーを動かしプレビューしながら執筆するような使い方も問題なく可能で、
+エクスプローラーからのCRUDの速度感も特に気にならず、gitのdiff highlightも見やすかった。
+
+![Codespaces上のプレビュー](2022/11/edit.png)
+
+今のところ気になった点としてCodespacesの問題か定かではないが、日本語で書いていると1行が長くなった際や変換時に描画が不安定になるタイミングや打ち直しで前後の何文字かが消えるといった挙動があり、これは改善されると良いなと思う。
+
+評判のとおり端末依存がない点は使いやすそうで、ペアプロや勉強会といった用途にも役立ちそうという印象がありつつ、CMSとしても使えなくはないかと感じた。
+
+とりとめのない感じになってしまったが、今回は雰囲気を知るために立ち上げただけのためこの辺で。
