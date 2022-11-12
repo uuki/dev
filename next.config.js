@@ -10,10 +10,17 @@ const nextConfig = {
     includePaths: [path.join(__dirname, './src/styles/app.scss')],
   },
   webpack: (webpackConfig) => {
-    webpackConfig.module.rules.push({
-      test: /\.ya?ml$/,
-      use: 'js-yaml-loader',
-    })
+    webpackConfig.module.rules = [
+      ...webpackConfig.module.rules,
+      {
+        test: /\.ya?ml$/,
+        use: 'js-yaml-loader',
+      },
+      {
+        test: /\.otf$/,
+        use: 'file-loader',
+      },
+    ]
 
     webpackConfig.resolve = {
       ...webpackConfig.resolve,
