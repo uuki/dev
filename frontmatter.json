@@ -14,6 +14,13 @@
       "path": "[[workspace]]/src/data/docs"
     }
   ],
+  "frontMatter.content.snippets": {
+    "Image snippet": {
+      "description": "Image with alt",
+      "body": "![]([[&mediaUrl]])",
+      "isMediaSnippet": true
+    }
+  },
   "frontMatter.content.publicFolder": "public",
   "frontMatter.dashboard.openOnStart": false,
   "frontMatter.framework.id": "next",
@@ -73,11 +80,17 @@
           "title": "Origin",
           "name": "origin",
           "type": "choice",
-          "choices": [
-            "qiita",
-            "zenn",
-            "hatena"
-          ]
+          "choices": ["qiita", "zenn", "hatena"]
+        },
+        {
+          "title": "lastmod",
+          "name": "lastmod",
+          "type": "datetime"
+        },
+        {
+          "title": "image",
+          "name": "image",
+          "type": "string"
         }
       ]
     }
