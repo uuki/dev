@@ -1,18 +1,40 @@
 {
   "$schema": "https://frontmatter.codes/frontmatter.schema.json",
   "frontMatter.templates.enabled": true,
+  "frontMatter.content.autoUpdateDate": true,
+  "frontMatter.content.defaultFileType": "mdx",
+  "frontMatter.content.pageFolders": [
+    {
+      "title": "Pages",
+      "path": "[[workspace]]/src/data/pages",
+      "excludeSubdir": true
+    },
+    {
+      "title": "Blog posts",
+      "path": "[[workspace]]/src/data/docs"
+    }
+  ],
+  "frontMatter.content.publicFolder": "public",
+  "frontMatter.dashboard.openOnStart": false,
+  "frontMatter.framework.id": "next",
+  "frontMatter.framework.startCommand": "yarn dev",
+  "frontMatter.preview.host": "http://localhost:3000",
+  "frontMatter.preview.pathName": "blog",
+  "frontMatter.templates.prefix": "",
   "frontMatter.taxonomy.tags": [
-    "ColofulBox",
-    "Nodejs",
     "CSS Modules",
-    "Stylelint",
-    "Laravel",
+    "Codespaces",
+    "ColofulBox",
     "Docker",
-    "Webpack",
-    "Lit",
-    "Workflow",
-    "Web Components",
+    "FrontMatter",
     "GitHub",
+    "Laravel",
+    "Lit",
+    "Nodejs",
+    "Stylelint",
+    "Web Components",
+    "Webpack",
+    "Workflow",
     "note"
   ],
   "frontMatter.taxonomy.contentTypes": [
@@ -51,7 +73,11 @@
           "title": "Origin",
           "name": "origin",
           "type": "choice",
-          "choices": ["qiita", "zenn", "hatena"]
+          "choices": [
+            "qiita",
+            "zenn",
+            "hatena"
+          ]
         }
       ]
     }
