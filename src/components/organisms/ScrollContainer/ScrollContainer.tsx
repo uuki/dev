@@ -11,7 +11,7 @@ export type ScrollContainerProps = {
 const ScrollContainer = ({ pageStart = 0, items, loadMore, hasMore }: ScrollContainerProps) => {
   return (
     <>
-      <InfiniteScroll pageStart={pageStart} loadMore={loadMore} hasMore={hasMore}>
+      <InfiniteScroll pageStart={pageStart} loadMore={loadMore} hasMore={hasMore} initialLoad={false} threshold={-200}>
         {items}
       </InfiniteScroll>
     </>

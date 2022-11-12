@@ -1,5 +1,6 @@
 @import './foundations/mixins/*';
 @import './foundations/functions/*';
+@import './foundations/variables/*';
 @import './foundations/*.scss';
 @import './foundations/plugins/*';
 
@@ -94,5 +95,13 @@
     transform: translateX(calc(-100% - 3px)) translateY(-50%);
     opacity: 0;
     line-height: 1;
+  }
+  .animate-fade-in {
+    animation: fade-in .6s 0s var(--easing_out) forwards;
+  }
+  .animate-staggered {
+    &.-per-5 {
+      @include staggeredPer(5, 'animation');
+    }
   }
 }

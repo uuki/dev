@@ -30,7 +30,7 @@ export default function Home({ posts }: Props) {
   const [hasMore, setHasMore] = useState(true)
   const [list, setList] = useState<PostFrontMatter[]>(postChunk[0])
   const loadMore = (page: number) => {
-    if (page > postChunk.length - 1) {
+    if (page > postChunk.length) {
       setHasMore(false)
     } else {
       setList([...postChunk.slice(0, page).flat()])
@@ -40,7 +40,7 @@ export default function Home({ posts }: Props) {
   const items = (
     <ul className="mb-[75]">
       {list.map((prop, i) => (
-        <li key={prop.slug + i} className="mt-[30px]">
+        <li key={prop.slug + i} className="mt-[30px] animate-fade-in animate-staggered -per-5">
           <Card {...prop} />
         </li>
       ))}
