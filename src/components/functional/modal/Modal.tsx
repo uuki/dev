@@ -33,7 +33,8 @@ const Modal = () => {
       }
       releaseScroll()
     }
-  }, [app.showModal, disableScroll, releaseScroll])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [app.showModal])
 
   const handleClickDialog = useCallback(
     () => (event: React.MouseEvent<HTMLDialogElement>) => {
