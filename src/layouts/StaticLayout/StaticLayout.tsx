@@ -1,10 +1,10 @@
+import type { PostStaticFrontMatter } from '#/post'
+import type { PostRevision } from '#/post'
 import React, { ReactNode } from 'react'
 import { Header } from '@/components/organisms/Header'
 import { Footer } from '@/components/organisms/Footer'
 import { PostHeader } from '@/components/atoms/PostHeader'
 import { ListMeta } from '@/components/molecules/ListMeta'
-import { PostStaticFrontMatter } from '@/types/Post'
-import { PostRevision } from '@/types/Post'
 
 interface StaticLayoutProps {
   children: ReactNode

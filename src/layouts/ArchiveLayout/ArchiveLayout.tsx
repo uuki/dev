@@ -1,3 +1,4 @@
+import type { PostFrontMatter } from '#/post'
 import React, { ComponentProps, useState } from 'react'
 import { Header } from '@/components/organisms/Header'
 import { Footer } from '@/components/organisms/Footer'
@@ -5,7 +6,6 @@ import { Pagination } from '@/components/molecules/Pagination'
 import { Card } from '@/components/molecules/Card'
 import { InputText } from '@/components/atoms/InputText'
 import { PageHeader } from '@/components/atoms/PageHeader'
-import { PostFrontMatter } from '@/types/Post'
 
 export type ArchiveLayoutProps = {
   title: string

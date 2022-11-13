@@ -1,5 +1,5 @@
+import type { Tags } from '#/taxonomy'
 import { Tag } from '@/components/atoms/Tag'
-import { Tags } from '@/types/Tag'
 
 export type ListTagProps = Tags
 

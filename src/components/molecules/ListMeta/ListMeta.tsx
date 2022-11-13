@@ -1,9 +1,9 @@
+import type { PostRevision } from '#/post'
+import type { ReadingTimeResults } from '#/meta'
 import { MdOutlineHistory } from 'react-icons/md'
 import { AiOutlineEdit, AiOutlineRead } from 'react-icons/ai'
 import { PostDate } from '@/components/atoms/PostDate'
 import { PostHistory } from '@/components/atoms/PostHistory'
-import { PostRevision } from '@/types/Post'
-import { ReadingTimeResults } from '@/types/ReadingTime'
 
 export type ListMetaProps = {
   date?: string

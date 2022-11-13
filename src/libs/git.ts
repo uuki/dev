@@ -1,10 +1,10 @@
+import type { PostRevision } from '#/post'
 import fs from 'fs'
 import path from 'path'
 import { root } from '@/utils/files'
 import config from '@/config/manage'
 import { exec } from 'child_process'
 import { promisify } from 'util'
-import { PostRevision } from '@/types/Post'
 
 type GetFileRevisionProps = {
   slug: string

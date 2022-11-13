@@ -1,4 +1,4 @@
-import { Tags } from '@/types/Tag'
+import type { Tags } from '#/taxonomy'
 
 export type PostOriginName = 'zenn' | 'hatena' | 'qiita' | 'uuki'
 

@@ -1,3 +1,5 @@
+import type { PostRevision, PostFrontMatter } from '#/post'
+import type { ReadingTimeResults } from '#/meta'
 import React, { ReactNode } from 'react'
 import { Header } from '@/components/organisms/Header'
 import { Footer } from '@/components/organisms/Footer'
@@ -5,9 +7,6 @@ import { PostHeader } from '@/components/atoms/PostHeader'
 import { ListTag } from '@/components/molecules/ListTag'
 import { ListMeta } from '@/components/molecules/ListMeta'
 import { ListSocial } from '@/components/molecules/ListSocial'
-import { PostRevision } from '@/types/Post'
-import { PostFrontMatter } from '@/types/Post'
-import { ReadingTimeResults } from '@/types/ReadingTime'
 
 interface PostLayoutProps {
   children: ReactNode

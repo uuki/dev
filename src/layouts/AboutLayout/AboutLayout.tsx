@@ -1,3 +1,4 @@
+import type { PostStaticFrontMatter } from '#/post'
 import React, { ReactNode } from 'react'
 import { Link } from '@/components/atoms/Link'
 import { Author } from '@/components/molecules/Author'
@@ -7,7 +8,6 @@ import { PageHeader } from '@/components/atoms/PageHeader'
 import { SiTwitter, SiGithub } from 'react-icons/si'
 import { HiOutlineMail } from 'react-icons/hi'
 import config from '@/config/manage'
-import { PostStaticFrontMatter } from '@/types/Post'
 
 type AboutLayoutProps = {
   children: ReactNode

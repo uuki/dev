@@ -1,7 +1,7 @@
+import type { PostRevision } from '#/post'
 import { ReactNode } from 'react'
 import { format } from 'date-fns'
 import { Link } from '@/components/atoms/Link'
-import { PostRevision } from '@/types/Post'
 import config from '@/config/manage'
 
 export type PostHistoryProps = { history: PostRevision[] }

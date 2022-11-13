@@ -1,10 +1,10 @@
+import type { PostFrontMatter } from '#/post'
 import fs from 'fs'
 import { join } from 'path'
 import { Feed } from 'feed'
 import meta from '@/config/meta'
 import manage from '@/config/manage'
 import { escape } from '@/utils/htmlEscaper'
-import { PostFrontMatter } from '@/types/Post'
 
 export const generateRss = (posts: PostFrontMatter[]) => {
   const feed = new Feed({

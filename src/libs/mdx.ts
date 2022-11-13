@@ -1,3 +1,4 @@
+import type { PostFrontMatter } from '#/post'
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
@@ -15,7 +16,6 @@ import { s } from 'hastscript'
 import { AiOutlineLink } from 'react-icons/ai'
 import { root } from '@/utils/files'
 import { nonBoolean } from '@/utils/typeGuard'
-import { PostFrontMatter } from '@/types/Post'
 import config from '@/config/manage'
 
 const jsxIconLink = AiOutlineLink({})

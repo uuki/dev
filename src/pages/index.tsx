@@ -1,3 +1,4 @@
+import type { PostFrontMatter } from '#/post'
 import { useState } from 'react'
 import { InferGetStaticPropsType, GetStaticPropsContext } from 'next'
 import { Link } from '@/components/atoms/Link'
@@ -9,7 +10,6 @@ import { Card } from '@/components/molecules/Card'
 import { ScrollContainer } from '@/components/organisms/ScrollContainer'
 import { getAllFiles } from '@/libs/mdx'
 import { sliceIntoChunks } from '@/utils/array'
-import { PostFrontMatter } from '@/types/Post'
 import { HiArrowNarrowRight } from 'react-icons/hi'
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>

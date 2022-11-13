@@ -1,6 +1,6 @@
+import type { PostOrigin } from '#/post'
 import Image from 'next/image'
 import configOrigin from '@/config/origin.yml'
-import { PostOrigin } from '@/types/Post'
 // import { genInlineFromIcon } from '@/libs/reactIcons'
 
 export type OriginProps = PostOrigin & {

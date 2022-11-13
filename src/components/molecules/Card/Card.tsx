@@ -1,9 +1,9 @@
+import type { PostFrontMatter } from '#/post'
 import React, { memo } from 'react'
 import { Link } from '@/components/atoms/Link'
 import { BadgeOrigin } from '@/components/atoms/BadgeOrigin'
 import { ListTag } from '@/components/molecules/ListTag'
 import { ListMeta } from '@/components/molecules/ListMeta'
-import { PostFrontMatter } from '@/types/Post'
 
 export type CardProps = PostFrontMatter & {}
 
