@@ -11,6 +11,7 @@ type WrapperProps = {
 
 export const MDXComponents: ComponentMap = {
   a: ({ className, ...props }) => <Link {...props} className={className} />,
+  // @ts-ignore
   img: MDXImage,
   pre: Pre,
   wrapper: ({ layout = 'PostLayout', ...rest }: WrapperProps) => {

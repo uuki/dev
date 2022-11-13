@@ -51,6 +51,16 @@
           "url": "https://www.w3.org/TR/css-cascade-5/#at-layer"
         }
       ]
+    },
+    {
+      "name": "@custom-media",
+      "description": "PostCSS Custom Media lets you use Custom Media Queries in CSS, following the CSS Media Queries specification.",
+      "references": [
+        {
+          "name": "PostCSS Custom Media",
+          "url": "https://github.com/postcss/postcss-custom-media"
+        }
+      ]
     }
   ],
   "pseudoClasses": [],

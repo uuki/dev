@@ -17,7 +17,7 @@ const nextConfig = {
         use: 'js-yaml-loader',
       },
       {
-        test: /\.otf$/,
+        test: /\.(otf|xml|txt)$/,
         use: 'file-loader',
       },
     ]

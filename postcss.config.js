@@ -1,5 +1,6 @@
 module.exports = {
   plugins: {
+    'postcss-custom-media': {},
     tailwindcss: {},
     'postcss-normalize': {},
     'postcss-preset-env': {

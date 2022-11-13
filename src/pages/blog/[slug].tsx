@@ -53,7 +53,6 @@ const Post = ({ post, history }: Props) => {
         description={frontMatter.description}
         image={`${config.SITE_URL}/api/image?title=${encodeURIComponent(`${frontMatter.title}`)}`}
       />
-
       <MDXLayoutRenderer layout="PostLayout" frontMatter={frontMatter} mdxSource={mdxSource} history={history} />
     </>
   )

@@ -1,9 +1,25 @@
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
+import React from 'react'
+import { RecoilRoot } from 'recoil'
 import GoogleAnalytics from '@/components/functional/analytics/GoogleAnalytics'
+import Modal from '@/components/functional/modal/Modal'
+import { WindowProvider } from '@/plugins/windowState'
+import { cssVars } from '@/constants'
 import '@/styles/app.scss'
 
-function MyApp({ Component, pageProps }: AppProps) {
+const withProvider = <T extends AppProps>(Component: React.FC<T>) => {
+  const WrappedComponent = (props: T) => (
+    <RecoilRoot>
+      <WindowProvider cssVars={cssVars}>
+        <Component {...props} />
+      </WindowProvider>
+    </RecoilRoot>
+  )
+  return WrappedComponent
+}
+
+const MyApp = withProvider(({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>
@@ -16,8 +32,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Head>
       <GoogleAnalytics />
       <Component {...pageProps} />
+      <Modal />
     </>
   )
-}
+})
 
 export default MyApp

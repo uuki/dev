@@ -1,0 +1,59 @@
+@use '@/styles/foundations/_custom-media.css' as *;
+
+.modalContent {
+  position: relative;
+  max-height: calc(100vh * var(--modal-block-basis));
+}
+.content {
+  padding-bottom: calc(100vh * (1 - var(--modal-block-basis)) / 2);
+}
+.closeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  pointer-events: none;
+  background-color: #f8fafb;
+}
+.closeButton::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  clip-path: path('M14,1.476,12.524,0,7,5.524,1.476,0,0,1.476,5.524,7,0,12.524,1.476,14,7,8.476,12.524,14,14,12.524,8.476,7Z');
+  background: #394554;
+  margin-left: 1px;
+}
+
+@media (--mobile) {
+  .modalContent :global {
+    --modal-block-basis: 0.8;
+  }
+  .modalContent {
+    max-width: 90%;
+  }
+  .closeButton {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+  }
+}
+
+@media (--desktop) {
+  .modalContent :global {
+    --modal-block-basis: 0.7;
+  }
+  .modalContent {
+    max-width: 70%;
+  }
+  .closeButton {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    width: 40px;
+    height: 40px;
+    margin-left: 30px;
+  }
+}
