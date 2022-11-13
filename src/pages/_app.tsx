@@ -1,7 +1,9 @@
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-import React from 'react'
-import { RecoilRoot } from 'recoil'
+import React, { useEffect } from 'react'
+import { RecoilRoot, useRecoilState } from 'recoil'
+import { browserState } from '@/recoil/atoms/app'
+import UAParser from 'ua-parser-js'
 import GoogleAnalytics from '@/components/functional/analytics/GoogleAnalytics'
 import Modal from '@/components/functional/modal/Modal'
 import { WindowProvider } from '@/plugins/windowState'
@@ -20,6 +22,16 @@ const withProvider = <T extends AppProps>(Component: React.FC<T>) => {
 }
 
 const MyApp = withProvider(({ Component, pageProps }: AppProps) => {
+  const [browser, setBrowserState] = useRecoilState(browserState)
+
+  useEffect(() => {
+    const ua = new UAParser(window.navigator.userAgent).getResult()
+    setBrowserState({
+      ...browser,
+      ...ua,
+    })
+  }, [])
+
   return (
     <>
       <Head>

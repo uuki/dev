@@ -7,3 +7,8 @@ export const appState = atom<AppProps>({
     showModal: false,
   },
 })
+
+export const browserState = atom<null | UAParser.IResult>({
+  key: 'atom.browser.state',
+  default: null,
+})

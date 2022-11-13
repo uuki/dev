@@ -18,8 +18,10 @@
     "@types/react-dom": "17.0.2",
     "@types/react-infinite-scroller": "^1.2.2",
     "@types/throttle-debounce": "^5.0.0",
+    "@types/ua-parser-js": "^0.7.36",
     "canvas": "2.6.1",
     "clsx": "^1.2.1",
+    "compare-versions": "^5.0.1",
     "date-fns": "^2.28.0",
     "feed": "^4.2.2",
     "gray-matter": "^4.0.3",
@@ -48,7 +50,8 @@
     "remark-gfm": "^3.0.1",
     "remark-math": "^5.1.1",
     "slugify": "^1.6.5",
-    "throttle-debounce": "^5.0.0"
+    "throttle-debounce": "^5.0.0",
+    "ua-parser-js": "^1.0.32"
   },
   "devDependencies": {
     "@mdx-js/loader": "^1.6.22",
