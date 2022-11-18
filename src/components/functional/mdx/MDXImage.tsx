@@ -1,10 +1,8 @@
 import Image from 'next/image'
 import React, { memo, useCallback, useState, useEffect } from 'react'
-import { useRecoilValue } from 'recoil'
-import { browserState } from '@/recoil/atoms/app'
 import { useModal } from '@/hooks/useModal'
+import { useCheckSupport } from '@/hooks/useCheckSupport'
 import ModalContent from '@/components/functional/modal/ModalContent'
-import { compare } from 'compare-versions'
 // import config from '@/config/manage'
 
 export type MDXImageProps = {
@@ -21,9 +19,16 @@ const ImageSnippet = (props: MDXImageProps) => {
 }
 
 const MDXImage = (props: MDXImageProps) => {
-  const browser = useRecoilValue(browserState)
+  const checkBrowser = new RegExp(/Safari/, 'i')
+  const { checkUnSupportByVersion } = useCheckSupport()
   const { isShow, toggleModal } = useModal()
   const [currentSource, setCurrentSource] = useState<string>('')
+  const isUnSupportDialog = checkUnSupportByVersion([
+    {
+      browser: checkBrowser,
+      supported: '15.4',
+    },
+  ])
 
   useEffect(() => {
     if (!isShow && currentSource) {
@@ -42,11 +47,8 @@ const MDXImage = (props: MDXImageProps) => {
     [toggleModal]
   )
 
-  if (browser && /Safari/i.test(browser.browser.name || '')) {
-    const notSupportDialog = compare(browser.browser.version || '', '15.4', '<')
-    if (notSupportDialog) {
-      return <ImageSnippet {...props} />
-    }
+  if (isUnSupportDialog) {
+    return <ImageSnippet {...props} />
   }
 
   if (isShow && currentSource === props.src) {

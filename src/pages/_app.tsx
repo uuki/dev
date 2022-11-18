@@ -29,6 +29,10 @@ const MyApp = withProvider(({ Component, pageProps }: AppProps) => {
     setBrowserState({
       ...browser,
       ...ua,
+      browser: {
+        ...ua.browser,
+        version: (ua.browser.version || '').replace(',', '.'), // Fix comma versioning. For example in iOS 15.7 Mobile Safari.
+      },
     })
   }, [])
 
