@@ -1,8 +1,9 @@
 import fs from 'fs'
 import path from 'path'
-import { createCanvas, registerFont, loadImage } from 'canvas'
-import { fillTextWithTwemoji } from 'node-canvas-with-twemoji'
-import { CanvasRenderingContext2D } from 'canvas'
+// import { type CanvasRenderingContext2D } from 'canvas';
+// import { createCanvas, registerFont, loadImage } from 'canvas';
+// import { fillTextWithTwemoji } from 'node-canvas-with-twemoji'
+import { createCanvas, loadImage } from '@napi-rs/canvas';
 
 const cwd = process.cwd()
 const options = {
@@ -24,7 +25,7 @@ const options = {
   },
 }
 
-export const splitLines = (ctx: CanvasRenderingContext2D, words: string[], maxWidth: number) => {
+export const splitLines = (ctx: any, words: string[], maxWidth: number) => {
   const line: string[] = ['']
   for (const [i, word] of Object.entries(words)) {
     const current = line.length - 1
@@ -53,7 +54,7 @@ export const generateOgImage = async (title: string): Promise<Buffer> => {
 
   const image = await loadImage(fs.readFileSync(imagePath))
 
-  registerFont(fontFamily, { family: font.family })
+  // registerFont(fontFamily, { family: font.family })
 
   ctx.drawImage(image, 0, 0, canvasWidth, canvasHeight)
   ctx.font = `${text.fontSize}px "${font.family}"`
@@ -63,11 +64,11 @@ export const generateOgImage = async (title: string): Promise<Buffer> => {
 
   const lines = splitLines(ctx, words, textWrap.width)
 
-  for await (const [i, sentence] of Object.entries(lines)) {
-    if (Number(i) < textWrap.maxLine) {
-      fillTextWithTwemoji(ctx, sentence, x, text.lineHeight * Number(i) + y)
-    }
-  }
+  // for await (const [i, sentence] of Object.entries(lines)) {
+  //   if (Number(i) < textWrap.maxLine) {
+  //     fillTextWithTwemoji(ctx, sentence, x, text.lineHeight * Number(i) + y)
+  //   }
+  // }
 
   return canvas.toBuffer('image/png')
 }
