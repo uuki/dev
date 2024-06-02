@@ -7,7 +7,7 @@
     "start": "next start",
     "lint": "next lint",
     "clean": "rimraf \"**/.DS_Store\" && rimraf \"public/!(static|media)**\"",
-    "now-build": "yum install libuuid-devel libmount-devel zlib-devel && cp /lib64/{libuuid,libmount,libblkid,libz}.so.1 node_modules/canvas/build/Release/ && yarn build"
+    "now-build": "yarn build"
   },
   "dependencies": {
     "@mapbox/rehype-prism": "^0.8.0",
