@@ -28,22 +28,6 @@
   "frontMatter.preview.host": "http://localhost:3000",
   "frontMatter.preview.pathName": "blog",
   "frontMatter.templates.prefix": "",
-  "frontMatter.taxonomy.tags": [
-    "CSS Modules",
-    "Codespaces",
-    "ColofulBox",
-    "Docker",
-    "FrontMatter",
-    "GitHub",
-    "Laravel",
-    "Lit",
-    "Nodejs",
-    "Stylelint",
-    "Web Components",
-    "Webpack",
-    "Workflow",
-    "note"
-  ],
   "frontMatter.taxonomy.contentTypes": [
     {
       "name": "default",
@@ -80,7 +64,11 @@
           "title": "Origin",
           "name": "origin",
           "type": "choice",
-          "choices": ["qiita", "zenn", "hatena"]
+          "choices": [
+            "qiita",
+            "zenn",
+            "hatena"
+          ]
         },
         {
           "title": "lastmod",
