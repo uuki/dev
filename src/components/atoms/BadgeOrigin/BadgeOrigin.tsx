@@ -12,8 +12,8 @@ const BadgeOrigin = ({ name, logo, url }: PostOrigin) => {
 
   return (
     <div className="flex items-center font-bold text-[12px]">
-      {data.logo && <Image src={data.logo} width={12} height={12} alt={`${data.name} logo`} />}
-      <span className="ml-[8px] first:ml-0 text-[0.75rem]">{data.name}</span>
+      {data.logo && <Image src={data.logo} width={16} height={16} alt={`${data.name} logo`} />}
+      <span className="ml-[8px] first:ml-0 text-[0.85rem]">{data.name}</span>
     </div>
   )
 }
