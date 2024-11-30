@@ -2,6 +2,7 @@
 
 # data
 src/data/**/private/*.mdx
+ignore.*.mdx
 
 # developments
 *.frag

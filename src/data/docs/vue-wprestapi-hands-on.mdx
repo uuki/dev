@@ -1,0 +1,553 @@
+---
+title: "Vue.js＋WP REST API ハンズオン【Vue.js #3 Advent Calendar 2017】"
+slug: vue-wprestapi-hands-on
+description: ""
+author: ""
+date: 2017-12-09T02:54:10.000Z
+lastmod: 2024-11-30T07:54:05.405Z
+draft: false
+tags:
+  - Vue2
+  - WP-REST-API
+image: ""
+media: ""
+---
+
+<Note type="warn">注意この記事は2017年に個人ブログで執筆したものです。<br />
+ドメイン変更により、Advent Calendarへ登録していた記事がリンク切れとなったため移植しました。ライブラリや関連する情報が古くなっていますので、追記をご確認ください🙏</Note>
+
+<Pre embed="twitter">
+940282745514627072
+</Pre>
+
+---
+
+**2024/11 追記**
+
+現在もJAMStack用途でWP-REST-APIを使いたいという要件を受ける事があるため、
+一部でも参考になればと思い移植しました。もし執筆当時、追記とも誤りがある場合お教え頂けたら幸いです。
+
+- [Vue CLI](https://cli.vuejs.org/#getting-started) は現在メンテナスモードとなっています。
+現在はクイックスタートとして、[create-vue](https://github.com/vuejs/create-vue) で同等のことが可能です
+- create-vueは、Vite 環境になります。記事中のWebpackまわりの設定は、ESBuildとrollupの設定に置換する必要があります
+- 同様に、Vueも2.x系（Options API）を例としています。現在は 3系（Composition API）が一般的な実装例となります
+- 記事中、認証の部分でnonceの連携のため、クライアントアプリケーションをthemeに設置していますが、実プロダクトにおいてはクライアントをCDNから配信する用途などが多いかと思いますので、サンプルとしてご理解ください
+- exampleではありつつフッターにjsを指定するなど粗い部分が目立ちますがご容赦ください
+
+---
+
+こちらは、[Vue.js #3 Advent Calendar 2017 - Qiita](https://qiita.com/advent-calendar/2017/vue3)、12日目の記事です。
+
+この記事では、Vue.jsとWP REST APIを連携して、簡単な記事表示〜非公開記事をプレビューするまでの手順を、できるだけシンプルにハンズオン形式で書いていこうと思います。
+
+## 記事中で使うツール
+ * npm
+ * vue-cli
+ * Docker、docker-compose
+
+## プロジェクトの作成
+vue-cliでサクッと作ります。
+今回、プロジェクト名はvue-wp-projectとします。
+
+
+```shell-session
+$ vue init webpack vue-wp-project
+```
+
+Vue build以降の設定は、下記の通り選択します。
+
+```shell-session
+$ Vue build 
+❯ Runtime + Compiler: recommended for most users 
+Runtime-only: about 6KB lighter min+gzip, but templates (or any Vue-specific HTML) are ONLY allowed in .vue files - render functions are required elsewhere 
+$ Install vue-router? (Y/n) Y
+$ Use ESLint to lint your code? (Y/n) n
+$ Set up unit tests (Y/n) n
+$ Setup e2e tests with Nightwatch? (Y/n) n
+```
+
+最後に、次のメッセージが表示されればプロジェクトの作成は完了です。
+
+```shell-session
+   vue-cli · Generated "vue-wp-project".
+
+   To get started:
+
+     cd vue-wp-project
+     npm install
+     npm run dev
+
+   Documentation can be found at https://vuejs-templates.github.io/webpack
+```
+
+## 現状のディレクトリマップ
+以降、vue-wp-project直下を`./`と記載します。
+
+```shell-session
+vue-wp-project
+.
+├─ build
+│  └─ *.js
+├─ config
+│  └─ *.js
+├─ src
+│  ├─ assets
+│  │   └─ logo.png
+│  ├─ components
+│  │   └─ HelloWorld.vue
+│  ├─ router
+│  │   └─ index.js
+│  ├─ App.vue
+│  └─ main.js
+├─ static
+├─ .*
+├─ index.html
+├─ package.json
+└─ README.md
+```
+
+## Wordpress本体のダウンロード
+https://ja.wordpress.org/download/  から、Wordpress本体のzipをダウンロードします。
+
+続けて、プロジェクト側に新たに、wwwディレクトリを作成し、`www`以下に`html`ディレクトリを作り、その中にzipを解凍した中にある`wp-content`をコピーします。
+
+ココまで終えると、次のような構成になります。
+
+```shell-session
+vue-wp-project
+.
+~略~
+└─ www/html/wp-content
+```
+
+## Wordpress Themeの作成
+`./www/html/wp-content/themes/`を開き、新たに`sample`という名前でディレクトリを作成して、`header.php`、`footer.php`、`index.php`、`functions.php`、`style.css`の５ファイルを作り、それぞれ下記の通り書き換えていきます。
+
+<Pre label="style.css">
+```css
+/*
+Theme Name: SAMPLE
+Theme URI: 
+Description: 
+Version: 0.1
+*/
+```
+</Pre>
+
+<Pre label="header.php">
+```php
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title><?php echo the_title()?></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="<?php echo get_template_directory_uri()?>/assets/css/app.css" media="screen">
+    <?php wp_head() ?>
+  </head>
+  <body>
+```
+</Pre>
+
+<Pre label="footer.php">
+```php
+    <script src="<?php bloginfo('template_url')?>/assets/js/manifest.js"></script>
+    <script src="<?php bloginfo('template_url')?>/assets/js/vendor.js"></script>
+    <script src="<?php bloginfo('template_url')?>/assets/js/app.js"></script>
+    <?php wp_footer()?>
+  </body>
+</html>
+```
+</Pre>
+
+<Pre label="index.php">
+```php
+<?php get_template_part('header')?>
+  <div id="app"></div>
+<?php get_template_part('footer')?>
+```
+</Pre>
+
+functions.phpに関しては、現状は空のまま進めます。
+
+## webpackの設定ファイル書き換え
+`./config/index.js`内、55行目辺りに記述されているbuildのPaths部分を次のように書き換えます。
+
+```js
+// Paths
+assetsRoot: path.resolve(__dirname, '../www/html/wp-content/themes/sample'),
+assetsSubDirectory: 'assets',
+assetsPublicPath: '/',
+```
+
+さらに、`./build/webpack.prod.conf.js`内、outputに指定されている`.[chunkhash]`
+と、ExtractTextPlugin部分の`.[contenthash]`を削除します。
+
+```js
+  output: {
+    path: config.build.assetsRoot,
+    filename: utils.assetsPath('js/[name].js'),
+    chunkFilename: utils.assetsPath('js/[id].js')
+  },
+
+
+
+    new ExtractTextPlugin({
+      filename: utils.assetsPath('css/[name].css'),
+```
+
+
+ここまで終えたら、下記のコマンドを実行します。
+
+```shell-session
+$ npm install axios -D && npm install vuex -s
+$ npm install
+$ npm run build
+```
+
+## Wordpressのセットアップ
+プロジェクト直下に`docker-compose.yml`を作成します。
+
+<Pre label="docker-compose.yml">
+```yml
+version: "2"
+services:
+  wordpress:
+    image: wordpress:4.9-php5.6
+    ports:
+      - 6001:80
+    volumes:
+      - ./www/html/wp-content:/var/www/html/wp-content
+    links:
+      - mysql
+    environment:
+      WORDPRESS_DB_HOST: "mysql:3306"
+      WORDPRESS_DB_NAME: vue-wp-project
+      WORDPRESS_DB_USER: vwp_user
+      WORDPRESS_DB_PASSWORD: testtest
+  mysql:
+    image: mysql:5.7
+    ports:
+      - 3306:3306
+    volumes:
+      - db-data:/var/lib/mysql
+    working_dir: /var/sql
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_DATABASE: vue-wp-project
+      MYSQL_USER: vwp_user
+      MYSQL_PASSWORD: testtest
+volumes:
+    db-data:
+      driver: local
+```
+</Pre>
+
+続けて、次のコマンドを実行します。
+
+```shell-session
+$ docker-machine create --driver virtualbox vue-wp-project
+$ eval $(docker-machine env vue-wp-project)
+$ docker-compose up -d
+```
+
+ここまで来るとブラウザから http://192.168.99.100:6001 にアクセスすると、次の画面が出るはずです。
+
+![wordpress_setup_.png](/media/2024/11/wordpress_setup_.png)
+
+必要な項目を入力し、Install完了後、DashboardのAppearance > Themes
+に先ほど作成したテーマの「SAMPLE」が表示されているかと思いますので、「Activate」します。（項目内容に特に指定はありません）
+
+![select_themes.png](/media/2024/11/select_themes.png)
+
+
+再度 http://192.168.99.100:6001 にアクセスすると、スクショのような画面になっているかと思います。
+
+![hello_world.png](/media/2024/11/hello_world.png)
+
+
+ここまでで、環境構築は終了です。
+
+storeの作成
+ここからやっとVue.jsに移ります。まずは、記事取得用の処理の作成です。
+
+`./src`以下にstoreディレクトリを作成して、`index.js`を作成、
+さらに`store`ディレクトリ内に`modules`ディレクトリを作成して、`posts.js`を作成します。
+
+各ファイルの中身はそれぞれ下記のようにします。
+
+<Pre label="./src/store/index.js">
+```js
+import Vue from 'vue';
+import Vuex from 'vuex';
+
+import modulePosts from './modules/posts';
+
+Vue.use(Vuex);
+
+export default new Vuex.Store({
+  modules: {
+    posts: modulePosts,
+  },
+});
+```
+</Pre>
+
+`posts.js`側では、actionsにfetchPostsという処理を書き、dispatch時にWP REST APIの`/posts`エンドポイントで記事を取得して、stateのpostsへ保存するようにします。
+
+<Pre label="./src/store/modules/posts.js">
+```js
+import axios from 'axios'
+
+const api = axios.create({
+  baseURL: 'http://192.168.99.100:6001/wp-json/wp/v2'
+});
+
+const stateObject = {
+  posts: []
+};
+
+const getters = {
+  posts(state) {
+    return state.posts
+  }
+};
+
+const mutations = {
+  SAVE_POSTS(state, posts) {
+    state.posts = posts
+  }
+};
+
+const actions = {
+  'fetchPosts': ({ state, commit }, id) => {
+    const _id = id ? `/${id}` : '';
+
+    return api.get(`/posts${_id}`).then(res => {
+      commit('SAVE_POSTS', res.data);
+    });
+  }
+};
+
+export default {
+  namespaced: true,
+  state: stateObject,
+  getters,
+  mutations,
+  actions,
+};
+```
+</Pre>
+
+## main.jsにstoreを追記
+`./src/main.js`にstoreを追記し、コンポーネントから取得できるようにします。
+
+<Pre label="main.js">
+```js
+// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import Vue from 'vue'
+import App from './App'
+import router from './router'
+import store from './store'
+
+Vue.config.productionTip = false
+
+new Vue({
+  router,
+  store,
+  render: h => h(App)
+}).$mount('#app')
+```
+</Pre>
+
+## 記事表示用コンポーネントの作成
+記事一覧、記事詳細を表示するためのコンポーネントを、`./src/components`以下に作成します。
+
+<Pre label="list.vue">
+```js
+<template>
+  <div>
+    <h1>記事一覧</h1>
+    <div v-for="post in posts" :key="post.id">
+      <router-link :to="`/article/${ post.id }`">{{ post.slug }}</router-link>
+    </div>
+  </div>
+</template>
+
+<script>
+import { mapGetters } from 'vuex';
+
+export default {
+  name: 'list',
+  data () {
+    return {
+    }
+  },
+  computed: {
+    ...mapGetters({
+      'posts': 'posts/posts'
+    })
+  },
+  methods: {
+  }
+}
+</script>
+```
+</Pre>
+
+<Pre label="article.vue">
+```js
+<template>
+  <article>
+    <h2>{{ posts.title.rendered }}</h2>
+    <div v-html="posts.content.rendered"></div>
+  </article>
+</template>
+
+<script>
+import { mapGetters } from 'vuex';
+
+export default {
+  name: 'article',
+  data () {
+    return {
+    }
+  },
+  computed: {
+    ...mapGetters({
+      'posts': 'posts/posts'
+    })
+  },
+}
+</script>
+```
+</Pre>
+
+## vue-routerの調整
+`./src/router/index.js`のルートレコードを下記の通り調整します。
+各記事コンポーネントの切り替え前にはfetchPostsをdispatchするようにしています。
+
+<Pre label="./src/router/index.js">
+```js
+import Vue from 'vue'
+import Router from 'vue-router'
+import Store from '@/store'
+
+import List from '@/components/list'
+import Article from '@/components/article'
+
+Vue.use(Router)
+
+export default new Router({
+  mode: 'history',
+  base: '/',
+  routes: [
+    {
+      path: '/',
+      name: 'list',
+      component: List,
+      beforeEnter: (to, from, next) => {
+        Store.dispatch('posts/fetchPosts')
+          .then(() => { next() })
+      }
+    },
+    {
+      path: '/article/:id',
+      name: 'article',
+      component: Article,
+      beforeEnter: (to, from, next) => {
+        const id = to.params['id'];
+        Store.dispatch('posts/fetchPosts', id)
+          .then(() => { next() })
+      }
+    }
+  ]
+})
+```
+</Pre>
+
+## 確認〜Wordpressへ展開
+ここまで終えたら、`$ npm run dev`を実行し、http://localhost:8080 を確認します。
+すると、以下のような画面が出ているかと思います。
+
+![wp_list.png](/media/2024/11/wp_list.png)
+
+hello-worldのリンクをクリックして、スクショのように記事本文が表示されればOKです。
+
+![wp_article.png](/media/2024/11/wp_article.png)
+
+
+最後に、`$ npm run build`でビルドし、Theme側に展開されたら http://192.168.99.100:6001/
+ へアクセスしてWordpress上でも動作している事が確認できれば、成功です。
+
+![wp_build.png](/media/2024/11/wp_build.png)
+
+
+## 非公開記事のプレビュー対応
+Dashboardを開き、「Settings > Permalinks」で、Common Settingsを「Custom Structure」に変更し、設定を`article/%post_id%/`に書き換えてください。
+
+![settings.png](/media/2024/11/settings.png)
+
+
+さらに、Postsから「HelloWorld」の記事を一旦、「Private」に変更してみます。
+
+![private.png](/media/2024/11/private.png)
+
+
+この状態でHello worldをプレビューすると、次のスクショのように、403（閲覧禁止）が返ってきているかと思います。
+
+![403.png](/media/2024/11/403.png)
+
+
+これは、ログインユーザーであるか認証されるためですが、ログインしていても表示されない理由としては、WordpressではCSRF対策のため、"nonce"という一時的なトークンを都度生成しており、現状nonceが、axiosのリクエストヘッダに含まれていない為です。
+
+js側で動的に生成されたnonceを受け取るには、環境構築時の手順で作成していたfunctions.phpに、次のコードを書き込みます。
+
+これで、wp_create_nonceで生成したWP REST API用のnonceを、app.jsが取得できるようになります。
+
+<Pre label="functions.php">
+```php
+<?php
+wp_enqueue_script( 'app', get_template_directory_uri() . '/assets/js/app.js', array(), false, true );
+wp_localize_script( 'app', 'WP_API_Settings', array(
+    'root' => esc_url_raw( rest_url() ),
+    'nonce' => wp_create_nonce( 'wp_rest' )
+) );
+```
+</Pre>
+
+この段階で、footer.phpに書いていたapp.jsはコメントアウトしておきます。
+
+<Pre label="footer.php">
+```php
+    <script src="<?php bloginfo('template_url')?>/assets/js/manifest.js"></script>
+    <script src="<?php bloginfo('template_url')?>/assets/js/vendor.js"></script>
+    <!--script src="<?php bloginfo('template_url')?>/assets/js/app.js"></script-->
+    <?php wp_footer()?>
+  </body>
+</html>
+```
+</Pre>
+
+最後に、`./src/store/modules/posts.js` の、axios.createしている部分を次のように書き換えれば完了です。
+
+<Pre label="./src/store/modules/posts.js">
+```js
+const api = axios.create({
+  baseURL: 'http://192.168.99.100:6001/wp-json/wp/v2',
+  headers: { 'X-WP-Nonce': window.WP_API_Settings.nonce }
+});
+```
+</Pre>
+
+ここまで終えたら、再度npm run buildを行い、http://192.168.99.100:6001/article/1/
+ にアクセスすると、非公開の記事が表示されているはずです。
+
+![nonce.jpg](/media/2024/11/nonce.jpg)
+
+
+## 最後に
+ここまで読んで頂き、ありがとうございました！
+私自身、Vue.jsについて正しく理解できていない点がまだまだあり、学習せねばといった感じですが、もしこの記事が何かの足がかりにでもなれば幸いです。

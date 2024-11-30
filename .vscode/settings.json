@@ -3,5 +3,7 @@
     "./.vscode/custom.css.json"
   ],
   "[markdown]": {
+  },
+  "[mdx]": {
   }
 }

@@ -1,1 +1,11 @@
 @import 'prismjs/themes/prism-tomorrow.css';
+
+.codeblock {
+  pre, code {
+    &[class*="language-"] {
+      display: block;
+      margin-top: 0;
+      padding-top: 2em;
+    }
+  }
+}

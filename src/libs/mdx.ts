@@ -12,6 +12,7 @@ import rehypeKatex from 'rehype-katex'
 import rehypeCitation from 'rehype-citation'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypePrismPlus from 'rehype-prism-plus'
+// import rehypeLabelPlugin from '@/plugins/rehypeLabel';
 import { s } from 'hastscript'
 import { AiOutlineLink } from 'react-icons/ai'
 import { root } from '@/utils/files'
@@ -92,6 +93,7 @@ export async function getFileBySlug<T extends 'pages' | 'blog'>(type: T, slug: s
             content: icon,
           },
         ],
+        // [rehypeLabelPlugin],
         [rehypePrismPlus, { ignoreMissing: true }],
         [rehypeKatex, { throwOnError: true, strict: true }],
         [rehypeCitation, { path: path.join(root, 'data') }],
