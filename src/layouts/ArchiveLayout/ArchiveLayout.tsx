@@ -45,12 +45,12 @@ const ArchiveLayout = ({ initialDisplayPosts = [], pagination, posts, title }: A
               />
             </div>
 
-            <ul className="md:flex md:flex-wrap md:gap-[30px]">
+            <ul className="flex md:flex-wrap md:gap-[30px] sm:flex-col sm:gap-[20px]">
               {displayPosts.map((post) => (
                 <li key={post.slug} className="md:w-[calc(50%-15px)]">
-                  <article className="">
+                  <div className="flex h-full">
                     <Card {...post} />
-                  </article>
+                  </div>
                 </li>
               ))}
             </ul>

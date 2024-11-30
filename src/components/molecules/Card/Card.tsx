@@ -9,7 +9,7 @@ export type CardProps = PostFrontMatter & {}
 
 const Card = ({ slug, title, date, tags, origin, url }: CardProps) => {
   return (
-    <article className="rounded-md bg-white shadow-theme px-[25px] py-[16px]">
+    <article className="flex flex-col w-full rounded-md bg-white shadow-theme px-[25px] py-[16px]">
       <div className="mb-[5px]">
         <BadgeOrigin name={origin} />
       </div>
@@ -21,7 +21,7 @@ const Card = ({ slug, title, date, tags, origin, url }: CardProps) => {
       <div className="mb-[7px]">
         <ListTag tags={tags} />
       </div>
-      <div>
+      <div className="mt-auto">
         <ListMeta date={date} />
       </div>
     </article>
