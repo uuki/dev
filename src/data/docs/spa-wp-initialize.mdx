@@ -1,0 +1,222 @@
+---
+title: Vue.js + WPなSPAで初回リクエスト数を減らす機構を作ってみた
+slug: spa-wp-initialize
+description: SPAでREST APIと連携する際、表示速度の懸念や、リクエスト数（特に初回アクセス）が増えがちになり辛い事があるかと思います。対応策としてはServer-Side Rendering（SSR）やPrerenderingがありますが、
+author: ""
+date: 2018-05-28T03:00:15.000Z
+lastmod: 2024-11-30T11:43:34.696Z
+draft: false
+tags:
+  - Vue
+  - WordPress
+  - SPA
+  - Performance
+image: ""
+media: ""
+---
+
+<Note type="warn">注意<br />この記事は最終更新日から5年以上が経過しています。</Note>
+
+---
+
+## はじめに
+
+SPAでREST APIと連携する際、表示速度の懸念や、リクエスト数（特に初回アクセス）が
+増えがちになり辛い事があるかと思います。
+
+対応策としてはServer-Side Rendering（SSR）やPrerenderingがありますが、
+前者においてはサーバー側をNode.jsに対応させクライアント側の設計も複雑になってくるため、導入するには諸々の条件を揃えなくてはなりません。
+
+そこでサーバーは純粋なApache/Nginxのみで、同一画面で扱う投稿タイプ数などに依存せず、極力簡単に導入できる方法で、リクエスト数を減らせないかと思い調整してみました。
+
+やっている事としてはシンプルに、WordPressから前もってSPA側でほしい情報を`wp_enqueue_script`を使って一式流してしまうというもので、フレームワークというほどの規模のものではありません。
+
+## 補足
+
+- WordPressとフロントでサーバーを分けている場合は対象外となります
+- WordPress全体の構造や、Vue.js、SPA自体の説明等は記述の対象から外します
+
+## 実装周り
+
+### WordPress側
+
+functions.phpで下記のような関数を作成します。
+引数に**スラッグ**が渡る想定で作り、内部では、スラッグから各情報を取得して結果を返すようにします。
+
+ここでは、関数名は`page_info`としています。
+
+```php
+function page_info( $request = null )
+{
+  $info = [
+    'current'     => \"\",     // 現在ページ
+    'the_id'      => \"\",     // スラッグから判定した投稿ID
+    'is_home'     => false,  // ページタイプ
+    'is_page'     => false,
+    'is_single'   => false,
+    'is_archive'  => false,
+    'is_category' => false,
+    'is_404'      => false,
+    'meta'        => array(), //　スラッグから判定したメタ情報
+    // ...その他、パンくずや、必要に応じて記事データなど
+  ];
+
+  // ...この辺りに、スラッグから判定したページ情報の取得処理を書きます
+
+  return $info;
+}
+```
+
+この関数を初回アクセス用に`wp_enqueue_script`で呼び出すようにしつつ、
+遷移用にWP-REST-APIのエンドポイントとしても定義します。
+
+ここではエンドポイントは`/page-info/(?P<slug>.*)/`としています。
+
+#### wp_enqueue_script（初回アクセス）
+
+```php
+function my_theme_scripts()
+{
+  wp_enqueue_script( 'app', get_template_directory_uri() . '/path/to/app.js', array(), false, false );
+  wp_localize_script( 'app', 'WP_INITIALIZE', page_info() );
+}
+add_action( 'wp_footer', 'my_theme_scripts' );
+```
+
+#### WP-REST-API（遷移）
+
+```php
+register_rest_route( 'wp/v2', '/page-info/(?P<slug>.*)', array(
+  'methods' => 'GET',
+  'callback' => 'api_for_page_info',
+));
+
+function api_for_page_info( WP_REST_Request $request )
+{
+  return rest_ensure_response( page_info( $request ) );
+}
+```
+
+### Vue.js側
+
+VuexのStoreに、下記のように同形のデータを作っておきます。
+
+```javascript
+const stateObject = {
+  data: {
+    current: '',
+    is_home: '',
+    is_page: '',
+    is_single: '',
+    is_archive: '',
+    is_category: '',
+    is_404: '',
+    the_id: '',
+    meta: {
+      title: '',
+      ogp: {
+        'description': '',
+        'og:description': '',
+        'og:title': '',
+        'og:image': '',
+        'og:site_name': '',
+        'og:url': '',
+        'twitter:title': '',
+        'twitter:description': '',
+        'twitter:url': '',
+        'twitter:image': ''
+      }
+    }
+  },
+};
+
+const getters = {
+  getInfo: state => data => {
+    return state.data;
+  },
+};
+
+const mutations = {
+  SAVE_INFO(state, data) {
+    state.data = Object.assign(state.data, data)
+  },
+};
+
+const actions = {
+  async ['fetchInfo']({ commit, state }, slug) {
+
+    const result = await api.fetchInfo(slug);
+    commit('SAVE_INFO', result);
+  },
+};
+
+export default {
+  namespaced: true,
+  state: stateObject,
+  getters,
+  mutations,
+  actions,
+};
+```
+
+また、Router周りの処理で、遷移時グローバルガードなどで毎回`/page-info/(?P<slug>.*)`を叩きに行くように設定してやり、Storeを常に最新の情報で同期します。
+
+```javascript
+...
+
+async function beforeEachHandler(to, from, next) {
+
+  // 初回アクセス時のみwindowのデータでStoreを同期
+  if(WP_INITIALIZE) {
+    store.commit('route/SAVE_INFO', Object.assign({}, WP_INITIALIZE));
+    window.WP_INITIALIZE = undefined;
+  }
+
+  if(to.path !== from.path) {
+    const pagePath = to.path.replace(/^\\//, '');
+    await store.dispatch('route/fetchInfo', pagePath);
+  }
+
+  next();
+}
+
+const router = new VueRouter({
+  mode: 'history',
+  base: '/',
+  routes,
+  scrollBehavior: (to, from, savedPosition) => {
+    return !savedPosition ? { x: 0, y: 0 } : savedPosition;
+  },
+})
+
+router.beforeEach(beforeEachHandler);
+
+export default router;
+```
+
+## 実際の挙動
+
+前述の実装を行うと、初回アクセス時にクライアント側から特に何もリクエストしない状態で既に`window.WP_INITIALIZE`に動的なデータが返されている形になりますので、実行フローがざっくり下記のように変化します。
+
+### 実装前
+
+アクセス -> WordPress -> Vuejs -> **動的データのリクエスト** -> 表示
+
+### 実装後
+
+アクセス -> WordPress -> Vuejs -> 表示
+
+URLを叩いた段階でWordPress側では動的ページが処理されているため、再度クライアントから記事データなどを取るのは二度手間で、WordPress側で予め、アクセスを受けたページの表示に必要な動的データを`wp_enqueue_script`でクライアントに渡してやる事でVue.js側はVuexに同期するなりして、表示する際はgettersから呼び出すだけになります。
+
+このようにするとVue.jsが実行されたタイミングで既にページタイプなどの情報が特定出来ているため、
+追加で投稿をリクエストする場合も、エンドポイント（`/wp-json/wp/v2/pages/`、`/wp-json/wp/v2/posts/`等）の判断がしやすくなりますし、NotFoundのルーティングが捌きやすいといったメリットもあります。
+
+それ、Prerenderingでいいのでは？については、静的な内容が多いのであればその方が良いのではないかと思います。
+ただもし更新頻度の高いコンテンツや、ログインが必要なコンテンツが含まれる場合は、比較的簡単にリクエスト数をいくらか削減できるのではないかと思います。
+
+## 終わりに
+
+こういった環境下でのリクエスト削減方法は別に適切な実装があるのではとも思ったのですが、クライアント側の取り回しはいくらかしやすくなるので、何らかの参考になれば幸いです。
+また、この辺りを見ているとレスポンスデータ自体も調整できると良いと思うのですが、GraphQLを使った実装ができれば柔軟な対応ができそうな気がするので、また調べてみたいと思います。
+
+以上、最後までお読み頂きありがとうございました。

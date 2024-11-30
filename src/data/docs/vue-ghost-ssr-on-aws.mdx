@@ -1,0 +1,118 @@
+---
+title: Vue.js+Ghost APIでSPA構築、AWS LambdaでSSR対応したメモ
+slug: vue-ghost-ssr-on-aws
+description: 「技術ブログはじめました」で冒頭に書いていた構成についての記事です。LambdaでSSRする方法は既に記事が複数公開されていますが、今回構築するにあたりハマった点など含め、備忘録として書き残しておきます。
+author: ""
+date: 2017-12-14T19:57:21.000Z
+lastmod: 2024-11-30T10:46:24.609Z
+draft: false
+tags:
+  - Serverless
+  - AWS
+  - Vue
+  - Ghost
+image: ""
+media: ""
+---
+
+<Note type="warn">注意<br />この記事は2017年に執筆したものです。<br />
+現在のブログは、本文中の技術スタックとは異なる構成であること、内容が古くなっていることにご注意ください</Note>
+
+<Pre embed="twitter">
+941397327570378752
+</Pre>
+
+---
+
+先日の[技術ブログはじめました](https://uuki.dev/blog/start)で冒頭に書いていた構成についての記事です。
+
+今回構築するにあたりハマった点など含め、備忘録として書き残しておきます。
+
+## アーキテクチャ
+
+![diagram](/media/2017/12/diagram.jpg)
+
+## その他、使っているサービス
+
+- AWS Certificate Manager（ACM）
+- CloudWatch
+
+## 各サービスの役割
+
+### Route 53
+
+- お名前.comで取得したドメインでホストゾーンを作成
+- EC2（EIP）、S3にAレコードを設定し、DNSサービスとして使用
+
+※ Route 53でドメイン購入も可能
+
+### S3
+
+- CSS／JS／Image／Fontをアップロード、静的ファイルのホスティングに使用。
+
+### Lambda
+
+- ExpressでSSR用のLambda関数を作成。
+
+### API Gateway
+
+- APIを作成し、GETに対してLambda関数を紐付け。
+
+### CloudFront
+
+- ディストリビューション作成し、オリジンにS3、API Gatewayのエンドポイントを登録。
+
+### EC2
+
+- Nginx、MySQL、Ghostを立ててCMSのサーバーとして使用。
+
+### CloudWatch
+
+Lambdaは関数の初回実行時にコンテナを作成し、しばらく使われない場合は自動的に削除する仕組みになっているようで、コンテナ作成には時間がかかるため、不定期に表示が遅くなるといった問題がありました。
+
+この回避策として、CloudWatchの「ルール」を使い、一定時間ごとに関数を実行しておく事で、コンテナを削除させず再利用する形にしています。
+
+## 開発・運用
+
+### フロント
+
+コンパイル環境など整っていて使いやすい、「doabit/vue-ssr-starter-kit」をベースとして使わせて頂きました。
+
+ローカル上でのLambdaの再現には、「AWS SAM Local」という公式が出しているツールを使って、ローカルにAPI Gatewayを立てて、確認しています。
+手元の環境で実際のLambdaの挙動を再現でき、使用メモリ、起動時間も表示されるため、都度デプロイする事なく手軽に確認が行なえます。
+
+### サーバー（EC2）
+
+Ansibleで構築して、スクラップ＆ビルドがしやすいようにしています。
+
+### デプロイ
+
+「ServerlessFramework」を使っていて、S3へのリソースアップとLambda関数のアップデートが<br />
+`$ sls deploy` のみで行えるようになっています。
+
+## ハマった点
+
+### ACMで「東京」リージョンを選んでSSL証明書を発行するとCloudFrontで使えない
+
+私が構築した時点では、「バージニア北部」で発行する必要がありました。
+
+### NginxのCORSの設定
+
+初歩的な事かと思いますが、add_headerを行う前の$http_originの判定に、API Gatewayのエンドポイントを設定する必要があり、そこに気づかずしばらくハマってしまいました。
+
+## 終わりに
+
+AWSは初めて触ったのでハマりどころは色々とあったものの、ちょっとした設定ファイルと管理画面の操作だけでこのような環境が作れる事に感動しました。
+
+ただ、EC2を使った構成にしているため１２ヶ月後からは維持費がそこそこかかってしまう見込みで、短期的な運用になりそうです。
+まだ先にはなりますが、Netlify + Netlify CMSのGithub運用にも興味があるので、折を見て試してみたいなと思っています。
+
+## 参考リンク
+
+- [Vue.js で Serverless の SSR SPA を構築する](https://qiita.com/mikakane/items/5d26431c641bbe6f2325)
+- [AWS 謹製 aws-serverless-express を使って APIGateway + Lambda + Node + Express で RESTful サービスの雛形を最速で作る](https://qiita.com/exabugs/items/594d3cd417e99dc29387)
+- [AWS Lambda: 仕組み](http://docs.aws.amazon.com/ja_jp/lambda/latest/dg/lambda-introduction.html)
+- [Vue.js サーバサイドレンダリングガイド](https://ssr.vuejs.org/ja/)
+- [doabit/vue-ssr-starter-kit](https://github.com/doabit/vue-ssr-starter-kit)
+- [awslabs/aws-serverless-express](https://github.com/awslabs/aws-serverless-express)
+- [awslabs/aws-sam-local](https://github.com/awslabs/aws-sam-local)

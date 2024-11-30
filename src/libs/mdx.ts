@@ -4,6 +4,8 @@ import path from 'path'
 import matter from 'gray-matter'
 import { bundleMDX } from 'mdx-bundler'
 import readingTime, { ReadTimeResults } from 'reading-time'
+import Prism from 'prismjs';
+import { differenceInYears, parseISO } from 'date-fns'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
 import externalLinks from 'remark-external-links'
@@ -103,6 +105,14 @@ export async function getFileBySlug<T extends 'pages' | 'blog'>(type: T, slug: s
     },
   })
 
+  const postDate: Date = new Date(frontmatter.date);
+  const currentDate = new Date();
+  const isLegacy = differenceInYears(currentDate, postDate) > 5;
+  let updatedCode = code;
+
+  if (isLegacy) {
+  }
+
   const data: {
     frontMatter: PostFrontMatter & {
       date: string
@@ -116,10 +126,10 @@ export async function getFileBySlug<T extends 'pages' | 'blog'>(type: T, slug: s
       ...frontmatter,
       date: frontmatter.date ? safeDateString(frontmatter.date) : '',
       fileName: path.basename(filePath),
-      readingTime: readingTime(code),
+      readingTime: readingTime(updatedCode),
       slug: slug || path.basename(filePath),
     },
-    mdxSource: code,
+    mdxSource: updatedCode,
   }
   return data
 }

@@ -1,0 +1,36 @@
+---
+title: aws-samをv0.2系からv0.3系〜にしてエラーが出る場合の対応
+slug: aws-sam-local-migrate
+description: ""
+author: ""
+date: 2018-09-30T12:28:04.000Z
+lastmod: 2024-11-30T12:00:45.501Z
+draft: false
+tags:
+  - aws-sam
+  - AWS
+image: ""
+media: ""
+---
+
+<Note type="warn">注意<br />この記事は最終更新日から5年以上が経過しています。</Note>
+
+---
+
+aws-sam-localをaws-sam-cliにアップデート後、
+template.ymlのSyntaxが変わっており、書き方次第では実行時エラーが発生します。
+
+## FunctionNameにまつわるエラーが出る場合
+
+ResourcesのFunctionNameに「-」等が混ざってはいけません
+
+## Plugin 'ImplicitApiPlugin' raised an exception: 'Path'
+
+Events内Propertiesの記法の問題です。<br />
+下記の通り修正します。
+
+- path -> Path
+- method -> Method
+
+Pythonのバージョン関係のエラーが出ている場合は、
+2.7.x系 or 3.6にしてください。（公式リポジトリのサポートより）

@@ -1,10 +1,10 @@
 ---
 title: "Vue.js＋WP REST API ハンズオン【Vue.js #3 Advent Calendar 2017】"
 slug: vue-wprestapi-hands-on
-description: ""
+description: "Vue.js #3 Advent Calendar 2017 - Qiita、12日目の記事です。この記事では、Vue.jsとWP REST APIを連携して、簡単な記事表示〜非公開記事をプレビューするまでの手順を、できるだけシンプルにハンズオン形式で書いていこうと思います。"
 author: ""
 date: 2017-12-09T02:54:10.000Z
-lastmod: 2024-11-30T08:00:50.216Z
+lastmod: 2024-11-30T10:34:15.423Z
 draft: false
 tags:
   - Vue2
@@ -13,7 +13,7 @@ image: ""
 media: ""
 ---
 
-<Note type="warn">注意この記事は2017年に執筆したものです。<br />
+<Note type="warn">注意<br />この記事は2017年に執筆したものです。<br />
 ドメイン変更により、Advent Calendarへ登録していた記事がリンク切れとなったため移植しました。ライブラリや関連する情報が古くなっていますので、追記をご確認ください🙏</Note>
 
 <Pre embed="twitter">
@@ -254,17 +254,17 @@ $ docker-compose up -d
 
 ここまで来るとブラウザから http://192.168.99.100:6001 にアクセスすると、次の画面が出るはずです。
 
-![wordpress_setup_.png](/media/2024/11/wordpress_setup_.png)
+![wordpress_setup_.png](/media/2017/12/wordpress_setup_.png)
 
 必要な項目を入力し、Install完了後、DashboardのAppearance > Themes
 に先ほど作成したテーマの「SAMPLE」が表示されているかと思いますので、「Activate」します。（項目内容に特に指定はありません）
 
-![select_themes.png](/media/2024/11/select_themes.png)
+![select_themes.png](/media/2017/12/select_themes.png)
 
 
 再度 http://192.168.99.100:6001 にアクセスすると、スクショのような画面になっているかと思います。
 
-![hello_world.png](/media/2024/11/hello_world.png)
+![hello_world.png](/media/2017/12/hello_world.png)
 
 
 ここまでで、環境構築は終了です。
@@ -472,33 +472,33 @@ export default new Router({
 ここまで終えたら、`$ npm run dev`を実行し、http://localhost:8080 を確認します。
 すると、以下のような画面が出ているかと思います。
 
-![wp_list.png](/media/2024/11/wp_list.png)
+![wp_list.png](/media/2017/12/wp_list.png)
 
 hello-worldのリンクをクリックして、スクショのように記事本文が表示されればOKです。
 
-![wp_article.png](/media/2024/11/wp_article.png)
+![wp_article.png](/media/2017/12/wp_article.png)
 
 
 最後に、`$ npm run build`でビルドし、Theme側に展開されたら http://192.168.99.100:6001/
  へアクセスしてWordpress上でも動作している事が確認できれば、成功です。
 
-![wp_build.png](/media/2024/11/wp_build.png)
+![wp_build.png](/media/2017/12/wp_build.png)
 
 
 ## 非公開記事のプレビュー対応
 Dashboardを開き、「Settings > Permalinks」で、Common Settingsを「Custom Structure」に変更し、設定を`article/%post_id%/`に書き換えてください。
 
-![settings.png](/media/2024/11/settings.png)
+![settings.png](/media/2017/12/settings.png)
 
 
 さらに、Postsから「HelloWorld」の記事を一旦、「Private」に変更してみます。
 
-![private.png](/media/2024/11/private.png)
+![private.png](/media/2017/12/private.png)
 
 
 この状態でHello worldをプレビューすると、次のスクショのように、403（閲覧禁止）が返ってきているかと思います。
 
-![403.png](/media/2024/11/403.png)
+![403.png](/media/2017/12/403.png)
 
 
 これは、ログインユーザーであるか認証されるためですが、ログインしていても表示されない理由としては、WordpressではCSRF対策のため、"nonce"という一時的なトークンを都度生成しており、現状nonceが、axiosのリクエストヘッダに含まれていない為です。
@@ -545,7 +545,7 @@ const api = axios.create({
 ここまで終えたら、再度npm run buildを行い、http://192.168.99.100:6001/article/1/
  にアクセスすると、非公開の記事が表示されているはずです。
 
-![nonce.jpg](/media/2024/11/nonce.jpg)
+![nonce.jpg](/media/2017/12/nonce.jpg)
 
 
 ## 最後に

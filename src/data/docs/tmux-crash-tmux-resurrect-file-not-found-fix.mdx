@@ -1,0 +1,27 @@
+---
+title: tmuxがクラッシュした後、tmux resurrect file not found!な状態になった場合の対処
+slug: tmux-crash-tmux-resurrect-file-not-found-fix
+description: ""
+author: ""
+date: 2018-06-27T06:47:09.000Z
+lastmod: 2024-11-30T11:45:07.224Z
+draft: false
+tags:
+  - tmux
+  - tmux-resurrect
+image: ""
+media: ""
+---
+
+<Note type="warn">注意<br />この記事は最終更新日から5年以上が経過しています。</Note>
+
+---
+
+tmux-resurrectが入っている環境でtmuxがクラッシュした時、レジューム用のファイル（`~/.tmux/resurrect/last`）が正常に保存されない事があるようで、復元しようとした所、タイトルのようなエラーが出ました。
+
+このような場合、`last`に対し既存のセッションファイルを手動でリンクし直してやる事で、解決できました。
+
+```bash
+$ cd ~/.tmux/resurrect
+$ ln -sf tmux_resurrect_YYYY-MM-DDTHH:MM:SS.txt last
+```

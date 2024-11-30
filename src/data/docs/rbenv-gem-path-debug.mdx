@@ -1,0 +1,125 @@
+---
+title: 久々にgem installしたらgemにPATHが通らなくなっていてハマった
+slug: rbenv-gem-path-debug
+description: ""
+author: ""
+date: 2017-12-27T03:53:34.000Z
+lastmod: 2024-11-30T11:26:23.985Z
+draft: false
+tags:
+  - rbenv
+  - gem
+image: ""
+media: ""
+---
+
+<Note type="warn">注意<br />この記事は最終更新日から5年以上が経過しています。</Note>
+
+---
+
+ほぼほぼ自分用の備忘録です。
+
+`$ gem install capistrano`した所、
+
+```bash
+$ cap --version
+zsh: command not found: cap
+```
+
+といった感じになったので原因を探る。<br />
+とりあえず、下記のコマンドで現状のPATH確認から。
+
+```bash
+$ gem environment
+RubyGems Environment:
+  ~~~
+  - SHELL PATH:
+     - /Users/uuki/.phpenv/libexec
+     - /Users/uuki/.nvm/versions/node/v6.11.0/bin
+     - /Users/uuki/.phpenv/shims
+     - /Users/uuki/.phpenv/bin
+     - /Users/uuki/.homebrew/bin
+     - /Users/uuki/.homebrew/sbin
+     - /Users/uuki/opt/ImageMagick-6.9.3/bin
+     - /Users/uuki/local/bin
+     - /usr/local/var/rbenv/shims
+     - /usr/local/bin
+     - /usr/local/sbin
+     - /usr/bin
+     - /bin
+     - /usr/sbin
+     - /sbin
+     - /opt/X11/bin
+     - /usr/local/git/bin
+     - /Library/Frameworks/Mono.framework/Versions/Current/Commands
+     - /usr/local/bin
+```
+
+どうも`~/.phpenv`にPATHが通ってしまっているよう。<br / >
+そういえば、前にインストールして調整が途中になっていたかも。
+
+とりあえずphpenvに関しては現在使っていなかったので、パスを直す前に消すことにする。
+
+```bash
+$ rm -r ~/.phpenv
+```
+
+次に、rubyもしばらくアップデートしていなかったので、<br / >
+rbenvをアップデートしつつ、安定版のv2.4.3をインストールする。
+
+```bash
+$ rbenv -v
+rbenv 1.0.0-33-gc7dcaf1
+
+$ brew upgrade rbenv
+$ rbenv -v
+rbenv 1.1.1
+$ rbenv install 2.4.3
+$ rbenv global 2.4.3
+```
+
+rubyのアップデートまで無事完了。
+
+```bash
+$ ruby -v
+ruby 2.4.1p111 (2017-03-22 revision 58053) [x86_64-darwin15]
+```
+
+念のため、`~/.zshrc` を開いてrbenvの設定が正常か確認。
+
+```bash
+$ vi ~/.zshrc
+```
+
+下記の行があればOK
+
+```bash
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+```
+
+再度、capistranoをインストールしてみる。
+
+```bash
+$ gem install capistrano && rbenv rehash
+WARNING:  You don't have /Users/uuki/bin in your PATH,
+\t  gem executables will not run.
+Successfully installed capistrano-3.10.1
+```
+
+なんかエラー出た。<br / >
+`~/bin`内にPATHが通っていないという事なので、下記のコマンドでPATHを追加して`.zshrc`を再読込する。
+
+```bash
+$ echo 'export PATH="$HOME/bin":$PATH' >> ~/.zshrc
+$ source ~/.zshrc
+```
+
+確認
+
+```bash
+$ cap --version
+Capistrano Version: 3.10.1 (Rake Version: 12.0.0)
+```
+
+無事解決。

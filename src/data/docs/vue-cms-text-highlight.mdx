@@ -1,0 +1,81 @@
+---
+title: Vue.jsでCMSから取得した文字列をシンタックスハイライトする
+slug: vue-cms-text-highlight
+description: 社内でVue.jsでシンタックスハイライトするのってどうしたらいいの、という相談を受け、検索してみると確かにエディタのハイライト方法などが優先的に出てくるようだったので、タイトルのようなケースの実装を記事にしてみます。
+author: ""
+date: 2018-09-27T02:08:51.000Z
+lastmod: 2024-11-30T11:52:16.307Z
+draft: false
+tags:
+  - prismjs
+  - syntax-highlight
+image: ""
+media: ""
+---
+
+<Note type="warn">注意<br />この記事は最終更新日から5年以上が経過しています。</Note>
+
+---
+
+社内でVue.jsでシンタックスハイライトするのってどうしたらいいの、という相談を受け、検索してみると確かにエディタのハイライト方法などが優先的に出てくるようだったので、タイトルのようなケースの実装を記事にしてみます。
+
+使用するライブラリですが、以前Stack OverflowかGithubで、「**Prism.js**を使うといいよ」みたいな情報を見かけて試したところ使いやすかったので、私はPrism.jsを使っています。
+
+まず、npmからprismjsを追加します。
+
+```bash
+$ yarn add -D prismjs
+or
+$ npm i -D prismjs
+```
+
+次に、記事表示用のコンポーネントで、`mounted`か任意の場所でPrismを実行します。
+もしSSRしている場合は、`process.env`などで判定して、クライアント側でのみ処理してください。
+
+※ CMSからAPI経由でコンテンツ取得〜文字列の表示処理など細かい点は省きます。
+
+```javascript
+<script>
+  import Prism from 'prism'
+  import 'prism/components/prism-python'
+
+  export default {
+    name: 'article',
+    ~~~
+    mounted() {
+      Prism.highlightAll()
+    }
+  }
+</script
+```
+
+最後に公式サイトからお好みのthemeのstyleをダウンロードして任意の方法で読み込んでください。
+
+<a href="https://prismjs.com/download.html" target="_blank">https://prismjs.com/download.html</a>
+
+これで基本的な実装はできましたので、
+CMS側の記事作成で、シンタックスハイライトしたい箇所を下記の様に記述すれば反映されるはずです。
+
+Wordpressであればタグ部分のショートコードを作ると楽に運用できるかと思います。
+
+```markup
+<pre>
+  <code class="language-[言語名]">
+    // 何らかのコード
+  </code>
+</pre>
+```
+
+もし対応言語を増やす場合は、<a href="https://github.com/PrismJS/prism/tree/master/components" target="_blank">components配下のパターン</a>を追加で読み込むだけで対応できます。
+
+```javascript
+import 'prism/components/prism-python'
+import 'prism/components/prism-go'
+...
+```
+
+ちなみに、`Prism.languages['markup-templating'].buildPlaceholders()`がうんたら〜というエラーが出る場合、依存関係のある言語ファイルが読み込まれていない可能性が高いです。
+
+例えば、`prism-php`や`prism-handlebars`は、`markup-templating`が依存しているため、先に読み込んでおく必要があります。
+
+もっと詳しい使い方は<a href="https://prismjs.com/" target="_blank">公式サイト</a>にありますので、ぜひ参照してみてください。
