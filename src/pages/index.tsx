@@ -38,7 +38,7 @@ export default function Home({ posts }: Props) {
   }
 
   const items = (
-    <ul className="mb-[75]">
+    <ul>
       {list.map((prop, i) => (
         <li key={prop.slug + i} className="mt-[30px] animate-fade-in animate-staggered -per-5">
           <Card {...prop} />
@@ -58,7 +58,7 @@ export default function Home({ posts }: Props) {
             <Hero />
           </div>
           <div className="px-content-narrow">
-            <div className="mb-[75]">
+            <div>
               <ScrollContainer pageStart={1} loadMore={loadMore} items={items} hasMore={hasMore} />
             </div>
             <div className="flex justify-end md:mt-[75px] sm:mt-[36px]">

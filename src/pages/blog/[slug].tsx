@@ -9,13 +9,24 @@ import config from '@/config/meta'
 
 export async function getStaticPaths(context: GetStaticPathsContext) {
   const posts = await getFiles()
+  const filteredPosts = [];
+
+  for (const fileName of posts) {
+    const slug = formatSlug(fileName)
+    const post = await getFileBySlug('blog', slug)
+    const isExternalPost = post?.frontMatter.url
+    if (!isExternalPost) {
+      filteredPosts.push({
+        params: {
+          slug: slug,
+        }
+      })
+    }
+  }
+
   return {
     fallback: false,
-    paths: posts.map((fileName) => ({
-      params: {
-        slug: formatSlug(fileName),
-      },
-    })),
+    paths: filteredPosts,
   }
 }
 

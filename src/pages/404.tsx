@@ -1,10 +1,16 @@
+import { InferGetStaticPropsType, GetStaticPropsContext } from 'next'
 import { Header } from '@/components/organisms/Header'
 import { Footer } from '@/components/organisms/Footer'
 import { PageHeader } from '@/components/atoms/PageHeader'
 import MetaBasic from '@/components/functional/meta/MetaBasic'
 import { Link } from '@/components/atoms/Link'
 
-export default function NotFound() {
+export async function getStaticProps(context: GetStaticPropsContext) {
+  return { props: { page: {} } }
+}
+type Props = InferGetStaticPropsType<typeof getStaticProps>
+
+export default function Custom404({ page }: Props) {
   return (
     <>
       <MetaBasic title="404 Not Found" />

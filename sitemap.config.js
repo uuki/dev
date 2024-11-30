@@ -2,11 +2,11 @@ const { format, parseISO } = require('date-fns')
 
 const EXCLUDES = /^\/(tags\/.*)/
 
-const isIgnorePath = (path) => {
+const isIgnorePath = path => {
   return EXCLUDES.test(path)
 }
 
-const getLastmodByPath = (path) => {
+const getLastmodByPath = path => {
   const data = require(`./.next/server/pages${path.replace(/^\/$/, '/index')}.json`)
   const props = data.pageProps.page || data.pageProps.post
   const frontMatter = props ? props.frontMatter : false
@@ -15,6 +15,7 @@ const getLastmodByPath = (path) => {
   return format(lastMod, 'yyyy-MM-dd')
 }
 
+/** @type {import('next-sitemap').IConfig} */
 module.exports = {
   siteUrl: process.env.NEXT_PUBLIC_META_SITE_URL,
   generateRobotsTxt: true,
@@ -26,7 +27,7 @@ module.exports = {
     }
     return {
       loc: path,
-      lastmod: getLastmodByPath(path),
+      lastmod: getLastmodByPath(path)
     }
-  },
+  }
 }
