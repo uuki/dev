@@ -1,0 +1,64 @@
+---
+title: Lightsailでcpan実行時にハングアップする
+description: ""
+date: 2024-12-16T14:51:46.314Z
+draft: false
+tags:
+  - perl
+  - cpan
+  - lightsail
+origin: ""
+lastmod: 2024-12-17T17:35:15.995Z
+image: ""
+---
+
+## 環境
+
+- ubuntu@24.04 on Lightsail
+
+## 起こったこと
+
+Perlベースのシステム構築時、モジュールインストールのためにcpanを実行すると、
+実行中に必ずハングアップしてしまう事象に遭遇。
+
+latestバージョンのインストールを促されているが、今回そこは関係なし。
+
+```shell-session
+..............
+  New CPAN.pm version (v2.38) available.
+  [Currently running version is v2.36]
+  You might want to try
+    install CPAN
+    reload cpan
+  to both upgrade CPAN.pm and run the new version without leaving
+  the current session.
+
+
+..............................
+```
+
+![hangup.jpg](/media/2024/12/hangup.jpg)
+
+## 原因
+
+シンプルにメモリ不足によるハングアップ。
+問題の切り分けとして、ホスト側のDockerで問題ない事から早めに判断できていれば良かったが、今回のような事象の場合、遭遇率が高そうなため備忘録として。
+
+![ram.jpg](/media/2024/12/ram.jpg)
+
+## やった事
+
+1. 念の為スナップショットを作成
+2. 4GBのスワップ領域を確保
+
+[[Lightsail]メモリ不足でSwapを確保したよ[Amazon Linux]](https://koke.link/wp/?p=728) を参考に対応。
+
+![snapshot.jpg](/media/2024/12/snapshot.jpg)
+
+## 結果
+
+正常終了するようになった。
+
+```shell-session
+echo y | cpan DBI DBD::mysql
+```
