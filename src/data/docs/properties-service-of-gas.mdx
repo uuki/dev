@@ -1,0 +1,267 @@
+---
+title: GASのPropertiesServiceを使ったお手軽外形監視
+slug: properties-service-of-gas
+description: ""
+date: 2025-06-08T04:29:41.583Z
+lastmod: 2025-06-08T04:31:24.707Z
+draft: false
+tags:
+  - GAS
+  - properties-service
+image: ""
+media: ""
+---
+
+Google Apps Scriptで、関数のコンピューティング時以外もサーバー側にデータを永続化する仕組み（PropertiesService）がある事を知り応用の幅が広がったため、備忘録として。
+
+以下は、2025年6月時点での仕様。
+
+## PropertiesServiceとは
+
+- Key-Value ペア形式のシンプルなデータを保存可能
+- 3つのプロパティストレージがあり、スコープが異なる
+- プロパティストレージに保存されたデータはスクリプトが実行終了しても消えない
+- 永続容量制限は約 500KB / 1スクリプト
+
+FYI: [プロパティサービス](https://developers.google.com/apps-script/guides/properties?hl=ja)
+
+## ScriptProperties（スクリプトプロパティ）
+
+```js
+PropertiesService.getScriptProperties();
+```
+
+スコープ（保存先）: スクリプト全体（GASプロジェクト）
+共有範囲: そのスクリプトにアクセス権限を持つ全てのユーザー間で共有
+
+## UserProperties（ユーザープロパティ）
+
+```js
+PropertiesService.getUserProperties();
+```
+
+スコープ: 実行しているユーザー固有
+共有範囲: 同じユーザーのみ（他のユーザーからはアクセス不可）
+
+## DocumentProperties（ドキュメントプロパティ）
+
+```js
+PropertiesService.getDocumentProperties();
+```
+
+スコープ: 特定のドキュメント（スプレッドシート、ドキュメント、スライドなど）
+共有範囲: そのドキュメントにアクセスできる全てのユーザー間で共有
+
+## お手軽な外形監視として使う場合
+
+要件次第では、ちょっとした外形監視をするのに便利な仕組み。
+例えば、特定のURLに定期的にアクセスして、レスポンスが200 OKであることを確認するようなスクリプトを書くことができる。
+
+下記は、検出のためのサンプルコード。
+
+```js
+
+// 監視したいWebサイトのURLリスト
+const TARGET_LIST = [
+  { id: '200_sample', url: 'https://httpstat.us/200' },
+  { id: '400_sample', url: 'https://httpstat.us/400' },
+  { id: '500_sample', url: 'https://httpstat.us/500' }
+]
+
+const CONFIG = {
+  SLACK_WEBHOOK_URL:
+    'https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX',
+  SLACK_CHANNEL: '#channel-name',
+  PROPERTY_KEY_PREFIX: 'WEBSITE_STATUS_',
+  SLOW_RESPONSE_THRESHOLD: 3000
+}
+
+function getPropertyKeyById (id) {
+  const { PROPERTY_KEY_PREFIX } = CONFIG
+  return PROPERTY_KEY_PREFIX + id
+}
+
+/**
+ * ウェブサイトを監視する
+ */
+function monitorWebsites () {
+  // スクリプトプロパティを取得
+  const propertyStore = PropertiesService.getScriptProperties()
+
+  TARGET_LIST.forEach(site => {
+    const statusKey = getPropertyKeyById(site.id)
+    const prevStatus = propertyStore.getProperty(statusKey)
+
+    try {
+      const startTime = Date.now()
+      // GAS組み込みmethodである、UrlFetchApp.fetch を使い、外部のAPIやウェブサイトにHTTP,HTTPSリクエストを送る
+      // @see https://developers.google.com/apps-script/reference/url-fetch/url-fetch-app?hl=ja
+      const response = UrlFetchApp.fetch(site.url, {
+        muteHttpExceptions: true,
+        followRedirects: true,
+        validateHttpsCertificates: true
+      })
+      const endTime = Date.now()
+
+      const responseTime = endTime - startTime
+      const responseCode = response.getResponseCode()
+      const isSuccess = responseCode >= 200 && responseCode < 400
+
+      if (prevStatus === null) {
+        if (!isSuccess) {
+          // Slackに通知するなど
+        }
+        // 現在のステータスを保存
+        propertyStore.setProperty(statusKey, String(isSuccess))
+      } else {
+        const prevIsSuccess = prevStatus === 'true'
+
+        if (prevIsSuccess && !isSuccess) {
+          // ダウンの場合
+          propertyStore.setProperty(statusKey, String(isSuccess))
+        } else if (!prevIsSuccess && isSuccess) {
+          // 復旧した場合
+          propertyStore.setProperty(statusKey, String(isSuccess))
+        }
+      }
+
+      if (isSuccess && responseTime > CONFIG.SLOW_RESPONSE_THRESHOLD) {
+        // 応答が遅い場合
+      }
+    } catch (error) {
+      // エラーが発生した場合
+      if (prevStatus === null || prevStatus !== 'false') {
+        propertyStore.setProperty(statusKey, 'false')
+      }
+    }
+  })
+}
+```
+
+サイトごとに正常に判定が得られている事を検証できたら、任意で通知などの実装を行う。
+
+下記は、Slack通知のサンプルコード。
+
+```js
+function sendSlackNotification (data) {
+  const { SLACK_WEBHOOK_URL, SLACK_CHANNEL } = CONFIG
+  const { site, status, responseCode, responseTime, error } = data
+  const now = new Date()
+
+  const mentionTypes = {
+    channel: '<!channel>',
+    here: '<!here>',
+    everyone: '<!everyone>'
+  }
+  const mentionByStatus = {
+    down: mentionTypes.channel,
+    recovered: mentionTypes.channel,
+    error: mentionTypes.channel
+  }
+  const formattedDate = Utilities.formatDate(
+    now,
+    'Asia/Tokyo',
+    'yyyy-MM-dd HH:mm:ss'
+  )
+  const messages = {
+    down: {
+      text: `*警告* ${site.name} がダウンしています！`,
+      color: 'danger', // 赤
+      emoji: ':x:'
+    },
+    recovered: {
+      text: `*復旧* ${site.name} が復旧しました`,
+      color: 'good', // 緑
+      emoji: ':white_check_mark:'
+    },
+    slow: {
+      text: `*警告* ${site.name} の応答が遅いです`,
+      color: 'warning', // 黄色
+      emoji: ':warning:'
+    },
+    error: {
+      text: `*エラー* ${site.name} の監視中に不明なエラーが発生しました`,
+      color: 'danger', // 赤
+      emoji: ':boom:'
+    }
+  }
+
+  const { text, color, emoji } = messages[status]
+
+  // Slackのメッセージペイロードを作成
+  const payload = {
+    channel: SLACK_CHANNEL,
+    text: mentionByStatus[status] || '',
+    attachments: []
+  }
+
+  const item = {
+    color: color,
+    pretext: `${emoji} ${text}`,
+    title: site.id,
+    title_link: site.url,
+    fields: [
+      {
+        title: 'URL',
+        value: site.url,
+        short: true
+      },
+      {
+        title: 'ステータス',
+        value: status,
+        short: true
+      }
+    ],
+    footer: `監視時刻: ${formattedDate}`
+  }
+
+  // ステータスに応じた追加情報を設定
+  if (status === 'down' || status === 'recovered' || status === 'slow') {
+    item.fields.push(
+      {
+        title: 'レスポンスコード',
+        value: String(responseCode),
+        short: true
+      },
+      {
+        title: '応答時間',
+        value: `${responseTime} ms`,
+        short: true
+      }
+    )
+  } else if (status === 'error') {
+    item.fields.push({
+      title: 'エラー詳細',
+      value: error || '不明なエラー',
+      short: false
+    })
+  }
+
+  // ペイロードにアタッチメントを追加
+  payload.attachments.push(item)
+
+  // SlackのWebhook URLにPOSTリクエストを送信
+  const options = {
+    method: 'post',
+    contentType: 'application/json',
+    payload: JSON.stringify(payload)
+  }
+
+  try {
+    UrlFetchApp.fetch(SLACK_WEBHOOK_URL, options)
+  } catch (error) {
+    Logger.log(`Slack通知の送信に失敗しました: ${error.message}`)
+  }
+}
+```
+
+通知が正常に動くことを確認したら、各判定に応じて通知を送るようにmethodを追加しておく。
+
+```js
+sendSlackNotification({
+  site,
+  status: 'down', // 'down', 'recovered', 'slow', 'error'
+  responseCode,
+  responseTime,
+});
+```

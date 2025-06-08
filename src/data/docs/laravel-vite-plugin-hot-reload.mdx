@@ -1,0 +1,43 @@
+---
+title: laravel-vite-pluginで任意のpublicディレクトリに出力した時のhot reloadの動作について
+slug: laravel-vite-plugin-hot-reload
+description: ""
+date: 2025-03-24T11:24:04.917Z
+lastmod: 2025-06-08T04:30:32.093Z
+draft: false
+tags:
+  - Vite
+  - Laravel
+image: ""
+media: ""
+---
+
+Laravel環境でlaravel-vite-pluginを使った時、buildDirectory を任意のディレクトリに変えた場合、
+hot reload の拾わせ方にお作法があった為、備忘録として。
+
+まず、大きく変わった事をしない構成。
+
+この時、public以下に別のビルドディレクトリをしていると、
+明示的に `hotFile` のpathを定義しても hot reload が動作しなくなる。
+
+<Pre label="vite.config.js">
+```js
+  plugins: [
+    ...,
+    laravel({
+      input: ['src/js/app.ts', 'src/styles/style.scss'],
+      buildDirectory: 'dist',
+      refresh: true,
+      hotFile: path.join(backendPublicPath, 'hot')
+    }),
+  ]
+```
+</Pre>
+
+この事象は、[laravel/framework#42994](https://github.com/laravel/framework/issues/42994) に類似の起票があり、
+見る限り、`@vite` ディレクティブの第2引数として別途、`buildDirectory` を取るようになっているため、
+第1引数の buildDirectory と別で渡すことで、hot reload が機能するようになるといった内容がコメントされていた。
+
+ちなみにこの仕様はドキュメントの、Asset Bundling (Vite)ページ、Installation & Setup内、
+[Loading Your Scripts and Styles](https://laravel.com/docs/12.x/vite#loading-your-scripts-and-styles)に、
+Given build path is relative to public path として、しっかり例が示されている。
