@@ -3,7 +3,7 @@ title: GASのPropertiesServiceを使ったお手軽外形監視
 slug: properties-service-of-gas
 description: ""
 date: 2025-06-08T04:29:41.583Z
-lastmod: 2025-06-08T04:36:17.022Z
+lastmod: 2025-06-08T04:47:52.587Z
 draft: false
 tags:
   - GAS
@@ -265,3 +265,8 @@ sendSlackNotification({
   responseTime,
 });
 ```
+
+## まとめ
+
+外形監視ツールとして使う場合、カジュアルな用途が許容されるケースでは、このように状態管理が必要な処理をPropertiesServiceで実装することで、GASのスクリプト実行時以外でも状態を保持し、簡易的な外形監視などの用途にも活用できる。
+しっかりした監視が必要な場合は、Zabbixなど体系的な監視システムを利用することをお勧めするが、GASのみでも最低限の処理が実現できる点は大きなメリットだと感じた。
