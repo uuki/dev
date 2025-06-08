@@ -1,16 +1,13 @@
 import fs from 'fs'
 import path from 'path'
-// import { type CanvasRenderingContext2D } from 'canvas';
-// import { createCanvas, registerFont, loadImage } from 'canvas';
-// import { fillTextWithTwemoji } from 'node-canvas-with-twemoji'
-import { createCanvas, loadImage } from '@napi-rs/canvas';
+import { createCanvas, loadImage, GlobalFonts } from '@napi-rs/canvas'
 
 const cwd = process.cwd()
 const options = {
   canvasWidth: 600,
   canvasHeight: 315,
   font: {
-    path: '/public/static/fonts/NotoSansJP-Bold.otf',
+    path: '/static/fonts/NotoSansJP-Bold.otf',
     family: 'NotoSansJP',
   },
   text: {
@@ -18,7 +15,7 @@ const options = {
     lineHeight: 42,
     color: '#3a3d3d',
   },
-  baseImagePath: '/public/static/images/og-image.png',
+  baseImagePath: '/static/images/og-image.png',
   textWrap: {
     width: 480,
     maxLine: 6,
@@ -43,32 +40,56 @@ export const generateOgImage = async (title: string): Promise<Buffer> => {
   const { canvasWidth, canvasHeight, font, text, baseImagePath, textWrap } = options
   const canvas = createCanvas(canvasWidth, canvasHeight)
   const ctx = canvas.getContext('2d')
-  const fontFamily = path.join(cwd, font.path)
-  const imagePath = path.join(cwd, baseImagePath)
-  const words = decodeURIComponent(title).split('')
 
-  // const x = canvasWidth / 2
-  // const y = canvasHeight / 2
-  const x = (canvasWidth - textWrap.width) / 2
-  const y = text.lineHeight * 2
+  // フォントファイルの読み込み
+  const fontPath = path.join(cwd, 'public', font.path)
+  if (fs.existsSync(fontPath)) {
+    try {
+      GlobalFonts.registerFromPath(fontPath, font.family)
+    } catch (error) {
+      console.warn('フォントの読み込みに失敗しました:', error)
+    }
+  }
 
-  const image = await loadImage(fs.readFileSync(imagePath))
+  // 背景画像の読み込み
+  const imagePath = path.join(cwd, 'public', baseImagePath)
+  let image: any
 
-  // registerFont(fontFamily, { family: font.family })
+  try {
+    const imageBuffer = fs.readFileSync(imagePath)
+    image = await loadImage(imageBuffer)
+  } catch (error) {
+    console.warn('背景画像の読み込みに失敗しました:', error)
+    // 背景色でフォールバック
+    ctx.fillStyle = '#ffffff'
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight)
+  }
 
-  ctx.drawImage(image, 0, 0, canvasWidth, canvasHeight)
-  ctx.font = `${text.fontSize}px "${font.family}"`
+  if (image) {
+    ctx.drawImage(image, 0, 0, canvasWidth, canvasHeight)
+  }
+
+  // テキストの設定
+  ctx.font = `${text.fontSize}px "${font.family}", sans-serif`
   ctx.fillStyle = text.color
-  // ctx.textAlign = 'center'
-  // ctx.textBaseline = 'middle'
+  ctx.textAlign = 'left'
+  ctx.textBaseline = 'top'
 
-  const lines = splitLines(ctx, words, textWrap.width)
+  // タイトルテキストの描画
+  if (title) {
+    const decodedTitle = decodeURIComponent(title)
+    const words = decodedTitle.split('')
+    const lines = splitLines(ctx, words, textWrap.width)
 
-  // for await (const [i, sentence] of Object.entries(lines)) {
-  //   if (Number(i) < textWrap.maxLine) {
-  //     fillTextWithTwemoji(ctx, sentence, x, text.lineHeight * Number(i) + y)
-  //   }
-  // }
+    const x = (canvasWidth - textWrap.width) / 2
+    const y = text.lineHeight * 2
+
+    lines.forEach((line, i) => {
+      if (i < textWrap.maxLine) {
+        ctx.fillText(line, x, text.lineHeight * i + y)
+      }
+    })
+  }
 
   return canvas.toBuffer('image/png')
 }
