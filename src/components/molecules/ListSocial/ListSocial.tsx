@@ -1,4 +1,7 @@
-import { SiTwitter, SiHatenabookmark, SiPocket } from 'react-icons/si'
+import { ComponentType, SVGProps } from 'react'
+import { SiHatenabookmark, SiPocket } from 'react-icons/si'
+import { FaXTwitter } from 'react-icons/fa6'
+
 import config from '@/config/meta'
 
 type ListSocialProps = {
@@ -9,6 +12,9 @@ type ListSocialProps = {
 const ListSocial = ({ pathname, text = '' }: ListSocialProps) => {
   const url = encodeURIComponent(`${config.SITE_URL.replace(/\/$/, '')}${pathname}`)
   const urlText = text ? `${encodeURIComponent(text)} - ${config.SITE_NAME}` : ''
+  const TwitterIcon = FaXTwitter as ComponentType<SVGProps<SVGSVGElement>>
+  const HatenaIcon = SiHatenabookmark as ComponentType<SVGProps<SVGSVGElement>>
+  const PocketIcon = SiPocket as ComponentType<SVGProps<SVGSVGElement>>
 
   const params = {
     twitter: {
@@ -33,16 +39,16 @@ const ListSocial = ({ pathname, text = '' }: ListSocialProps) => {
 
   const ShareItems = [
     {
-      url: `https://twitter.com/intent/tweet?${createQueryString(params.twitter)}`,
-      icon: <SiTwitter className="text-twitter" />,
+      url: `https://x.com/intent/post?${createQueryString(params.twitter)}`,
+      icon: <TwitterIcon className="text-twitter" />,
     },
     {
       url: `http://b.hatena.ne.jp/add?${createQueryString(params.hatena)}`,
-      icon: <SiHatenabookmark className="text-hatena" />,
+      icon: <HatenaIcon className="text-hatena" />,
     },
     {
       url: `https://getpocket.com/edit?${createQueryString(params.pocket)}`,
-      icon: <SiPocket className="text-pocket" />,
+      icon: <PocketIcon className="text-pocket" />,
     },
   ]
 

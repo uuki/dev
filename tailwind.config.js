@@ -7,24 +7,24 @@ module.exports = {
   theme: {
     screens: {
       sm: { max: '1023px' },
-      md: { min: '1024px' },
+      md: { min: '1024px' }
     },
     variants: {
-      margin: ['first'],
+      margin: ['first']
     },
     fontSize: {
       sm: [
         '0.875rem',
         {
-          lineHeight: '1.6',
-        },
+          lineHeight: '1.6'
+        }
       ],
       md: [
         '0.9375rem',
         {
-          lineHeight: '1.5',
-        },
-      ],
+          lineHeight: '1.5'
+        }
+      ]
     },
     extend: {
       // boxShadow: {
@@ -61,7 +61,7 @@ module.exports = {
         // Back
         easeInBack: 'cubic-bezier(0.6, -0.28, 0.735, 0.045)',
         easeOutBack: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-        easeInOutBack: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+        easeInOutBack: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)'
       },
       fontFamily: {
         sans: [
@@ -74,14 +74,14 @@ module.exports = {
           'ヒラギノ角ゴ ProN W3',
           'Meiryo',
           'メイリオ',
-          'sans-serif',
-        ],
+          'sans-serif'
+        ]
       },
       colors: {
         // theme
         text: {
           100: '#606060',
-          400: '#231815',
+          400: '#231815'
         },
         // meta: '#9faab5',
         meta: '#707789',
@@ -91,31 +91,31 @@ module.exports = {
         border: '#d6d7d8',
         link: {
           100: '#778aa5',
-          400: '#4a5568',
+          400: '#4a5568'
         },
         // palette
         black: {
           400: '#2b2c30',
-          800: '#3a3d3d',
+          800: '#3a3d3d'
         },
         gray: '#eef0f2',
         blue: '#00c2ff',
         navy: {
           400: '#485666',
-          600: '#394554',
+          600: '#394554'
         },
         green: {
           100: '#0eb376',
-          200: '#0a8557',
+          200: '#0a8557'
         },
         // service
-        twitter: '#1d9bf0',
+        twitter: '#000000',
         hatena: '#00a5de',
         zenn: '#3ea8ff',
         qiita: '#55c500',
-        pocket: '#ef3f56',
+        pocket: '#ef3f56'
       },
-      typography: (theme) => ({
+      typography: theme => ({
         DEFAULT: {
           css: {
             color: theme('colors.text.400'),
@@ -124,9 +124,9 @@ module.exports = {
               color: theme('colors.green.100'),
               transition: 'color 400ms',
               '&:hover': {
-                color: `${theme('colors.green.200')}`,
+                color: `${theme('colors.green.200')}`
               },
-              code: { color: theme('colors.navy.400') },
+              code: { color: theme('colors.navy.400') }
             },
             h1: {
               position: 'relative',
@@ -135,8 +135,8 @@ module.exports = {
               letterSpacing: theme('letterSpacing.tight'),
               color: theme('colors.gray.900'),
               '&:hover a': {
-                opacity: 1,
-              },
+                opacity: 1
+              }
             },
             h2: {
               position: 'relative',
@@ -144,26 +144,26 @@ module.exports = {
               letterSpacing: theme('letterSpacing.tight'),
               color: theme('colors.gray.900'),
               '&:hover a': {
-                opacity: 1,
-              },
+                opacity: 1
+              }
             },
             h3: {
               position: 'relative',
               fontWeight: '600',
               color: theme('colors.gray.900'),
               '&:hover a': {
-                opacity: 1,
-              },
+                opacity: 1
+              }
             },
             'h4,h5,h6': {
               position: 'relative',
               color: theme('colors.gray.900'),
               '&:hover a': {
-                opacity: 1,
-              },
+                opacity: 1
+              }
             },
             pre: {
-              backgroundColor: theme('colors.gray.800'),
+              backgroundColor: theme('colors.gray.800')
             },
             code: {
               color: theme('colors.white'),
@@ -172,13 +172,13 @@ module.exports = {
               paddingRight: '4px',
               paddingTop: '2px',
               paddingBottom: '2px',
-              borderRadius: '0.25rem',
+              borderRadius: '0.25rem'
             },
             'code::before': {
-              content: 'none',
+              content: 'none'
             },
             'code::after': {
-              content: 'none',
+              content: 'none'
             },
             details: {
               backgroundColor: theme('colors.gray.100'),
@@ -186,29 +186,29 @@ module.exports = {
               paddingRight: '4px',
               paddingTop: '2px',
               paddingBottom: '2px',
-              borderRadius: '0.25rem',
+              borderRadius: '0.25rem'
             },
             hr: {
               borderColor: theme('colors.gray.200'),
-              borderStyle: 'solid',
+              borderStyle: 'solid'
             },
             'ol li::marker': {
               fontWeight: '600',
-              color: theme('colors.gray.500'),
+              color: theme('colors.gray.500')
             },
             'ul li::marker': {
-              backgroundColor: theme('colors.navy.400'),
+              backgroundColor: theme('colors.navy.400')
             },
             strong: { color: theme('colors.navy.400') },
             blockquote: {
               color: theme('colors.navy.600'),
-              borderLeftColor: theme('colors.meta'),
+              borderLeftColor: theme('colors.meta')
             },
             ul: {},
             '.yt-lite': {
-              margin: '30px 0',
-            },
-          },
+              margin: '30px 0'
+            }
+          }
         },
         dark: {
           css: {
@@ -216,62 +216,62 @@ module.exports = {
             a: {
               color: theme('colors.primary.500'),
               '&:hover': {
-                color: `${theme('colors.primary.400')} !important`,
+                color: `${theme('colors.primary.400')} !important`
               },
-              code: { color: theme('colors.primary.400') },
+              code: { color: theme('colors.primary.400') }
             },
             h1: {
               fontWeight: '700',
               letterSpacing: theme('letterSpacing.tight'),
-              color: theme('colors.gray.100'),
+              color: theme('colors.gray.100')
             },
             h2: {
               fontWeight: '700',
               letterSpacing: theme('letterSpacing.tight'),
-              color: theme('colors.gray.100'),
+              color: theme('colors.gray.100')
             },
             h3: {
               fontWeight: '600',
-              color: theme('colors.gray.100'),
+              color: theme('colors.gray.100')
             },
             'h4,h5,h6': {
-              color: theme('colors.gray.100'),
+              color: theme('colors.gray.100')
             },
             pre: {
-              backgroundColor: theme('colors.gray.800'),
+              backgroundColor: theme('colors.gray.800')
             },
             code: {
-              backgroundColor: theme('colors.gray.800'),
+              backgroundColor: theme('colors.gray.800')
             },
             details: {
-              backgroundColor: theme('colors.gray.800'),
+              backgroundColor: theme('colors.gray.800')
             },
             hr: { borderColor: theme('colors.gray.700') },
             'ol li::marker': {
               fontWeight: '600',
-              color: theme('colors.gray.400'),
+              color: theme('colors.gray.400')
             },
             'ul li::marker': {
-              backgroundColor: theme('colors.gray.400'),
+              backgroundColor: theme('colors.gray.400')
             },
             strong: { color: theme('colors.gray.100') },
             thead: {
               th: {
-                color: theme('colors.gray.100'),
-              },
+                color: theme('colors.gray.100')
+              }
             },
             tbody: {
               tr: {
-                borderBottomColor: theme('colors.gray.700'),
-              },
+                borderBottomColor: theme('colors.gray.700')
+              }
             },
             blockquote: {
               color: theme('colors.gray.100'),
-              borderLeftColor: theme('colors.gray.700'),
-            },
-          },
-        },
-      }),
-    },
-  },
+              borderLeftColor: theme('colors.gray.700')
+            }
+          }
+        }
+      })
+    }
+  }
 }

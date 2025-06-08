@@ -1,21 +1,26 @@
-import { memo } from 'react'
+import { memo, ComponentType, SVGProps } from 'react'
 import { ListMenu } from '@/components/molecules/ListMenu'
-import { SiTwitter, SiGithub, SiRss } from 'react-icons/si'
+import { SiGithub, SiRss } from 'react-icons/si'
+import { FaXTwitter } from 'react-icons/fa6'
 import { Link } from '@/components/atoms/Link'
 
 const Footer = () => {
+  const GitHubIcon = SiGithub as ComponentType<SVGProps<SVGSVGElement>>
+  const RssIcon = SiRss as ComponentType<SVGProps<SVGSVGElement>>
+  const TwitterIcon = FaXTwitter as ComponentType<SVGProps<SVGSVGElement>>
+
   const SocialItems = [
     {
-      url: 'https://twitter.com/uuki_dev',
-      icon: <SiTwitter className="text-[1.2rem]" />,
+      url: 'https://x.com/uuki_dev',
+      icon: <TwitterIcon className="text-[1.2rem]" />,
     },
     {
       url: 'http://github.com/uuki',
-      icon: <SiGithub className="text-[1.2rem]" />,
+      icon: <GitHubIcon className="text-[1.2rem]" />,
     },
     {
       url: '/atom.xml',
-      icon: <SiRss className="text-[1.08rem]" />,
+      icon: <RssIcon className="text-[1.08rem]" />,
     },
   ]
 
