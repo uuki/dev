@@ -1,0 +1,56 @@
+---
+title: SSMを経由してGUIのDBクライアントからデータベースに接続する方法
+slug: connect-db-over-ssm-with-db-client
+description: SSMを経由してGUIのDBクライアントからデータベースに接続する手順の備忘録です。
+date: 2025-12-25T13:48:35.707Z
+lastmod: 2025-12-25T14:30:31.153Z
+draft: false
+tags:
+  - SSM
+  - SequelAce
+image: ""
+media: ""
+---
+
+## 前提
+
+- SSM（Session Manager）が設定されていること
+- AWS CLI がインストールされていること
+- AWS アカウントにアクセスできること
+- IAM ユーザーが必要な権限を持っていること
+
+## 概要
+
+EC2やRDSなどのAWSリソースに対して、SSHを公開せずSSMを用いて運用・保守を行う構成において、
+SSMのポートフォワーディング機能を利用し、GUIのDBクライアント（例：Sequel Ace）から、データベースへ接続する例です。
+
+## 手順
+
+1. AWS CLI を使用して、SSM セッションを開始
+
+```
+aws ssm start-session \
+  --target ${INSTANCE_ID} \
+  --document-name AWS-StartPortForwardingSession \
+  --parameters '{"portNumber":["3306"],"localPortNumber":["13306"]}' \
+  --region ${REGION}
+```
+
+`localPortNumber` は必要に応じて変更。
+
+2. GUIのDBクライアント（例: Sequel Ace）を開き、以下の情報を入力
+
+| 項目 | 値 |
+|:--|:--|
+| Host     | 127.0.0.1 |
+| Port     | 13306 |
+| Username | `${DB_USERNAME}` |
+| Password | `${DB_PASSWORD}` |
+| Database | `${DB_NAME}` |
+
+この例では、単一サーバー構成（サーバーとDBが同居）のケースを想定していますが、
+RDS を使用する場合でも、HostをEndpointに変更して適切なポートを指定すれば同様に接続可能と思われます。
+
+## 参考
+- [AWS System Managerセッションマネージャーでポートフォワードする](https://dev.classmethod.jp/articles/port-forwarding-using-aws-system-manager-sessions-manager/)
+- [【AWS】SSMで管理しているEC2にportforwardしてローカルからRDSに接続する](https://zenn.dev/zuzuzu/articles/aws_portforward_rds)
