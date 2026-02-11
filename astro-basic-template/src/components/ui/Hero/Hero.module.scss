@@ -1,0 +1,16 @@
+@use '@/styles/tools/functions/rem' as *;
+
+.hero {
+  font-weight: 700;
+  font-size: rem(18);
+}
+
+.hero__text {
+  display: inline-block;
+  padding-bottom: rem(34);
+  border-bottom: 1px solid rgb(var(--gray-300));
+
+  @media (--mobile) {
+    padding-bottom: rem(14);
+  }
+}

@@ -1,42 +1,58 @@
 ---
-import AppLayout from '@/layouts/App.astro';
-import Card from '@/components/ui/Card/Card.astro';
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/layouts/BaseHead/BaseHead.astro';
+import Header from '../components/layouts/Header/Header.astro';
+import Footer from '../components/layouts/Footer/Footer.astro';
+import Hero from '../components/ui/Hero/Hero.astro';
+import BlogCard from '../components/objects/BlogCard/BlogCard.astro';
+import Link from '../components/ui/Link/Link.astro';
+import styles from './index.module.scss';
 
-import style from './index.module.scss'
+// Get all blog posts (including external posts)
+const allPosts = await getCollection('blog', ({ data }) => {
+  return !data.draft;
+});
 
-const meta = {
-  title: 'Welcome to Astro.',
-}
+// Sort by created_at descending
+const sortedPosts = allPosts.sort((a, b) => {
+  return new Date(b.data.created_at).getTime() - new Date(a.data.created_at).getTime();
+});
+
+// Take first 5 posts
+const recentPosts = sortedPosts.slice(0, 5);
 ---
 
-<AppLayout {meta}>
-  <div class={style.content}>
-    <h1 class={style.heading}>Welcome to <span class={style.textGradient}>Astro</span></h1>
-    <p class={style.instructions}>
-      To get started, open the directory <code>src/pages</code> in your project.<br />
-      <strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message above.
-    </p>
-    <ul role="list" class={style.linkCardGrid}>
-      <Card
-        href="https://docs.astro.build/"
-        title="Documentation"
-        body="Learn how Astro works and explore the official API docs."
-      />
-      <Card
-        href="https://astro.build/integrations/"
-        title="Integrations"
-        body="Supercharge your project with new frameworks and libraries."
-      />
-      <Card
-        href="https://astro.build/themes/"
-        title="Themes"
-        body="Explore a galaxy of community-built starter themes."
-      />
-      <Card
-        href="https://astro.build/chat/"
-        title="Community"
-        body="Come say hi to our amazing Discord community. ❤️"
-      />
-    </ul>
-  </div>
-</AppLayout>
+<!doctype html>
+<html lang="ja">
+  <head>
+    <BaseHead />
+  </head>
+  <body>
+    <div class={styles.home}>
+      <Header />
+      <main class={styles.home__main}>
+        <div class={styles.home__container}>
+          <div class={styles.home__hero}>
+            <Hero />
+          </div>
+          <div class={styles.home__content}>
+            <ul class={styles.home__posts}>
+              {recentPosts.map((post) => (
+                <li class={styles.home__postItem}>
+                  <BlogCard post={post} />
+                </li>
+              ))}
+            </ul>
+            <div class={styles.home__more}>
+              <Link href="/blog/" variant="opacity" class={styles.home__moreLink}>
+                <span>記事一覧へ</span>
+                <span class={styles.home__moreIcon}>→</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </main>
+      <Footer />
+    </div>
+  </body>
+</html>
