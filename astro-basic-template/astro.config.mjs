@@ -16,6 +16,7 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeKatex from 'rehype-katex';
 import { remarkCustomDirectives } from './src/plugins/remark-custom-directives.ts';
 import { remarkEmbedDirectives } from './src/plugins/remark-embed-directives.ts';
+import { remarkOutdatedWarning } from './src/plugins/remark-outdated-warning.ts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -54,6 +55,11 @@ export default defineConfig({
       remarkDirective,
       remarkCustomDirectives,
       remarkEmbedDirectives,
+      [remarkOutdatedWarning, {
+        enabled: true,
+        yearsThreshold: 2,
+        warningText: 'この記事は{years}年以上前に書かれた内容です。情報が古くなっている可能性があります。',
+      }],
       remarkGfm,
       remarkMath,
     ],
