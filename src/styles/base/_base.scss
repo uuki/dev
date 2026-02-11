@@ -2,7 +2,21 @@ html {
   font-family: var(--font-sans);
   background-color: #F6F6F6;
 }
+
+body {
+  word-wrap: break-word;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'palt';
+}
+
 code {
   font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
     Bitstream Vera Sans Mono, Courier New, monospace;
+}
+
+a {
+  text-decoration: none;
 }

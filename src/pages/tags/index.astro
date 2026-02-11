@@ -1,10 +1,8 @@
 ---
-import BaseHead from '../../components/layouts/BaseHead/BaseHead.astro';
-import Header from '../../components/layouts/Header/Header.astro';
-import Footer from '../../components/layouts/Footer/Footer.astro';
-import PageHeader from '../../components/ui/PageHeader/PageHeader.astro';
-import LinkTag from '../../components/ui/LinkTag/LinkTag.astro';
-import { getAllTags, getAllTagNames } from '../../utils/tags';
+import AppLayout from '@/layouts/App.astro';
+import PageHeader from '@/components/ui/PageHeader/PageHeader.astro';
+import LinkTag from '@/components/ui/LinkTag/LinkTag.astro';
+import { getAllTags, getAllTagNames } from '@/utils/tags';
 import styles from './index.module.scss';
 
 const tagCounts = await getAllTags();
@@ -21,36 +19,27 @@ tagNames.forEach((name) => {
 const sortedTags = Object.keys(tagCounts).sort((a, b) => tagCounts[b] - tagCounts[a]);
 ---
 
-<!doctype html>
-<html lang="ja">
-  <head>
-    <BaseHead title="Tags" description="タグ一覧" type="website" />
-  </head>
-  <body>
-    <div class={styles.tags}>
-      <Header />
-      <main class={styles.tags__main}>
-        <div class={styles.tags__wrapper}>
-          <div class={styles.tags__container}>
-            <div class={styles.tags__content}>
-              <div class={styles.tags__header}>
-                <PageHeader>Tags</PageHeader>
-              </div>
-
-              <ul class={styles.tags__list}>
-                {sortedTags.map((tagSlug) => (
-                  <li class={styles.tags__item}>
-                    <LinkTag tag={slugToName[tagSlug] || tagSlug} />
-                    <span class={styles.tags__count}>({tagCounts[tagSlug]})</span>
-                  </li>
-                ))}
-              </ul>
+<AppLayout meta={{ title: 'Tags', description: 'タグ一覧' }}>
+  <div class={styles.tags}>
+    <main class={styles.tags__main}>
+      <div class={styles.tags__wrapper}>
+        <div class={styles.tags__container}>
+          <div class={styles.tags__content}>
+            <div class={styles.tags__header}>
+              <PageHeader>Tags</PageHeader>
             </div>
+
+            <ul class={styles.tags__list}>
+              {sortedTags.map((tagSlug) => (
+                <li class={styles.tags__item}>
+                  <LinkTag tag={slugToName[tagSlug] || tagSlug} />
+                  <span class={styles.tags__count}>({tagCounts[tagSlug]})</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
-      </main>
-      <Footer />
-    </div>
-
-  </body>
-</html>
+      </div>
+    </main>
+  </div>
+</AppLayout>

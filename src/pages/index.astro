@@ -1,11 +1,9 @@
 ---
+import AppLayout from '@/layouts/App.astro';
 import { getCollection } from 'astro:content';
-import BaseHead from '../components/layouts/BaseHead/BaseHead.astro';
-import Header from '../components/layouts/Header/Header.astro';
-import Footer from '../components/layouts/Footer/Footer.astro';
-import Hero from '../components/ui/Hero/Hero.astro';
-import BlogCard from '../components/objects/BlogCard/BlogCard.astro';
-import Link from '../components/ui/Link/Link.astro';
+import Hero from '@/components/ui/Hero/Hero.astro';
+import BlogCard from '@/components/objects/BlogCard/BlogCard.astro';
+import Link from '@/components/ui/Link/Link.astro';
 import styles from './index.module.scss';
 
 // Get all blog posts (including external posts)
@@ -21,38 +19,29 @@ const sortedPosts = allPosts.sort((a, b) => {
 // Take first 5 posts
 const recentPosts = sortedPosts.slice(0, 5);
 ---
-
-<!doctype html>
-<html lang="ja">
-  <head>
-    <BaseHead />
-  </head>
-  <body>
-    <div class={styles.home}>
-      <Header />
-      <main class={styles.home__main}>
-        <div class={styles.home__container}>
-          <div class={styles.home__hero}>
-            <Hero />
-          </div>
-          <div class={styles.home__content}>
-            <ul class={styles.home__posts}>
-              {recentPosts.map((post) => (
-                <li class={styles.home__postItem}>
-                  <BlogCard post={post} />
-                </li>
-              ))}
-            </ul>
-            <div class={styles.home__more}>
-              <Link href="/blog/" variant="opacity" class={styles.home__moreLink}>
-                <span>記事一覧へ</span>
-                <span class={styles.home__moreIcon}>→</span>
-              </Link>
-            </div>
+<AppLayout>
+  <div class={styles.home}>
+    <main class={styles.home__main}>
+      <div class={styles.home__container}>
+        <div class={styles.home__hero}>
+          <Hero />
+        </div>
+        <div class={styles.home__content}>
+          <ul class={styles.home__posts}>
+            {recentPosts.map((post) => (
+              <li class={styles.home__postItem}>
+                <BlogCard post={post} />
+              </li>
+            ))}
+          </ul>
+          <div class={styles.home__more}>
+            <Link href="/blog/" variant="opacity" class={styles.home__moreLink}>
+              <span>記事一覧へ</span>
+              <span class={styles.home__moreIcon}>→</span>
+            </Link>
           </div>
         </div>
-      </main>
-      <Footer />
-    </div>
-  </body>
-</html>
+      </div>
+    </main>
+  </div>
+</AppLayout>

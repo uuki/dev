@@ -1,18 +1,16 @@
 ---
 import type { GetStaticPaths } from 'astro';
-import type { SiteConfig } from '../../../types/config';
+import type { SiteConfig } from '@/types/config';
 import { getCollection, getEntry, render } from 'astro:content';
-import BaseHead from '../../../components/layouts/BaseHead/BaseHead.astro';
-import Header from '../../../components/layouts/Header/Header.astro';
-import Footer from '../../../components/layouts/Footer/Footer.astro';
-import PostHeader from '../../../components/ui/PostHeader/PostHeader.astro';
-import ListTag from '../../../components/objects/ListTag/ListTag.astro';
-import ListMeta from '../../../components/objects/ListMeta/ListMeta.astro';
-import ListSocial from '../../../components/objects/ListSocial/ListSocial.astro';
-import OptimizedImage from '../../../components/ui/OptimizedImage/OptimizedImage.astro';
-import PostHistory from '../../../components/objects/PostHistory/PostHistory.astro';
-import { getFileRevision } from '../../../utils/git';
-import configData from '../../../data/config.yml';
+import AppLayout from '@/layouts/App.astro';
+import PostHeader from '@/components/ui/PostHeader/PostHeader.astro';
+import ListTag from '@/components/objects/ListTag/ListTag.astro';
+import ListMeta from '@/components/objects/ListMeta/ListMeta.astro';
+import ListSocial from '@/components/objects/ListSocial/ListSocial.astro';
+import OptimizedImage from '@/components/ui/OptimizedImage/OptimizedImage.astro';
+import PostHistory from '@/components/objects/PostHistory/PostHistory.astro';
+import { getFileRevision } from '@/utils/git';
+import configData from '@/data/config.yml';
 import styles from './index.module.scss';
 
 const config = configData as unknown as SiteConfig;
@@ -63,60 +61,59 @@ const heroImage = (post.data as typeof post.data & OptionalBlogFields).heroImage
 // Use heroImage or default OG image
 // To use custom OG images per post, add them to public/og/ and reference in frontmatter
 const ogImageUrl = heroImage || `/og-default.png`;
+
+const meta = {
+  title,
+  description: description ?? undefined,
+  'og:image': ogImageUrl,
+  type: 'article' as const,
+};
 ---
 
-<!doctype html>
-<html lang="ja">
-  <head>
-    <BaseHead title={title} description={description ?? undefined} image={ogImageUrl} type="article" />
-  </head>
-  <body>
-    <div class={styles.blogPost}>
-      <Header />
-      <main class={styles.blogPost__main}>
-        <article class={styles.blogPost__article}>
-          <div class={styles.blogPost__container}>
-            <div class={styles.blogPost__header}>
-              <PostHeader>{title}</PostHeader>
-              <div class={styles.blogPost__tags}>
-                <ListTag tags={tags} />
-              </div>
-              <div class={styles.blogPost__meta}>
-                <ListMeta date={created_at} />
-                {history.length > 0 && (
-                  <PostHistory
-                    history={history}
-                    repoUrl={config.git?.repoUrl}
-                  />
-                )}
-              </div>
+<AppLayout meta={meta}>
+  <div class={styles.blogPost}>
+    <main class={styles.blogPost__main}>
+      <article class={styles.blogPost__article}>
+        <div class={styles.blogPost__container}>
+          <div class={styles.blogPost__header}>
+            <PostHeader>{title}</PostHeader>
+            <div class={styles.blogPost__tags}>
+              <ListTag tags={tags} />
             </div>
-
-            {heroImage && (
-              <div class={styles.blogPost__heroImage}>
-                <OptimizedImage
-                  src={heroImage}
-                  alt={title}
-                  width={800}
-                  height={450}
-                  loading="eager"
-                  class={styles.blogPost__heroImageElement}
+            <div class={styles.blogPost__meta}>
+              <ListMeta date={created_at} />
+              {history.length > 0 && (
+                <PostHistory
+                  history={history}
+                  repoUrl={config.git?.repoUrl}
                 />
-              </div>
-            )}
-
-            <div class={styles.blogPost__content}>
-              <div class={styles.prose}>
-                <Content />
-              </div>
-              <div class={styles.blogPost__share}>
-                <ListSocial pathname={`/blog/${slug}`} text={title} />
-              </div>
+              )}
             </div>
           </div>
-        </article>
-      </main>
-      <Footer />
-    </div>
-  </body>
-</html>
+
+          {heroImage && (
+            <div class={styles.blogPost__heroImage}>
+              <OptimizedImage
+                src={heroImage}
+                alt={title}
+                width={800}
+                height={450}
+                loading="eager"
+                class={styles.blogPost__heroImageElement}
+              />
+            </div>
+          )}
+
+          <div class={styles.blogPost__content}>
+            <div class={styles.prose}>
+              <Content />
+            </div>
+            <div class={styles.blogPost__share}>
+              <ListSocial pathname={`/blog/${slug}`} text={title} />
+            </div>
+          </div>
+        </div>
+      </article>
+    </main>
+  </div>
+</AppLayout>

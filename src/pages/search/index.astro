@@ -1,7 +1,5 @@
 ---
-import BaseHead from '@/components/layouts/BaseHead/BaseHead.astro';
-import Header from '@/components/layouts/Header/Header.astro';
-import Footer from '@/components/layouts/Footer/Footer.astro';
+import AppLayout from '@/layouts/App.astro';
 import PageHeader from '@/components/ui/PageHeader/PageHeader.astro';
 import styles from './index.module.scss';
 
@@ -11,49 +9,44 @@ const meta = {
 };
 ---
 
-<!doctype html>
-<html lang="ja">
-  <head>
-    <BaseHead title={meta.title} description={meta.description} />
+<AppLayout meta={meta}>
+  <Fragment slot="head">
     <link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
-  </head>
-  <body>
-    <div class={styles.searchPage}>
-      <Header />
-      <main class={styles.searchPage__main}>
-        <div class={styles.searchPage__container}>
-          <PageHeader>{meta.title}</PageHeader>
-          <div class={styles.searchPage__content}>
-            <div id="search" class={styles.searchPage__widget}></div>
-          </div>
-        </div>
-      </main>
-      <Footer />
-    </div>
+  </Fragment>
 
-    <script is:inline src="/pagefind/pagefind-ui.js"></script>
-    <script is:inline>
-      window.addEventListener('DOMContentLoaded', () => {
-        new PagefindUI({
-          element: '#search',
-          showSubResults: true,
-          showImages: false,
-          excerptLength: 15,
-          translations: {
-            placeholder: 'Search articles...',
-            clear_search: 'Clear',
-            load_more: 'Load more results',
-            search_label: 'Search this site',
-            filters_label: 'Filters',
-            zero_results: 'No results for [SEARCH_TERM]',
-            many_results: '[COUNT] results for [SEARCH_TERM]',
-            one_result: '[COUNT] result for [SEARCH_TERM]',
-            alt_search: 'No results for [SEARCH_TERM]. Showing results for [DIFFERENT_TERM] instead',
-            search_suggestion: 'No results for [SEARCH_TERM]. Try one of the following searches:',
-            searching: 'Searching for [SEARCH_TERM]...',
-          },
-        });
+  <div class={styles.searchPage}>
+    <main class={styles.searchPage__main}>
+      <div class={styles.searchPage__container}>
+        <PageHeader>{meta.title}</PageHeader>
+        <div class={styles.searchPage__content}>
+          <div id="search" class={styles.searchPage__widget}></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script is:inline src="/pagefind/pagefind-ui.js"></script>
+  <script is:inline>
+    window.addEventListener('DOMContentLoaded', () => {
+      new PagefindUI({
+        element: '#search',
+        showSubResults: true,
+        showImages: false,
+        excerptLength: 15,
+        translations: {
+          placeholder: 'Search articles...',
+          clear_search: 'Clear',
+          load_more: 'Load more results',
+          search_label: 'Search this site',
+          filters_label: 'Filters',
+          zero_results: 'No results for [SEARCH_TERM]',
+          many_results: '[COUNT] results for [SEARCH_TERM]',
+          one_result: '[COUNT] result for [SEARCH_TERM]',
+          alt_search: 'No results for [SEARCH_TERM]. Showing results for [DIFFERENT_TERM] instead',
+          search_suggestion: 'No results for [SEARCH_TERM]. Try one of the following searches:',
+          searching: 'Searching for [SEARCH_TERM]...',
+        },
       });
-    </script>
-  </body>
-</html>
+    });
+  </script>
+</AppLayout>

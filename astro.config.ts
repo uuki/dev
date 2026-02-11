@@ -79,7 +79,13 @@ export default defineConfig({
           // Global addition styles (functions and mixins only)
           additionalData: [
             '@use "@/styles/tools/functions/_rem.scss" as *;',
-            '@use "@/styles/tools/mixins/_line-clamp.scss" as *;'
+            '@use "@/styles/tools/functions/_vw.scss" as *;', // planned refactoring
+            '@use "@/styles/tools/mixins/_line-clamp.scss" as *;',
+            '@use "@/styles/tools/mixins/_link.scss" as *;', // planned refactoring
+            '@use "@/styles/tools/mixins/_marker.scss" as *;',
+            '@use "@/styles/tools/mixins/_smoothing.scss" as *;',
+            '@use "@/styles/tools/mixins/_underline.scss" as *;',
+            '@use "@/styles/tools/mixins/_staggered.scss" as *;', // planned refactoring
           ].join('\n')
         }
       }

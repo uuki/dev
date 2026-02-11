@@ -2,13 +2,11 @@
 import type { GetStaticPaths, Page } from 'astro';
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
-import BaseHead from '../../../components/layouts/BaseHead/BaseHead.astro';
-import Header from '../../../components/layouts/Header/Header.astro';
-import Footer from '../../../components/layouts/Footer/Footer.astro';
-import PageHeader from '../../../components/ui/PageHeader/PageHeader.astro';
-import InputText from '../../../components/ui/InputText/InputText.astro';
-import BlogCard from '../../../components/objects/BlogCard/BlogCard.astro';
-import Pagination from '../../../components/objects/Pagination/Pagination.astro';
+import AppLayout from '@/layouts/App.astro';
+import PageHeader from '@/components/ui/PageHeader/PageHeader.astro';
+import InputText from '@/components/ui/InputText/InputText.astro';
+import BlogCard from '@/components/objects/BlogCard/BlogCard.astro';
+import Pagination from '@/components/objects/Pagination/Pagination.astro';
 import styles from './index.module.scss';
 
 export const getStaticPaths = (async ({ paginate }) => {
@@ -33,47 +31,39 @@ interface Props {
 const { page } = Astro.props;
 ---
 
-<!doctype html>
-<html lang="ja">
-  <head>
-    <BaseHead title="All Posts" description="uuki.devのブログ記事一覧" type="website" />
-  </head>
-  <body>
-    <div class={styles.blogList}>
-      <Header />
-      <main class={styles.blogList__main}>
-        <div class={styles.blogList__content}>
-          <div class={styles.blogList__container}>
-            <div class={styles.blogList__header}>
-              <PageHeader>All Posts</PageHeader>
-            </div>
-
-            <div class={styles.blogList__search}>
-              <InputText
-                type="search"
-                placeholder="Search articles"
-                aria-label="Search articles"
-                class={styles.blogList__searchInput}
-              />
-            </div>
-
-            <ul class={styles.blogList__posts}>
-              {page.data.map((post) => (
-                <li class={styles.blogList__postItem}>
-                  <div class={styles.blogList__postCard}>
-                    <BlogCard post={post} />
-                  </div>
-                </li>
-              ))}
-            </ul>
-
-            {page.lastPage > 1 && (
-              <Pagination currentPage={page.currentPage} totalPages={page.lastPage} basePath="/blog" />
-            )}
+<AppLayout meta={{ title: 'All Posts', description: 'uuki.devのブログ記事一覧' }}>
+  <div class={styles.blogList}>
+    <main class={styles.blogList__main}>
+      <div class={styles.blogList__content}>
+        <div class={styles.blogList__container}>
+          <div class={styles.blogList__header}>
+            <PageHeader>All Posts</PageHeader>
           </div>
+
+          <div class={styles.blogList__search}>
+            <InputText
+              type="search"
+              placeholder="Search articles"
+              aria-label="Search articles"
+              class={styles.blogList__searchInput}
+            />
+          </div>
+
+          <ul class={styles.blogList__posts}>
+            {page.data.map((post) => (
+              <li class={styles.blogList__postItem}>
+                <div class={styles.blogList__postCard}>
+                  <BlogCard post={post} />
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          {page.lastPage > 1 && (
+            <Pagination currentPage={page.currentPage} totalPages={page.lastPage} basePath="/blog" />
+          )}
         </div>
-      </main>
-      <Footer />
-    </div>
-  </body>
-</html>
+      </div>
+    </main>
+  </div>
+</AppLayout>

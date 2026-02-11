@@ -17,7 +17,7 @@ export const remarkCustomDirectives: Plugin<[], Root> = () => {
         node.data = node.data || {};
         node.data.hName = 'div';
         node.data.hProperties = {
-          className: ['directive', `directive--${noteType}`],
+          className: ['remark-directive', `remark-directive--${noteType}`],
         };
       }
 
@@ -33,7 +33,7 @@ export const remarkCustomDirectives: Plugin<[], Root> = () => {
         if (['note', 'warning', 'info', 'tip'].includes(hName)) {
           data.hName = 'div';
           data.hProperties = {
-            className: ['directive', `directive--${hName}`],
+            className: ['remark-directive', `remark-directive--${hName}`],
             ...(node.attributes || {}),
           };
 
@@ -51,7 +51,7 @@ export const remarkCustomDirectives: Plugin<[], Root> = () => {
               type: 'paragraph',
               data: {
                 hName: 'div',
-                hProperties: { className: ['directive__title'] },
+                hProperties: { className: ['remark-directive__title'] },
               },
               children: [
                 {
