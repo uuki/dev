@@ -1,0 +1,23 @@
+@mixin linkInOut($lineColor) {
+  position: relative;
+  display: inline-block;
+  transition: color 400ms;
+
+  &:hover::after {
+    left: 0;
+    right: auto;
+    width: 100%;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    width: 0;
+    height: 1px;
+    background-color: $lineColor;
+    transition: width 400ms;
+    transform: translate3d(0, 0, 0);
+  }
+}

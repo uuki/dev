@@ -1,0 +1,13 @@
+@use "sass:math";
+
+@function vw($px, $device: 'desktop') {
+  $base: 0;
+
+  @if($device == 'desktop') {
+    $base: 1366;
+  } @else {
+    $base: 375;
+  }
+
+  @return math.div($px, $base) * 100vw;
+}

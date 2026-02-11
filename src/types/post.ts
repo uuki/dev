@@ -1,37 +1,17 @@
-import type { Tags } from '#/taxonomy'
-
-export type PostOriginName = 'zenn' | 'hatena' | 'qiita' | 'uuki'
-
-export type PostOrigin = {
-  name?: PostOriginName
-  logo?: string
-  url?: string
+/**
+ * Post Revision Type (Next.js compatible)
+ * Git履歴の単一コミット情報
+ */
+export interface PostRevision {
+  hash: string;        // 短縮コミットハッシュ（例: "abc1234"）
+  authorDate: string;  // コミット日付（author date）
 }
 
-export type PostStaticFrontMatter = {
-  title: string
-  description: string
-  author: string
-  date: string
-  lastmod?: string
-  image: string
-}
-
-export type PostFrontMatter = {
-  title: string
-  slug: string
-  description: string
-  author: string
-  date: string
-  lastmod?: string
-  draft: true
-  tags: Tags
-  image: string
-  origin?: PostOriginName
-  url?: string
-}
-
-export type PostRevision = {
-  hash: string
-  authorDate: string
+/**
+ * Git History Config
+ */
+export interface GitConfig {
+  enabled: boolean;
+  repoUrl?: string;  // GitHub/GitLab repository URL
+  showCompareLinks?: boolean;
 }
