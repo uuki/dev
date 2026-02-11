@@ -1,0 +1,18 @@
+---
+import OptimizedImage from '../OptimizedImage/OptimizedImage.astro';
+import styles from './Author.module.scss';
+---
+
+<div class={styles.Author}>
+  <OptimizedImage
+    src="/static/images/logo.jpg"
+    alt="avatar"
+    width={60}
+    height={60}
+    class={styles.Author__image}
+  />
+  <div class={styles.Author__info}>
+    <p class={styles.Author__name}>uuki</p>
+    <p class={styles.Author__title}>Frontend developer</p>
+  </div>
+</div>

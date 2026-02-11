@@ -1,0 +1,37 @@
+@use '@/styles/main' as *;
+
+.Author {
+  --_author-spacing: 15px;
+  --_author-letter-spacing: 0.02em;
+  --_author-name-size: 1.75rem;
+  --_author-name-weight: 600;
+  --_author-title-size: 0.6875rem;
+  --_author-title-weight: 700;
+  --_author-title-margin: 3px;
+
+  display: flex;
+  align-items: center;
+}
+
+.Author__image {
+  border-radius: 50%;
+}
+
+.Author__info {
+  margin-left: var(--_author-spacing);
+  letter-spacing: var(--_author-letter-spacing);
+}
+
+.Author__name {
+  font-size: var(--_author-name-size);
+  font-weight: var(--_author-name-weight);
+  line-height: 1;
+  color: rgb(var(--text-400));
+}
+
+.Author__title {
+  font-size: var(--_author-title-size);
+  font-weight: var(--_author-title-weight);
+  margin-top: var(--_author-title-margin);
+  color: rgb(var(--text-100));
+}

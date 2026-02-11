@@ -1,0 +1,39 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseHead from '../components/layouts/BaseHead/BaseHead.astro';
+import Header from '../components/layouts/Header/Header.astro';
+import Footer from '../components/layouts/Footer/Footer.astro';
+import styles from './page.module.scss';
+
+const entry = await getEntry('pages', 'privacy');
+
+if (!entry) {
+  return Astro.redirect('/404');
+}
+
+const { Content } = await render(entry);
+const { title, description } = entry.data;
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <BaseHead title={title} description={description || ''} />
+  </head>
+  <body>
+    <div class={styles.page}>
+      <Header />
+      <main class={styles.page__main}>
+        <div class={styles.page__container}>
+          <article class={styles.page__article}>
+            <h1 class={styles.page__title}>{title}</h1>
+            <div class={styles.page__content}>
+              <Content />
+            </div>
+          </article>
+        </div>
+      </main>
+      <Footer />
+    </div>
+  </body>
+</html>

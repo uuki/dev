@@ -1,0 +1,134 @@
+@use '@/styles/main' as *;
+
+.about {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(var(--bg));
+}
+
+.about__main {
+  flex: 1;
+}
+
+.about__container {
+  padding: 66px 0;
+  max-width: 800px;
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.about__header {
+  margin-bottom: 40px;
+}
+
+.about__titleWrapper {
+  margin-bottom: 25px;
+}
+
+.about__title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  color: rgb(var(--text-400));
+
+  @media (--mobile) {
+    font-size: 2rem;
+  }
+}
+
+.about__authorWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.about__socialList {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.about__socialItem {
+  margin: 0 7px;
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(var(--text-100));
+    transition: opacity 0.3s ease;
+
+    &:hover {
+      opacity: 0.6;
+    }
+  }
+}
+
+.about__article {
+  background: rgb(var(--white));
+  border-radius: 8px;
+  padding: 50px 40px;
+
+  @media (--mobile) {
+    padding: 25px 20px;
+  }
+}
+
+.about__content {
+  color: rgb(var(--text-100));
+  line-height: 1.8;
+
+  :global(h2) {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 40px;
+    margin-bottom: 16px;
+    color: rgb(var(--text-400));
+
+    @media (--mobile) {
+      font-size: 1.25rem;
+      margin-top: 32px;
+    }
+  }
+
+  :global(h3) {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-top: 32px;
+    margin-bottom: 12px;
+    color: rgb(var(--text-400));
+
+    @media (--mobile) {
+      font-size: 1.125rem;
+      margin-top: 24px;
+    }
+  }
+
+  :global(p) {
+    margin-bottom: 16px;
+  }
+
+  :global(a) {
+    color: rgb(var(--accent));
+    text-decoration: underline;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  :global(ul),
+  :global(ol) {
+    margin-bottom: 16px;
+    padding-left: 24px;
+  }
+
+  :global(li) {
+    margin-bottom: 8px;
+  }
+}

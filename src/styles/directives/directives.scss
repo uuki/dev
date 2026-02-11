@@ -11,12 +11,6 @@
   background-color: rgba(var(--directive-bg), 0.1);
   border-color: rgb(var(--directive-border));
 
-  &__title {
-    font-weight: 600;
-    margin-bottom: rem(8);
-    color: rgb(var(--directive-title));
-  }
-
   > *:first-child {
     margin-top: 0;
   }
@@ -52,4 +46,10 @@
     --directive-border: 22, 163, 74; // green-600
     --directive-title: 21, 128, 61; // green-700
   }
+}
+
+.directive__title {
+  font-weight: 600;
+  margin-bottom: rem(8);
+  color: rgb(var(--directive-title));
 }

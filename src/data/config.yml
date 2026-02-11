@@ -7,3 +7,9 @@ git:
   repoUrl: 'https://github.com/uuki/uuki.dev'
   showHistory: true
   maxCommits: 10
+
+# Social links
+social:
+  email: 'uuki@gmail.com'
+  twitter: 'uuki_dev'
+  github: 'uuki'
