@@ -1,0 +1,13 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import styles from './PostHeader.module.scss';
+
+interface Props extends HTMLAttributes<'h1'> {}
+
+const { class: className, ...rest } = Astro.props;
+const combinedClass = [styles.postHeader, className].filter(Boolean).join(' ');
+---
+
+<h1 class={combinedClass} {...rest}>
+  <slot />
+</h1>

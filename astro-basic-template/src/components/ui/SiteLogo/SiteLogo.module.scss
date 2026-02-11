@@ -1,0 +1,29 @@
+/**
+ * SiteLogo Component Styles
+ * Site logo with avatar image and text
+ */
+
+.siteLogo {
+  display: flex;
+  align-items: center;
+}
+
+.siteLogo__image {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.siteLogo__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: rem(20);
+  height: rem(20);
+  font-size: rem(16);
+}
+
+.siteLogo__text {
+  margin-left: rem(10);
+  font-weight: 700;
+  font-size: rem(16);
+}

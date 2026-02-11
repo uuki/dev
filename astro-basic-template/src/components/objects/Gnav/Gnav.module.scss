@@ -1,0 +1,33 @@
+/**
+ * Gnav Component Styles
+ * Global navigation menu
+ */
+
+.gnav {
+  // Component block
+}
+
+.gnav__list {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.gnav__item {
+  margin-left: rem(20);
+
+  &:first-child {
+    margin-left: 0;
+  }
+}
+
+.gnav__link {
+  font-weight: 700;
+  font-size: rem(16);
+
+  @media (--mobile) {
+    font-size: rem(14);
+  }
+}

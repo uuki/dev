@@ -1,0 +1,13 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import styles from './Tag.module.scss';
+
+interface Props extends HTMLAttributes<'span'> {}
+
+const { class: className, ...rest } = Astro.props;
+const combinedClass = [styles.tag, className].filter(Boolean).join(' ');
+---
+
+<span class={combinedClass} {...rest}>
+  <slot />
+</span>

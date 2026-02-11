@@ -30,6 +30,7 @@ ignore.*.mdx
 # misc
 .DS_Store
 *.pem
+.claude
 
 # debug
 npm-debug.log*

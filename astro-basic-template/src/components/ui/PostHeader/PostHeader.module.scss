@@ -1,0 +1,15 @@
+/**
+ * PostHeader Component Styles
+ * Blog post title header
+ */
+
+.postHeader {
+  font-size: rem(22);
+  font-weight: 700;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
+
+  @media (--desktop) {
+    font-size: rem(28);
+  }
+}

@@ -1,0 +1,38 @@
+:root {
+  /* Base colors */
+  --color-bg: #ffffff;
+  --color-text: #1a1a1a;
+  --color-text-secondary: #666666;
+  --color-border: #e0e0e0;
+
+  /* Primary colors */
+  --color-primary: #ff5d01;
+  --color-secondary: #4285f4;
+  --accent: 124, 58, 237;
+  --accent-gradient: linear-gradient(45deg, rgb(var(--accent)), #da62c4 30%, white 60%);
+
+  /* Navy colors */
+  --navy-400: 71, 85, 105; /* slate-600 */
+  --navy-600: 30, 41, 59; /* slate-800 */
+
+  /* Neutral colors */
+  --white: 255, 255, 255;
+  --black: 0, 0, 0;
+
+  /* Background colors */
+  --bg: 249, 250, 251; /* gray-50 */
+  --bg-card: 255, 255, 255; /* white */
+  --color-header-bg: #ffffff;
+  --color-content-bg: #ffffff;
+  --color-code-bg: #f5f5f5;
+
+  /* Link colors */
+  --color-link: #0066cc;
+  --color-link-hover: #004499;
+  --color-blockquote-border: #e0e0e0;
+
+  /* Tag colors */
+  --color-tag-bg: #f0f0f0;
+  --color-tag-text: #333333;
+  --color-tag-hover-bg: #e0e0e0;
+}

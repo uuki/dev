@@ -1,0 +1,40 @@
+/**
+ * ListSocial Component Styles
+ * Social share buttons list
+ */
+
+.listSocial {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 rem(-10);
+  padding: 0;
+  list-style: none;
+}
+
+.listSocial__item {
+  margin: 0 rem(10);
+}
+
+.listSocial__button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: rem(40);
+  height: rem(40);
+  font-size: rem(20);
+  background-color: rgb(var(--white));
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}

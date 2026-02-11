@@ -1,0 +1,106 @@
+---
+import type { GetStaticPaths } from 'astro';
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import slugify from 'slugify';
+import BaseHead from '../../../components/layouts/BaseHead/BaseHead.astro';
+import Header from '../../../components/layouts/Header/Header.astro';
+import Footer from '../../../components/layouts/Footer/Footer.astro';
+import PageHeader from '../../../components/ui/PageHeader/PageHeader.astro';
+import InputText from '../../../components/ui/InputText/InputText.astro';
+import BlogCard from '../../../components/objects/BlogCard/BlogCard.astro';
+import { getAllTags, getAllTagNames } from '../../../utils/tags';
+import styles from './index.module.scss';
+
+export const getStaticPaths = (async () => {
+  const allPosts = await getCollection('blog', ({ data }) => {
+    return !data.draft;
+  });
+
+  const tagCounts = await getAllTags();
+  const tagNames = await getAllTagNames();
+
+  // Create a map of slugified tags to original tag names
+  const slugToName: Record<string, string> = {};
+  tagNames.forEach((name) => {
+    const slug = slugify(name);
+    slugToName[slug] = name;
+  });
+
+  return Object.keys(tagCounts).map((tagSlug) => {
+    const filteredPosts = allPosts.filter((post) => {
+      return post.data.tags?.some((tag: string) => slugify(tag) === tagSlug);
+    });
+
+    // Sort by date (newest first)
+    const sortedPosts = filteredPosts.sort((a, b) => {
+      return b.data.date.getTime() - a.data.date.getTime();
+    });
+
+    return {
+      params: { tag: tagSlug },
+      props: {
+        posts: sortedPosts,
+        tagName: slugToName[tagSlug] || tagSlug,
+        tagSlug,
+      },
+    };
+  });
+}) satisfies GetStaticPaths;
+
+interface Props {
+  posts: CollectionEntry<'blog'>[];
+  tagName: string;
+  tagSlug: string;
+}
+
+const { posts, tagName } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <BaseHead title={`${tagName} - Tags`} description={`${tagName}タグの記事一覧`} type="website" />
+  </head>
+  <body>
+    <div class={styles.tagPosts}>
+      <Header />
+      <main class={styles.tagPosts__main}>
+        <div class={styles.tagPosts__content}>
+          <div class={styles.tagPosts__container}>
+            <div class={styles.tagPosts__header}>
+              <PageHeader>#{tagName} - Tags</PageHeader>
+            </div>
+
+            <div class={styles.tagPosts__search}>
+              <InputText
+                type="search"
+                placeholder="Search articles"
+                aria-label="Search articles"
+                class={styles.tagPosts__searchInput}
+              />
+            </div>
+
+            <ul class={styles.tagPosts__posts}>
+              {posts.map((post) => (
+                <li class={styles.tagPosts__postItem}>
+                  <div class={styles.tagPosts__postCard}>
+                    <BlogCard post={post} />
+                  </div>
+                </li>
+              ))}
+            </ul>
+
+            {posts.length === 0 && (
+              <div class={styles.tagPosts__empty}>
+                <p>このタグの記事はまだありません。</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </main>
+      <Footer />
+    </div>
+
+  </body>
+</html>

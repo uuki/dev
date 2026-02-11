@@ -1,0 +1,14 @@
+/**
+ * PostCSS Custom Media
+ * @see https://www.npmjs.com/package/postcss-custom-media
+ */
+
+/* Standard breakpoints */
+@custom-media --sm (max-width: 640px);
+@custom-media --md (min-width: 768px);
+@custom-media --lg (min-width: 1024px);
+
+/* Project-specific breakpoints (legacy) */
+@custom-media --mobile (width < 768px);
+@custom-media --desktop (768px <= width);
+@custom-media --desktop-large (1366px <= width);

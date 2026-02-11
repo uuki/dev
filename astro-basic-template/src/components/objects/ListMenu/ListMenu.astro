@@ -1,0 +1,18 @@
+---
+import Link from '../../ui/Link/Link.astro';
+import styles from './ListMenu.module.scss';
+
+const menuItems = [
+  { path: '/privacy', name: 'Privacy Policy' },
+];
+---
+
+<ul class={styles.listMenu}>
+  {menuItems.map((item) => (
+    <li class={styles.listMenu__item}>
+      <Link href={item.path} variant="inOutWhite" class={styles.listMenu__link}>
+        {item.name}
+      </Link>
+    </li>
+  ))}
+</ul>

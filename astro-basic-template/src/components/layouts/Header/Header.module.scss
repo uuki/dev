@@ -1,0 +1,20 @@
+/**
+ * Header Component Styles
+ * Site header with logo and navigation
+ */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: rem(60);
+  padding-left: rem(20);
+  padding-right: rem(20);
+  color: rgb(var(--white));
+  background-color: rgb(var(--navy-600));
+
+  @media (--desktop) {
+    padding-left: rem(40);
+    padding-right: rem(40);
+  }
+}

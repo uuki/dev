@@ -1,0 +1,34 @@
+---
+import { Image } from 'astro:assets';
+import styles from './BadgeOrigin.module.scss';
+import originConfig from '@/config/origin.yml';
+
+interface Props {
+  name?: string;
+}
+
+const { name = 'uuki' } = Astro.props;
+
+type OriginData = {
+  name: string;
+  url: string;
+  logo: string;
+};
+
+const data: OriginData = (originConfig as Record<string, OriginData>)[name] || (originConfig as Record<string, OriginData>).uuki;
+---
+
+<div class={styles.badgeOrigin}>
+  {data.logo && (
+    <Image
+      src={data.logo}
+      width={16}
+      height={16}
+      alt={`${data.name} logo`}
+      class={styles.badgeOrigin__logo}
+      loading="lazy"
+      format="webp"
+    />
+  )}
+  <span class={styles.badgeOrigin__text}>{data.name}</span>
+</div>

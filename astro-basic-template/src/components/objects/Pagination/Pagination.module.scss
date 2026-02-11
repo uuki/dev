@@ -1,0 +1,36 @@
+/**
+ * Pagination Component Styles
+ * Page navigation for blog listings
+ */
+
+.pagination {
+  margin-top: rem(40);
+}
+
+.pagination__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pagination__link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.pagination__info {
+  font-size: rem(14);
+  font-weight: 600;
+  color: #6b7280; // gray-500
+}
+
+.pagination__of {
+  margin-left: rem(3);
+  margin-right: rem(3);
+  font-size: rem(12);
+}
+
+.pagination__arrow {
+  display: inline-block;
+  transition: transform 0.2s ease-in-out;
+}

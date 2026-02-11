@@ -1,0 +1,27 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import styles from './Link.module.scss';
+
+interface Props extends HTMLAttributes<'a'> {
+  href?: string;
+  variant?: 'opacity' | 'inOutWhite' | 'default';
+}
+
+const { href = '#', variant = 'default', class: className, ...rest } = Astro.props;
+
+const isInternalLink = href.startsWith('/');
+const isAnchorLink = href.startsWith('#');
+
+const variantClass = variant !== 'default' ? styles[`-${variant}`] : '';
+const combinedClass = [styles.link, variantClass, className].filter(Boolean).join(' ');
+---
+
+{isInternalLink || isAnchorLink ? (
+  <a href={href} class={combinedClass} {...rest}>
+    <slot />
+  </a>
+) : (
+  <a href={href} class={combinedClass} rel="noopener noreferrer" target="_blank" {...rest}>
+    <slot />
+  </a>
+)}

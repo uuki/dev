@@ -1,0 +1,56 @@
+---
+import ButtonNav from '../../ui/ButtonNav/ButtonNav.astro';
+import styles from './Pagination.module.scss';
+
+interface Props {
+  currentPage: number;
+  totalPages: number;
+  basePath?: string;
+}
+
+const { currentPage, totalPages, basePath = '/blog' } = Astro.props;
+
+const prevPage = currentPage > 1 ? `${basePath}/${currentPage - 1}` : null;
+const nextPage = currentPage < totalPages ? `${basePath}/${currentPage + 1}` : null;
+
+// Special case: page 1 should link to /blog (without page number)
+const prevLink = currentPage === 2 ? basePath : prevPage;
+---
+
+<div class={styles.pagination}>
+  <nav class={styles.pagination__nav}>
+    {prevLink ? (
+      <a href={prevLink} class={styles.pagination__link}>
+        <ButtonNav>
+          <span class={styles.pagination__arrow}>←</span>
+          Prev
+        </ButtonNav>
+      </a>
+    ) : (
+      <ButtonNav disabled={true}>
+        <span class={styles.pagination__arrow}>←</span>
+        Prev
+      </ButtonNav>
+    )}
+
+    <span class={styles.pagination__info}>
+      {currentPage}
+      <span class={styles.pagination__of}>of</span>
+      {totalPages}
+    </span>
+
+    {nextPage ? (
+      <a href={nextPage} class={styles.pagination__link}>
+        <ButtonNav>
+          Next
+          <span class={styles.pagination__arrow}>→</span>
+        </ButtonNav>
+      </a>
+    ) : (
+      <ButtonNav disabled={true}>
+        Next
+        <span class={styles.pagination__arrow}>→</span>
+      </ButtonNav>
+    )}
+  </nav>
+</div>

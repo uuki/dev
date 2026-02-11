@@ -1,0 +1,16 @@
+---
+import slugify from 'slugify';
+import Link from '../Link/Link.astro';
+import styles from './LinkTag.module.scss';
+
+interface Props {
+  tag: string;
+}
+
+const { tag } = Astro.props;
+const slug = slugify(tag);
+---
+
+<Link href={`/tags/${slug}`} variant="opacity" class={styles.linkTag}>
+  {tag}
+</Link>

@@ -1,0 +1,50 @@
+/**
+ * Search Page Styles
+ */
+
+.searchPage {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.searchPage__main {
+  flex: 1;
+  padding: rem(40) rem(20);
+
+  @media (--desktop) {
+    padding: rem(60) rem(40);
+  }
+}
+
+.searchPage__container {
+  max-width: rem(800);
+  margin: 0 auto;
+}
+
+.searchPage__content {
+  margin-top: rem(40);
+}
+
+.searchPage__widget {
+  /**
+   * Pagefind UI customization variables
+   * Note: These are external API variables from Pagefind library,
+   * not local component variables, so they don't use --_ prefix
+   */
+  --pagefind-ui-scale: 1;
+  --pagefind-ui-primary: rgb(var(--accent));
+  --pagefind-ui-text: rgb(var(--black));
+  --pagefind-ui-background: rgb(var(--white));
+  --pagefind-ui-border: rgb(var(--navy-400));
+  --pagefind-ui-tag: rgb(var(--bg));
+  --pagefind-ui-border-width: 1px;
+  --pagefind-ui-border-radius: 8px;
+  --pagefind-ui-image-border-radius: 8px;
+  --pagefind-ui-image-box-ratio: 3 / 2;
+  --pagefind-ui-font: inherit;
+
+  @media (--desktop) {
+    --pagefind-ui-scale: 1.2;
+  }
+}

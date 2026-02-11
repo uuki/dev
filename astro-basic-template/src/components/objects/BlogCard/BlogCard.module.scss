@@ -1,0 +1,37 @@
+/**
+ * BlogCard Component Styles
+ * Blog post card for listing pages
+ */
+
+.blogCard {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: rem(16) rem(25);
+  background-color: rgb(var(--white));
+  border-radius: rem(6);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.blogCard__origin {
+  margin-bottom: rem(5);
+}
+
+.blogCard__title {
+  margin-bottom: rem(7);
+  font-size: rem(18);
+  font-weight: 700;
+
+  @media (--desktop) {
+    font-size: rem(21);
+  }
+}
+
+.blogCard__tags {
+  margin-bottom: rem(7);
+}
+
+.blogCard__meta {
+  margin-top: auto;
+}

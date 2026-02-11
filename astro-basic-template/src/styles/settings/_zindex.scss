@@ -1,0 +1,10 @@
+:root {
+  /* z-index hierarchy */
+  --z-modal: 1000;
+  --z-header: 100;
+  --z-dropdown: 50;
+  --z-nav: 10;
+
+  /* Legacy (for backward compatibility) */
+  --z-index-nav: 10;
+}

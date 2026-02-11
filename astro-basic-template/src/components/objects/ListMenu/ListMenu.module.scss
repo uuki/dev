@@ -1,0 +1,25 @@
+/**
+ * ListMenu Component Styles
+ * Footer menu list
+ */
+
+.listMenu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.listMenu__item {
+  margin-left: rem(20);
+
+  &:first-child {
+    margin-left: 0;
+  }
+}
+
+.listMenu__link {
+  font-size: rem(14);
+}

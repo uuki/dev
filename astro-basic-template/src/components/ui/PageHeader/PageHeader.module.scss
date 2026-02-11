@@ -1,0 +1,15 @@
+/**
+ * PageHeader Component Styles
+ * Page title header
+ */
+
+.pageHeader {
+  font-size: rem(28);
+  font-weight: 700;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
+
+  @media (--desktop) {
+    font-size: rem(36);
+  }
+}

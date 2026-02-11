@@ -1,0 +1,29 @@
+/**
+ * ButtonNav Component Styles
+ * Navigation button for pagination
+ */
+
+.buttonNav {
+  min-width: rem(90);
+  height: rem(34);
+  padding-left: rem(15);
+  padding-right: rem(15);
+  font-size: rem(14);
+  font-weight: 700;
+  color: rgb(var(--white));
+  background-color: rgb(var(--navy-600));
+  border: none;
+  border-radius: rem(4);
+  cursor: pointer;
+  transition: opacity 0.2s ease-in-out;
+
+  &:hover:not(.-disabled) {
+    opacity: 0.8;
+  }
+
+  &.-disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}

@@ -1,0 +1,25 @@
+---
+import { Image } from 'astro:assets';
+import Link from '../Link/Link.astro';
+import styles from './SiteLogo.module.scss';
+
+// Use a placeholder or actual logo image
+// If you have a logo, place it in src/assets/images/logo.jpg
+const hasLogo = false; // Set to true when you add a real logo image
+---
+
+<Link href="/" variant="opacity" class={styles.siteLogo}>
+  {hasLogo ? (
+    <Image
+      src="/images/logo.jpg"
+      width={20}
+      height={20}
+      alt="uuki.dev logo"
+      class={styles.siteLogo__image}
+      loading="eager"
+    />
+  ) : (
+    <span class={styles.siteLogo__icon}>🚀</span>
+  )}
+  <span class={styles.siteLogo__text}>uuki.dev</span>
+</Link>

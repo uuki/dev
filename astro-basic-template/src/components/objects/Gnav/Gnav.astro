@@ -1,0 +1,23 @@
+---
+import Link from '../../ui/Link/Link.astro';
+import styles from './Gnav.module.scss';
+
+const navItems = [
+  { path: '/blog', name: 'Blog' },
+  { path: '/tags', name: 'Tags' },
+  { path: '/search', name: 'Search' },
+  { path: '/about', name: 'About' },
+];
+---
+
+<nav class={styles.gnav}>
+  <ul class={styles.gnav__list}>
+    {navItems.map((item) => (
+      <li class={styles.gnav__item}>
+        <Link href={item.path} variant="inOutWhite" class={styles.gnav__link}>
+          {item.name}
+        </Link>
+      </li>
+    ))}
+  </ul>
+</nav>

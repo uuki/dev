@@ -1,0 +1,9 @@
+lang: en
+siteName: Astro basic template
+
+# Git設定
+git:
+  enabled: true
+  repoUrl: 'https://github.com/uuki/uuki.dev'
+  showHistory: true
+  maxCommits: 10

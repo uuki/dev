@@ -1,0 +1,16 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import styles from './ButtonNav.module.scss';
+
+interface Props extends HTMLAttributes<'button'> {
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
+}
+
+const { type = 'button', disabled = false, class: className, ...rest } = Astro.props;
+const combinedClass = [styles.buttonNav, disabled && styles['-disabled'], className].filter(Boolean).join(' ');
+---
+
+<button type={type} disabled={disabled} class={combinedClass} {...rest}>
+  <slot />
+</button>

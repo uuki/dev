@@ -1,0 +1,15 @@
+---
+import DocumentLayout, { type Props as DocumentProps } from '../layouts/Document.astro';
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface Props extends DocumentProps {
+  // Future: Add app-specific props here
+}
+
+const props = Astro.props;
+---
+
+<DocumentLayout {...props}>
+  <main>
+    <slot />
+  </main>
+</DocumentLayout>

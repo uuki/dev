@@ -1,0 +1,55 @@
+/**
+ * Footer Component Styles
+ * Site footer with social links and menu
+ */
+
+.footer {
+  padding-bottom: rem(15);
+  color: rgb(var(--white));
+  background-color: rgb(var(--navy-600));
+}
+
+.footer__content {
+  padding-left: rem(20);
+  padding-right: rem(20);
+  text-align: center;
+
+  @media (--desktop) {
+    padding-left: rem(40);
+    padding-right: rem(40);
+  }
+}
+
+.footer__socialList {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: rem(6) rem(30);
+  margin: 0;
+  list-style: none;
+  background-color: rgb(var(--navy-400));
+  border-radius: 0 0 rem(6) rem(6);
+}
+
+.footer__socialItem {
+  margin-left: rem(10);
+  margin-right: rem(10);
+}
+
+.footer__socialLink {
+  display: block;
+  font-size: rem(19.2);
+}
+
+.footer__menu {
+  margin-top: rem(13);
+}
+
+.footer__copyright {
+  margin-top: rem(9);
+  text-align: center;
+
+  small {
+    font-size: rem(12);
+  }
+}

@@ -1,0 +1,29 @@
+# Optional Environment
+.husky
+
+# Build output
+dist/
+.output/
+.astro/
+
+# Dependencies
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Cache
+.eslintcache
+
+# Environment variables
+.env
+.env*.local
+.env*.production
+
+# misc
+*.pem
+.DS_Store
+Thumbs.db

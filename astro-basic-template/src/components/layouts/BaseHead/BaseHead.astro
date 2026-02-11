@@ -1,0 +1,62 @@
+---
+import { SEO } from 'astro-seo';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+}
+
+const {
+  title,
+  description = 'uuki.dev - 技術ブログ',
+  image = '/og-default.png',
+  type = 'website',
+} = Astro.props;
+
+const siteUrl = Astro.site || 'https://uuki.dev';
+const canonicalURL = new URL(Astro.url.pathname, siteUrl);
+const fullTitle = title ? `${title} | uuki.dev` : 'uuki.dev';
+const ogImage = new URL(image, siteUrl).toString();
+---
+
+<SEO
+  title={fullTitle}
+  description={description}
+  canonical={canonicalURL.toString()}
+  openGraph={{
+    basic: {
+      title: fullTitle,
+      type: type,
+      image: ogImage,
+      url: canonicalURL.toString(),
+    },
+    optional: {
+      description: description,
+      siteName: 'uuki.dev',
+      locale: 'ja_JP',
+    },
+    image: {
+      url: ogImage,
+      alt: title || 'uuki.dev',
+    },
+  }}
+  twitter={{
+    card: 'summary_large_image',
+  }}
+/>
+
+<!-- DNS Prefetch -->
+<meta http-equiv="x-dns-prefetch-control" content="on" />
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/atom.xml" />
+
+<!-- Fonts and other head elements -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" />

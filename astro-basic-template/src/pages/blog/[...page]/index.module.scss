@@ -1,0 +1,73 @@
+/**
+ * Blog List Page Styles
+ * Blog post listing page with pagination
+ */
+
+.blogList {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: rgb(var(--bg));
+}
+
+.blogList__main {
+  flex: 1;
+}
+
+.blogList__content {
+  padding: rem(66) 0;
+}
+
+.blogList__container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 rem(20);
+}
+
+.blogList__header {
+  margin-bottom: rem(23);
+}
+
+.blogList__search {
+  display: flex;
+  justify-content: center;
+  margin-bottom: rem(30);
+
+  @media (--mobile) {
+    margin-bottom: rem(20);
+  }
+}
+
+.blogList__searchInput {
+  display: block;
+  width: 100%;
+  max-width: 60%;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.blogList__posts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: rem(30);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @media (--mobile) {
+    flex-direction: column;
+    gap: rem(20);
+  }
+}
+
+.blogList__postItem {
+  width: calc(50% - rem(15));
+
+  @media (--mobile) {
+    width: 100%;
+  }
+}
+
+.blogList__postCard {
+  display: flex;
+  height: 100%;
+}

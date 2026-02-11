@@ -1,0 +1,34 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Link from '../../ui/Link/Link.astro';
+import BadgeOrigin from '../../ui/BadgeOrigin/BadgeOrigin.astro';
+import ListTag from '../ListTag/ListTag.astro';
+import ListMeta from '../ListMeta/ListMeta.astro';
+import styles from './BlogCard.module.scss';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { id, data } = post;
+const { title, date, tags = [], origin, url } = data;
+const slug = id.replace(/\.mdx?$/, '');
+---
+
+<article class={styles.blogCard}>
+  <div class={styles.blogCard__origin}>
+    <BadgeOrigin name={origin ?? undefined} />
+  </div>
+  <h2 class={styles.blogCard__title}>
+    <Link href={url || `/blog/${slug}`} variant="opacity">
+      {title}
+    </Link>
+  </h2>
+  <div class={styles.blogCard__tags}>
+    <ListTag tags={tags} />
+  </div>
+  <div class={styles.blogCard__meta}>
+    <ListMeta date={date} />
+  </div>
+</article>

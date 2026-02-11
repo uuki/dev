@@ -1,0 +1,75 @@
+/**
+ * Tags Page Styles
+ * Tag listing page
+ */
+
+.tags {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: rgb(var(--bg));
+}
+
+.tags__main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tags__wrapper {
+  padding: rem(66) 0;
+  width: 100%;
+}
+
+.tags__container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 rem(20);
+}
+
+.tags__content {
+  display: flex;
+  align-items: center;
+
+  @media (--mobile) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.tags__header {
+  padding-right: rem(20);
+  margin-right: rem(20);
+  border-right: 2px solid #e5e7eb;
+
+  @media (--mobile) {
+    padding-right: 0;
+    padding-bottom: rem(13);
+    margin-right: 0;
+    margin-bottom: rem(17);
+    border-right: none;
+    border-bottom: 2px solid #e5e7eb;
+  }
+}
+
+.tags__list {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: rem(512);
+  margin-top: rem(-10);
+  padding: 0;
+  list-style: none;
+}
+
+.tags__item {
+  margin-top: rem(10);
+  margin-right: rem(20);
+}
+
+.tags__count {
+  margin-left: rem(5);
+  font-size: rem(12);
+  color: #6b7280;
+  vertical-align: 1px;
+}
