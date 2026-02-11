@@ -12,7 +12,7 @@ interface Props {
 
 const { post } = Astro.props;
 const { id, data } = post;
-const { title, date, tags = [], origin, url } = data;
+const { title, created_at, tags = [], origin, url } = data;
 const slug = id.replace(/\.mdx?$/, '');
 ---
 
@@ -29,6 +29,6 @@ const slug = id.replace(/\.mdx?$/, '');
     <ListTag tags={tags} />
   </div>
   <div class={styles.blogCard__meta}>
-    <ListMeta date={date} />
+    <ListMeta date={created_at} />
   </div>
 </article>

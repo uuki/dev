@@ -9,9 +9,9 @@ export const GET: APIRoute = async (context) => {
     return !data.draft && !data.url;
   });
 
-  // Sort by date (newest first)
+  // Sort by created_at (newest first)
   const sortedPosts = posts.sort((a, b) => {
-    return b.data.date.getTime() - a.data.date.getTime();
+    return b.data.created_at.getTime() - a.data.created_at.getTime();
   });
 
   return rss({
@@ -23,7 +23,7 @@ export const GET: APIRoute = async (context) => {
       return {
         title: post.data.title,
         description: post.data.description ?? undefined,
-        pubDate: post.data.date,
+        pubDate: post.data.created_at,
         link: `/blog/${slug}/`,
         categories: post.data.tags || [],
         // Add author if available

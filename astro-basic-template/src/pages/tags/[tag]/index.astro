@@ -34,7 +34,7 @@ export const getStaticPaths = (async () => {
 
     // Sort by date (newest first)
     const sortedPosts = filteredPosts.sort((a, b) => {
-      return b.data.date.getTime() - a.data.date.getTime();
+      return b.data.created_at.getTime() - a.data.created_at.getTime();
     });
 
     return {

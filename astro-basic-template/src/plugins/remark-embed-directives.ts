@@ -6,11 +6,77 @@ import type { Plugin } from 'unified';
  * Remark plugin to handle embed directives (youtube, twitter, vimeo, github)
  * Transforms ::: youtube, ::: twitter, etc. blocks into component imports
  */
+/**
+ * Extract Twitter/X post ID from URL
+ */
+function extractTwitterId(url: string): string | null {
+  const patterns = [
+    /(?:twitter\.com|x\.com)\/\w+\/status\/(\d+)/,
+    /(?:twitter\.com|x\.com)\/.*\/status\/(\d+)/,
+  ];
+
+  for (const pattern of patterns) {
+    const match = url.match(pattern);
+    if (match) return match[1];
+  }
+
+  return null;
+}
+
 export const remarkEmbedDirectives: Plugin<[], Root> = () => {
   return (tree: Root) => {
     const embedComponents: Set<string> = new Set();
 
     visit(tree, (node: any) => {
+      // Auto-detect Twitter/X links and convert to embeds
+      if (node.type === 'paragraph') {
+        // Check if paragraph contains only a single link
+        if (node.children?.length === 1 && node.children[0].type === 'link') {
+          const linkNode = node.children[0];
+          const url = linkNode.url || '';
+          const twitterId = extractTwitterId(url);
+
+          if (twitterId) {
+            embedComponents.add('Tweet');
+
+            // Transform paragraph into Tweet component
+            node.type = 'html';
+            node.value = '';
+            node.data = {
+              hName: 'Tweet',
+              hProperties: {
+                id: twitterId,
+              },
+            };
+            delete node.children;
+          }
+        }
+      }
+
+      // Also handle standalone links (not in paragraphs)
+      if (node.type === 'link') {
+        const url = node.url || '';
+        const twitterId = extractTwitterId(url);
+
+        // Only convert if the link text is the same as URL (likely auto-link)
+        if (twitterId && node.children?.length === 1 &&
+            node.children[0].type === 'text' &&
+            node.children[0].value === url) {
+          embedComponents.add('Tweet');
+
+          node.type = 'html';
+          node.value = '';
+          node.data = {
+            hName: 'Tweet',
+            hProperties: {
+              id: twitterId,
+            },
+          };
+          delete node.children;
+          delete node.url;
+        }
+      }
+
       if (
         node.type === 'containerDirective' ||
         node.type === 'leafDirective' ||
