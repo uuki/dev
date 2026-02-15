@@ -20,7 +20,7 @@
 }
 
 .page__article {
-  background: rgb(var(--white));
+  background: var(--color-white);
   border-radius: 8px;
   padding: 40px;
 
@@ -33,7 +33,7 @@
   font-size: 32px;
   font-weight: 700;
   margin-bottom: 32px;
-  color: rgb(var(--text-400));
+  color: var(--color-text-400);
 
   @media (--mobile) {
     font-size: 24px;
@@ -42,7 +42,7 @@
 }
 
 .page__content {
-  color: rgb(var(--text-100));
+  color: var(--color-text-100);
   line-height: 1.8;
 
   :global(h2) {
@@ -50,7 +50,7 @@
     font-weight: 700;
     margin-top: 40px;
     margin-bottom: 16px;
-    color: rgb(var(--text-400));
+    color: var(--color-text-400);
 
     @media (--mobile) {
       font-size: 20px;
@@ -63,7 +63,7 @@
     font-weight: 700;
     margin-top: 32px;
     margin-bottom: 12px;
-    color: rgb(var(--text-400));
+    color: var(--color-text-400);
 
     @media (--mobile) {
       font-size: 18px;
@@ -76,7 +76,7 @@
   }
 
   :global(a) {
-    color: rgb(var(--accent));
+    color: var(--color-accent);
     text-decoration: underline;
 
     &:hover {

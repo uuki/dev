@@ -7,7 +7,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: rgb(var(--bg));
+  background-color: var(--color-bg);
 }
 
 .blogPost__main {
@@ -72,7 +72,7 @@
 
 .blogPost__content {
   padding: rem(50) rem(40);
-  background-color: rgb(var(--white));
+  background-color: var(--color-white);
   border-radius: rem(6);
 
   @media (--mobile) {

@@ -40,7 +40,7 @@
   left: 50%;
   transform: translateX(-50%) translateY(rem(5));
   width: rem(200);
-  background-color: rgb(var(--white));
+  background-color: var(--color-white);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   border-radius: rem(6);
   overflow: hidden;
@@ -57,11 +57,11 @@
   padding: 0;
   list-style: none;
   font-size: rem(11);
-  background-color: rgb(var(--bg));
+  background-color: var(--color-bg);
 }
 
 .postHistory__item {
-  border-top: 1px solid rgb(var(--navy-400));
+  border-top: 1px solid var(--color-navy-400);
 
   &:first-child {
     border-top: none;
@@ -107,7 +107,7 @@
     top: rem(2);
     width: rem(3);
     height: rem(3);
-    background-color: rgb(var(--navy-400));
+    background-color: var(--color-navy-400);
     border-radius: 50%;
   }
 }

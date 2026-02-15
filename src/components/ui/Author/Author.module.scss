@@ -24,12 +24,12 @@
   font-size: var(--_author-name-size);
   font-weight: var(--_author-name-weight);
   line-height: 1;
-  color: rgb(var(--text-400));
+  color: var(--color-text-400);
 }
 
 .Author__title {
   font-size: var(--_author-title-size);
   font-weight: var(--_author-title-weight);
   margin-top: var(--_author-title-margin);
-  color: rgb(var(--text-100));
+  color: var(--color-text-100);
 }

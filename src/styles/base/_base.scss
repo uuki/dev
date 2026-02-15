@@ -1,10 +1,13 @@
-html {
+:where(body) {
+  --_font-size: clamp(
+    14px,
+    calc(14px + (2 * (100vw - 375px) / 1366)),
+    16px
+  );
   font-family: var(--font-sans);
-  background-color: #F6F6F6;
-}
-
-body {
+  font-size: var(--_font-size);
   word-wrap: break-word;
+  background-color: #F6F6F6;
   -webkit-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -12,11 +15,11 @@ body {
   font-feature-settings: 'palt';
 }
 
-code {
+:where(code) {
   font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
     Bitstream Vera Sans Mono, Courier New, monospace;
 }
 
-a {
+:where(a) {
   text-decoration: none;
 }

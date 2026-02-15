@@ -7,13 +7,17 @@
     {
       "title": "Blog posts",
       "path": "[[workspace]]/src/data/blog",
-      "contentTypes": ["blog"]
+      "contentTypes": [
+        "blog"
+      ]
     },
     {
       "title": "Pages",
       "path": "[[workspace]]/src/data/pages",
       "excludeSubdir": true,
-      "contentTypes": ["page"]
+      "contentTypes": [
+        "page"
+      ]
     }
   ],
   "frontMatter.content.snippets": {

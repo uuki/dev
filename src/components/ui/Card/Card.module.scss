@@ -35,5 +35,5 @@ p {
   background-position: 0;
 }
 .linkCard:is(:hover, :focus-within) h2 {
-  color: rgb(var(--accent));
+  color: var(--color-accent);
 }

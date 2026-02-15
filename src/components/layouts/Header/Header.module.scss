@@ -10,8 +10,8 @@
   min-height: rem(60);
   padding-left: rem(20);
   padding-right: rem(20);
-  color: rgb(var(--white));
-  background-color: rgb(var(--navy-600));
+  color: var(--color-white);
+  background-color: var(--color-navy-600);
 
   @media (--desktop) {
     padding-left: rem(40);

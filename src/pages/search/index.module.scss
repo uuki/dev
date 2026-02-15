@@ -33,11 +33,11 @@
    * not local component variables, so they don't use --_ prefix
    */
   --pagefind-ui-scale: 1;
-  --pagefind-ui-primary: rgb(var(--accent));
-  --pagefind-ui-text: rgb(var(--black));
-  --pagefind-ui-background: rgb(var(--white));
-  --pagefind-ui-border: rgb(var(--navy-400));
-  --pagefind-ui-tag: rgb(var(--bg));
+  --pagefind-ui-primary: var(--color-accent);
+  --pagefind-ui-text: var(--color-black);
+  --pagefind-ui-background: var(--color-white);
+  --pagefind-ui-border: var(--color-navy-400);
+  --pagefind-ui-tag: var(--color-bg);
   --pagefind-ui-border-width: 1px;
   --pagefind-ui-border-radius: 8px;
   --pagefind-ui-image-border-radius: 8px;
