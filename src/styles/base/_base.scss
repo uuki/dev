@@ -1,11 +1,9 @@
+@view-transition {
+  navigation: auto;
+}
+
 :where(body) {
-  --_font-size: clamp(
-    14px,
-    calc(14px + (2 * (100vw - 375px) / 1366)),
-    16px
-  );
   font-family: var(--font-sans);
-  font-size: var(--_font-size);
   word-wrap: break-word;
   background-color: #F6F6F6;
   -webkit-text-size-adjust: 100%;
@@ -13,6 +11,28 @@
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   font-feature-settings: 'palt';
+}
+
+:where(body),
+:where(body *) {
+  --_font-size-min: 14;
+  --_font-size-max: 16;
+  --_vw-min: 375;
+  --_vw-max: 1366;
+  --_font-size-base: clamp(
+    calc(var(--_font-size-min) * 1px),
+    calc(
+      var(--_font-size-min) * 1px +
+      (var(--_font-size-max) - var(--_font-size-min)) *
+      (100vw - var(--_vw-min) * 1px) /
+      (var(--_vw-max) - var(--_vw-min))
+    ),
+    calc(var(--_font-size-max) * 1px)
+  );
+  font-size: calc(
+    var(--_font-size-base) +
+    var(--font-size-step) * var(--font-size-level)
+  );
 }
 
 :where(code) {

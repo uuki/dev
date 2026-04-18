@@ -1,0 +1,35 @@
+@use "sass:map";
+@use "sass:math";
+@use "sass:meta";
+
+$viewports: (
+  desktop: 1366,
+  mobile: 375,
+);
+
+@function _resolve-base($base) {
+  @if meta.type-of($base) == number {
+    @return $base;
+  }
+
+  @if map.has-key($viewports, $base) {
+    @return map.get($viewports, $base);
+  }
+
+  @error "Unknown base-vw `#{$base}`. Available: #{map.keys($viewports)}";
+}
+
+@function liquid($size-at-base, $base-vw: desktop, $minmax: null) {
+  $base: _resolve-base($base-vw);
+  $preferred: calc(#{$size-at-base} * 100vw / #{$base});
+
+  @if $minmax != null {
+    @return clamp(
+      #{map.get($minmax, min)}px,
+      #{$preferred},
+      #{map.get($minmax, max)}px
+    );
+  }
+
+  @return $preferred;
+}

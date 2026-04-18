@@ -28,9 +28,9 @@ const recentPosts = sortedPosts.slice(0, 5);
         </div>
         <div class={styles.home__content}>
           <ul class={styles.home__posts}>
-            {recentPosts.map((post) => (
+            {recentPosts.map((post, i) => (
               <li class={styles.home__postItem}>
-                <BlogCard post={post} />
+                <BlogCard post={post} key={String(i)} />
               </li>
             ))}
           </ul>

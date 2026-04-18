@@ -2,5 +2,6 @@
  * PostCSS Custom Media
  * @see https://www.npmjs.com/package/postcss-custom-media
  */
-@custom-media --mobile (max-width: 1365px);
-@custom-media --desktop (min-width: 1366px);
+@custom-media --mobile (width <= 1365px);
+@custom-media --desktop (width >= 1366px);
+@custom-media --hover (any-hover: hover);

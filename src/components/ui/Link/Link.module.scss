@@ -1,13 +1,9 @@
-/**
- * Link Component Styles
- * Basic link component with variants
- */
-
 .link {
   display: inline-block;
   color: inherit;
   text-decoration: none;
   transition: opacity 0.2s ease-in-out, color 0.2s ease-in-out;
+  @include typography-nav('medium');
 
   &.-opacity {
     &:hover {

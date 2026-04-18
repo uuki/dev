@@ -1,0 +1,11 @@
+@property --font-size-level {
+  syntax: "<integer>";
+  inherits: true;
+  initial-value: 0;
+}
+
+:root {
+  --font-size-base: 16px;
+  --font-size-step: 1px;
+  --font-size-level: 0;
+}

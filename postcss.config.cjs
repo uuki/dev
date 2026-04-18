@@ -2,16 +2,17 @@ const postcssGlobalData = require('@csstools/postcss-global-data');
 
 module.exports = {
   plugins: [
+    // Files for preprocessor (not output as source after build)
+    // IMPORTANT: Must be placed BEFORE postcss-custom-media
+    postcssGlobalData({
+      files: ['./src/styles/settings/_custom-media.scss']
+    }),
     require('postcss-custom-media'),
     require('postcss-preset-env')({
       stage: 3,
       features: {
         'custom-properties': true
       }
-    }),
-    // Files for preprocessor (not output as source after build)
-    postcssGlobalData({
-      files: ['./src/styles/settings/_custom-media.scss']
     })
   ]
 };

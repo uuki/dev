@@ -40,7 +40,7 @@ const formatDate = (dateStr: string): string => {
               : null;
 
             return (
-              <li class={styles.postHistory__item}>
+              <li class={styles.postHistory__item} data-index={index}>
                 {compareUrl ? (
                   <a
                     href={compareUrl}

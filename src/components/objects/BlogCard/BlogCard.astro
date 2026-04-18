@@ -9,9 +9,10 @@ import styles from './BlogCard.module.scss';
 
 interface Props {
   post: CollectionEntry<'blog'>;
+  key?: string;
 }
 
-const { post } = Astro.props;
+const { post, key } = Astro.props;
 const { id, data } = post;
 const { title, created_at, tags = [], url } = data;
 const slug = id.replace(/\.mdx?$/, '');
@@ -20,7 +21,7 @@ const slug = id.replace(/\.mdx?$/, '');
 const origin = detectOriginFromUrl(url);
 ---
 
-<article class={styles.blogCard}>
+<article class={styles.blogCard} style={{ '--slug': slug }}>
   <div class={styles.blogCard__origin}>
     <BadgeOrigin name={origin} />
   </div>

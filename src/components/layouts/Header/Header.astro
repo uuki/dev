@@ -7,4 +7,176 @@ import styles from './Header.module.scss';
 <header class={styles.header}>
   <SiteLogo />
   <Gnav />
+
+  <div class="floating-nav-wrapper">
+    <svg class="svg-filters">
+      <defs>
+        <filter id="goo">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" />
+          <feColorMatrix in="blur" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -10" result="goo" />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+        </filter>
+      </defs>
+    </svg>
+
+    <nav class="floating-nav">
+      <!-- 上部のblob -->
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+
+      <!-- 下部のblob -->
+      <div class="blob blob-4"></div>
+      <div class="blob blob-5"></div>
+
+      <!-- 左右のblob -->
+      <div class="blob blob-6"></div>
+      <div class="blob blob-7"></div>
+
+      <div class="nav-content">
+        <a href="#" class="nav-item">Home</a>
+        <a href="#" class="nav-item">About</a>
+        <a href="#" class="nav-item">Services</a>
+        <a href="#" class="nav-item">Contact</a>
+      </div>
+    </nav>
+  </div>
 </header>
+
+<style is:inline>
+    .floating-nav-wrapper {
+      width: 90%;
+      max-width: 600px;
+    }
+
+    .svg-filters {
+      width: 0;
+      height: 0;
+      position: absolute;
+    }
+
+    .floating-nav {
+      position: relative;
+      background: white;
+      border-radius: 40px;
+      padding: 20px 40px;
+      filter: url(#goo);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .blob {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background: white;
+      border-radius: 50%;
+    }
+
+    /* 上部のblob */
+    .blob-1 {
+      top: -15px;
+      left: 15%;
+      animation: wave-top-1 5s ease-in-out infinite;
+    }
+
+    .blob-2 {
+      top: -15px;
+      left: 45%;
+      animation: wave-top-2 6s ease-in-out infinite;
+      animation-delay: 1s;
+    }
+
+    .blob-3 {
+      top: -15px;
+      right: 15%;
+      animation: wave-top-3 5.5s ease-in-out infinite;
+      animation-delay: 2s;
+    }
+
+    /* 下部のblob */
+    .blob-4 {
+      bottom: -15px;
+      left: 20%;
+      animation: wave-bottom-1 6s ease-in-out infinite;
+      animation-delay: 0.5s;
+    }
+
+    .blob-5 {
+      bottom: -15px;
+      right: 20%;
+      animation: wave-bottom-2 5.5s ease-in-out infinite;
+      animation-delay: 2.5s;
+    }
+
+    /* 左右のblob */
+    .blob-6 {
+      left: -15px;
+      top: 50%;
+      transform: translateY(-50%);
+      animation: wave-left 5s ease-in-out infinite;
+      animation-delay: 1.5s;
+    }
+
+    .blob-7 {
+      right: -15px;
+      top: 50%;
+      transform: translateY(-50%);
+      animation: wave-right 6s ease-in-out infinite;
+      animation-delay: 3s;
+    }
+
+    @keyframes wave-top-1 {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-8px) scale(1.15); }
+    }
+
+    @keyframes wave-top-2 {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-12px) scale(1.2); }
+    }
+
+    @keyframes wave-top-3 {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-10px) scale(1.1); }
+    }
+
+    @keyframes wave-bottom-1 {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(8px) scale(1.15); }
+    }
+
+    @keyframes wave-bottom-2 {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(10px) scale(1.2); }
+    }
+
+    @keyframes wave-left {
+      0%, 100% { transform: translateY(-50%) translateX(0) scale(1); }
+      50% { transform: translateY(-50%) translateX(-8px) scale(1.15); }
+    }
+
+    @keyframes wave-right {
+      0%, 100% { transform: translateY(-50%) translateX(0) scale(1); }
+      50% { transform: translateY(-50%) translateX(8px) scale(1.15); }
+    }
+
+    .nav-content {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .nav-item {
+      color: #333;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-item:hover {
+      color: #667eea;
+    }
+</style>

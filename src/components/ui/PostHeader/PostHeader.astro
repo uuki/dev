@@ -2,12 +2,14 @@
 import type { HTMLAttributes } from 'astro/types';
 import styles from './PostHeader.module.scss';
 
-interface Props extends HTMLAttributes<'h1'> {}
+interface Props extends HTMLAttributes<'h1'> {
+  slug?: string;
+}
 
-const { class: className, ...rest } = Astro.props;
+const { slug, class: className, ...rest } = Astro.props;
 const combinedClass = [styles.postHeader, className].filter(Boolean).join(' ');
 ---
 
-<h1 class={combinedClass} {...rest}>
+<h1 class={combinedClass} {...rest} style={{ '--slug': slug }}>
   <slot />
 </h1>

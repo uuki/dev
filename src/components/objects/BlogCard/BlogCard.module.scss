@@ -2,7 +2,6 @@
  * BlogCard Component Styles
  * Blog post card for listing pages
  */
-
 .blogCard {
   display: flex;
   flex-direction: column;
@@ -12,6 +11,9 @@
   background-color: var(--color-white);
   border-radius: rem(6);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  a {
+    view-transition-name: var(--slug);
+  }
 }
 
 .blogCard__origin {
@@ -22,7 +24,6 @@
   margin-bottom: rem(7);
   font-size: rem(18);
   font-weight: 700;
-
   @media (--desktop) {
     font-size: rem(21);
   }

@@ -19,11 +19,9 @@
   justify-content: center;
   width: rem(20);
   height: rem(20);
-  font-size: rem(16);
 }
 
 .siteLogo__text {
   margin-left: rem(10);
-  font-weight: 700;
-  font-size: rem(16);
+  @include typography-nav('medium');
 }

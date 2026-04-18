@@ -7,14 +7,20 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: rem(60);
-  padding-left: rem(20);
-  padding-right: rem(20);
+  padding-block: liquid(20, $minmax: (min: 16, max: 24));
   color: var(--color-white);
   background-color: var(--color-navy-600);
+}
 
-  @media (--desktop) {
-    padding-left: rem(40);
-    padding-right: rem(40);
+@media (--mobile) {
+  .header {
+    // padding-inline: rem(20);
+    padding-inline: liquid(20, $minmax: (min: 20, max: 40));
+  }
+}
+
+@media (--desktop) {
+  .header {
+    padding-inline: liquid(40, $minmax: (min: 20, max: 40));
   }
 }
