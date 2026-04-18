@@ -3,28 +3,14 @@
 </script>
 
 <script lang="ts">
-  import { onMount, type Snippet } from 'svelte';
+  import { type Snippet } from 'svelte';
   import styles from './MorphMask.module.scss';
-
-  type MaskItem = { d: string };
-  type MaskData = {
-    original: MaskItem;
-    morphing: MaskItem[];
-  };
-  type MorphMaskOptions = {
-    duration: number;
-    easing: string;
-    scaleOffset: { x: number; y: number };
-  };
-  type FitMode = 'stretch' | 'contain' | 'cover';
-
-  const EASING_MAPPINGS: Record<string, string> = {
-    linear: '0 0 1 1',
-    ease: '0.25 0.1 0.25 1',
-    'ease-in': '0.42 0 1 1',
-    'ease-out': '0 0 0.58 1',
-    'ease-in-out': '0.42 0 0.58 1',
-  };
+  import {
+    type MaskData,
+    type MorphMaskOptions,
+    type FitMode,
+    buildAnimateAttrs,
+  } from './morphMask.utils';
 
   const clipPathId = `morph-mask-${++counter}`;
 
@@ -50,28 +36,33 @@
     scaleOffset: { x: 1, y: 1, ...(options.scaleOffset ?? {}) },
   });
 
-  let morphPath: string = $state('');
+  // マウント時に1度だけランダム選択。トップレベルで初期値を確定させることで onMount 不要にする
+  const morphIndex = Math.floor(Math.random() * maskData.variants.length);
+  let morphPath: string = $state(maskData.variants[morphIndex].d);
 
-  let pathEl: SVGPathElement | null = $state(null);
-  let contentEl: HTMLElement | null = $state(null);
-  let wrapperEl: HTMLElement | null = $state(null);
+  // --- DOM refs ---
+  let pathEl: SVGPathElement | null          = $state(null);
+  let contentEl: HTMLElement | null          = $state(null);
+  let wrapperEl: HTMLElement | null          = $state(null);
   let animateForwardEl: SVGAnimateElement | null = $state(null);
   let animateReverseEl: SVGAnimateElement | null = $state(null);
 
-  // パス本来のバウンディングボックス（マウント後に確定、以降不変）
-  let pathBBox: { x: number; y: number; width: number; height: number } = $state({ x: 0, y: 0, width: 0, height: 0 });
-
-  // コンテンツ要素のサイズ（ResizeObserver で追随）
-  let contentWidth: number = $state(0);
+  // --- DOM 計測値（$effect で更新） ---
+  let pathBBox: { x: number; y: number; width: number; height: number } = $state(
+    { x: 0, y: 0, width: 0, height: 0 },
+  );
+  let contentWidth: number  = $state(0);
   let contentHeight: number = $state(0);
 
-  function getKeySplines(easing: string): string {
-    return EASING_MAPPINGS[easing] ?? EASING_MAPPINGS['ease'];
-  }
+  // --- animate 属性オブジェクト ---
+  let forwardAttrs: Record<string, string> = $derived.by(() =>
+    buildAnimateAttrs(maskData.base.d, morphPath, resolvedOptions.easing, resolvedOptions.duration),
+  );
+  let reverseAttrs: Record<string, string> = $derived.by(() =>
+    buildAnimateAttrs(morphPath, maskData.base.d, resolvedOptions.easing, resolvedOptions.duration),
+  );
 
-  let keySplines: string = $derived(getKeySplines(resolvedOptions.easing));
-
-  // stretch は objectBoundingBox、contain/cover は userSpaceOnUse
+  // --- clipPathUnits / pathTransform ---
   let clipPathUnits: 'objectBoundingBox' | 'userSpaceOnUse' = $derived(
     fit === 'stretch' ? 'objectBoundingBox' : 'userSpaceOnUse',
   );
@@ -83,57 +74,45 @@
     if (bw === 0 || bh === 0) return '';
 
     if (fit === 'stretch') {
-      // 0-1 正規化（objectBoundingBox 用）
-      // パス原点が (0,0) でない場合も translate で補正
       return `scale(${(1 / bw) * sox}, ${(1 / bh) * soy}) translate(${-bx}, ${-by})`;
     }
 
     if (contentWidth === 0 || contentHeight === 0) return '';
 
-    // contain: 短辺に合わせて均等スケール / cover: 長辺に合わせて均等スケール
     const scale =
       fit === 'contain'
         ? Math.min(contentWidth / bw, contentHeight / bh)
         : Math.max(contentWidth / bw, contentHeight / bh);
 
-    // コンテンツ内でセンタリング、パス原点のオフセットも補正
     const tx = (contentWidth - bw * scale) / 2 - bx * scale;
     const ty = (contentHeight - bh * scale) / 2 - by * scale;
 
     return `translate(${tx}, ${ty}) scale(${scale * sox}, ${scale * soy})`;
   });
 
-  onMount(() => {
-    const randomIndex = Math.floor(Math.random() * maskData.morphing.length);
-    morphPath = maskData.morphing[randomIndex].d;
-
-    // transform 未適用状態でパスの本来のバウンディングボックスを取得
-    if (pathEl) {
-      const bbox = pathEl.getBBox();
-      pathBBox = { x: bbox.x, y: bbox.y, width: bbox.width, height: bbox.height };
-    }
-
-    if (contentEl) {
-      contentWidth = contentEl.offsetWidth;
-      contentHeight = contentEl.offsetHeight;
-    }
+  // パスの本来の BBox を DOM 確定後に1度だけ取得
+  // pathEl を読むことで依存関係を形成。pathBBox への書き込みは dependency にならない
+  $effect(() => {
+    if (!pathEl) return;
+    const bbox = pathEl.getBBox();
+    pathBBox = { x: bbox.x, y: bbox.y, width: bbox.width, height: bbox.height };
   });
 
-  // コンテンツサイズの変化を監視（contain/cover でパス位置・スケールを再計算）
+  // コンテンツサイズを ResizeObserver で追随（contain/cover のスケール計算に使用）
+  // ResizeObserver は observe() 直後に初回コールバックが発火するため offsetWidth 初期取得は不要
   $effect(() => {
     if (!contentEl) return;
-
     const ro = new ResizeObserver((entries) => {
       for (const entry of entries) {
-        contentWidth = entry.contentRect.width;
+        contentWidth  = entry.contentRect.width;
         contentHeight = entry.contentRect.height;
       }
     });
-
     ro.observe(contentEl);
     return () => ro.disconnect();
   });
 
+  // ホバーイベント
   $effect(() => {
     const card = wrapperEl;
     if (!card || !animateForwardEl || !animateReverseEl) return;
@@ -172,35 +151,13 @@
     {@render children()}
   </div>
 
-  <svg width="0" height="0" aria-hidden="true" style="position: absolute; pointer-events: none;">
+  <svg width="0" height="0" aria-hidden="true" class={styles.morphMaskSvg}>
     <defs>
       <clipPath id={clipPathId} {clipPathUnits}>
-        <path bind:this={pathEl} d={maskData.original.d} transform={pathTransform}>
+        <path bind:this={pathEl} d={maskData.base.d} transform={pathTransform}>
           {#if morphPath}
-            <animate
-              bind:this={animateForwardEl}
-              attributeName="d"
-              begin="indefinite"
-              dur={`${resolvedOptions.duration}ms`}
-              fill="freeze"
-              calcMode="spline"
-              {keySplines}
-              keyTimes="0;1"
-              from={maskData.original.d}
-              to={morphPath}
-            />
-            <animate
-              bind:this={animateReverseEl}
-              attributeName="d"
-              begin="indefinite"
-              dur={`${resolvedOptions.duration}ms`}
-              fill="freeze"
-              calcMode="spline"
-              {keySplines}
-              keyTimes="0;1"
-              from={morphPath}
-              to={maskData.original.d}
-            />
+            <animate bind:this={animateForwardEl} {...forwardAttrs} />
+            <animate bind:this={animateReverseEl} {...reverseAttrs} />
           {/if}
         </path>
       </clipPath>
