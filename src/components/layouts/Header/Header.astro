@@ -7,42 +7,8 @@ import styles from './Header.module.scss';
 <header class={styles.header}>
   <SiteLogo />
   <Gnav />
-
-  <div class="floating-nav-wrapper">
-    <svg class="svg-filters">
-      <defs>
-        <filter id="goo">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" />
-          <feColorMatrix in="blur" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -10" result="goo" />
-          <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
-        </filter>
-      </defs>
-    </svg>
-
-    <nav class="floating-nav">
-      <!-- 上部のblob -->
-      <div class="blob blob-1"></div>
-      <div class="blob blob-2"></div>
-      <div class="blob blob-3"></div>
-
-      <!-- 下部のblob -->
-      <div class="blob blob-4"></div>
-      <div class="blob blob-5"></div>
-
-      <!-- 左右のblob -->
-      <div class="blob blob-6"></div>
-      <div class="blob blob-7"></div>
-
-      <div class="nav-content">
-        <a href="#" class="nav-item">Home</a>
-        <a href="#" class="nav-item">About</a>
-        <a href="#" class="nav-item">Services</a>
-        <a href="#" class="nav-item">Contact</a>
-      </div>
-    </nav>
-  </div>
 </header>
-
+<!--
 <style is:inline>
     .floating-nav-wrapper {
       width: 90%;
@@ -179,4 +145,4 @@ import styles from './Header.module.scss';
     .nav-item:hover {
       color: #667eea;
     }
-</style>
+</style> -->
