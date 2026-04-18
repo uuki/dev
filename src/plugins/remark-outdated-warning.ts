@@ -6,6 +6,7 @@ interface OutdatedWarningOptions {
   enabled?: boolean;
   yearsThreshold?: number;
   warningText?: string;
+  include?: RegExp;
 }
 
 /**
@@ -17,13 +18,13 @@ export function remarkOutdatedWarning(options: OutdatedWarningOptions = {}): Ret
     enabled = true,
     yearsThreshold = 2,
     warningText = 'この記事は{years}年以上前に書かれた内容です。情報が古くなっている可能性があります。',
+    include,
   } = options;
 
   return (tree, file) => {
-    // Skip if feature is disabled
-    if (!enabled) {
-      return;
-    }
+    if (!enabled) return;
+
+    if (include && !include.test(file.history[0] ?? '')) return;
 
     // Get frontmatter data
     const frontmatter = (file.data as any).astro?.frontmatter;

@@ -57,6 +57,7 @@ export default defineConfig({
       remarkCustomDirectives,
       remarkEmbedDirectives,
       [remarkOutdatedWarning, {
+        include: /\/content\/blog\//,
         enabled: true,
         yearsThreshold: 2,
         warningText: 'この記事は{years}年以上前に書かれた内容です。情報が古くなっている可能性があります。',
