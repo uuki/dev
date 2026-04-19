@@ -1,0 +1,13 @@
+---
+import type { AsciiOptions } from '@/js/features/ascii-effect';
+import AsciiEffectSvelte from './AsciiEffect.svelte';
+
+interface Props {
+  options?: Partial<AsciiOptions>;
+}
+
+const { options } = Astro.props;
+const text = await Astro.slots.render('default');
+---
+
+<AsciiEffectSvelte {text} {options} client:load />
