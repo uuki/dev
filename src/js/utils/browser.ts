@@ -28,6 +28,36 @@ export async function copyToClipboard(text: string): Promise<boolean> {
 }
 
 // ---------------------------------------------------------------------------
+// LocalStorage
+// ---------------------------------------------------------------------------
+
+export function setLocalStorage(key: string, value: string): boolean {
+  try {
+    localStorage.setItem(key, value);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export function getLocalStorage(key: string): string | null {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+export function removeLocalStorage(key: string): boolean {
+  try {
+    localStorage.removeItem(key);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Cookie
 // ---------------------------------------------------------------------------
 

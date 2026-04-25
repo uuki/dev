@@ -53,3 +53,92 @@
   /* Accent (legacy) */
   --color-accent: #0eb376;
 }
+
+/**
+ * Theme colors
+ */
+:root {
+  /* LIGHT (primitive tokens) */
+
+  --color-bg-primary-light:   #f6f6f6;
+  --color-bg-secondary-light: #EEF2F6;
+  --color-bg-elevated-light:  #FFFFFF;
+
+  --color-accent-light:       #394554;
+  --color-accent-hover-light: #2F3945;
+  --color-accent-soft-light:  #D8DEE6;
+
+  --color-text-primary-light:   #1A1F26;
+  --color-text-secondary-light: #4A5563;
+  --color-text-muted-light:     #7A8594;
+
+  --color-border-light:       #D5DBE3;
+  --color-border-soft-light:  #E5EAF0;
+
+  --color-success-light: #2F8F6B;
+  --color-warning-light: #C48A2F;
+  --color-error-light:   #C45252;
+
+  /* DARK (primitive tokens) */
+
+  --color-bg-primary-dark:   #0F1115;
+  --color-bg-secondary-dark: #161A20;
+  --color-bg-elevated-dark:  #1D222A;
+
+  --color-accent-dark:       #394554;
+  --color-accent-hover-dark: #4A5A6E;
+  --color-accent-soft-dark:  #2C3642;
+
+  --color-text-primary-dark:   #E6EAF0;
+  --color-text-secondary-dark: #AAB2BF;
+  --color-text-muted-dark:     #6B7482;
+
+  --color-border-dark:       #2A313A;
+  --color-border-soft-dark:  #222831;
+
+  --color-success-dark: #3BA776;
+  --color-warning-dark: #D9A441;
+  --color-error-dark:   #D96C6C;
+}
+
+:root {
+  --color-bg-primary:   var(--color-bg-primary-light);
+  --color-bg-secondary: var(--color-bg-secondary-light);
+  --color-bg-elevated:  var(--color-bg-elevated-light);
+
+  --color-accent:       var(--color-accent-light);
+  --color-accent-hover: var(--color-accent-hover-light);
+  --color-accent-soft:  var(--color-accent-soft-light);
+
+  --color-text-primary:   var(--color-text-primary-light);
+  --color-text-secondary: var(--color-text-secondary-light);
+  --color-text-muted:     var(--color-text-muted-light);
+
+  --color-border:       var(--color-border-light);
+  --color-border-soft:  var(--color-border-soft-light);
+
+  --color-success: var(--color-success-light);
+  --color-warning: var(--color-warning-light);
+  --color-error:   var(--color-error-light);
+}
+
+:root:has([data-theme="dark"]) {
+  --color-bg-primary:   var(--color-bg-primary-dark);
+  --color-bg-secondary: var(--color-bg-secondary-dark);
+  --color-bg-elevated:  var(--color-bg-elevated-dark);
+
+  --color-accent:       var(--color-accent-dark);
+  --color-accent-hover: var(--color-accent-hover-dark);
+  --color-accent-soft:  var(--color-accent-soft-dark);
+
+  --color-text-primary:   var(--color-text-primary-dark);
+  --color-text-secondary: var(--color-text-secondary-dark);
+  --color-text-muted:     var(--color-text-muted-dark);
+
+  --color-border:       var(--color-border-dark);
+  --color-border-soft:  var(--color-border-soft-dark);
+
+  --color-success: var(--color-success-dark);
+  --color-warning: var(--color-warning-dark);
+  --color-error:   var(--color-error-dark);
+}

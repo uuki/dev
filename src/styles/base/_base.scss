@@ -5,7 +5,7 @@
 :where(body) {
   font-family: var(--font-sans);
   word-wrap: break-word;
-  background-color: #F6F6F6;
+  background-color: var(--color-bg-primary);
   -webkit-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
