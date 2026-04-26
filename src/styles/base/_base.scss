@@ -43,3 +43,23 @@
 :where(a) {
   text-decoration: none;
 }
+
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(container),
+::view-transition-new(container) {
+  --_view-transition-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  transform-origin: center;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+
+::view-transition-old(container) {
+  animation: vt-old 0.8s var(--_view-transition-ease) forwards;
+}
+
+::view-transition-new(container) {
+  animation: vt-new 0.8s var(--_view-transition-ease) forwards;
+}
