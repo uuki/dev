@@ -3,11 +3,12 @@ import { Image } from 'astro:assets';
 import Link from '../Link/Link.astro';
 import styles from './SiteLogo.module.scss';
 
+import imgLogo from '@/assets/images/logo.jpg';
 ---
 
 <Link href="/" variant="opacity" class={styles.siteLogo}>
   <Image
-    src="/images/logo.jpg"
+    src={imgLogo}
     width={20}
     height={20}
     alt="uuki.dev logo"

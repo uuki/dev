@@ -1,11 +1,13 @@
 ---
 import OptimizedImage from '../OptimizedImage/OptimizedImage.astro';
 import styles from './Author.module.scss';
+
+import imgLogo from '@/assets/images/logo.jpg'
 ---
 
 <div class={styles.Author}>
   <OptimizedImage
-    src="/images/logo.jpg"
+    src={imgLogo.src}
     alt="avatar"
     width={60}
     height={60}
