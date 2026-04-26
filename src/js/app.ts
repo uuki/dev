@@ -3,10 +3,12 @@ import './core/windowState'; // singleton — self-initializing
 import { loadWebFonts } from './libs/WebfontLoader';
 import { createDisableScroll } from './libs/DisableScroll';
 import { setupAsciiEffect } from './features/ascii-effect';
+import { setupBlockEffect } from './features/block-effect';
 import { isOk } from './libs/result';
 import { getUserAgent } from './utils/browser';
 import type { DisableScrollHandle } from './libs/DisableScroll';
 import type { AsciiEffectHandle } from './features/ascii-effect';
+import type { BlockEffectHandle } from './features/block-effect';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -15,6 +17,7 @@ import type { AsciiEffectHandle } from './features/ascii-effect';
 type AppFeatures = {
   disableScroll: DisableScrollHandle;
   asciiEffect: AsciiEffectHandle;
+  blockEffect: BlockEffectHandle;
 };
 
 // ---------------------------------------------------------------------------
@@ -52,11 +55,20 @@ class App {
     } else if (import.meta.env.DEV) {
       console.warn('[App] AsciiEffect:', aeResult.error);
     }
+
+    // Block effect — applied to all [.js-block-effect] elements
+    const beResult = await setupBlockEffect('.js-block-effect');
+    if (isOk(beResult)) {
+      this.features.blockEffect = beResult.value;
+    } else if (import.meta.env.DEV) {
+      console.warn('[App] BlockEffect:', beResult.error);
+    }
   }
 
   destroy(): void {
     this.features.disableScroll?.destroy();
     this.features.asciiEffect?.destroy();
+    this.features.blockEffect?.destroy();
   }
 }
 
