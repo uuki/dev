@@ -4,23 +4,30 @@
  */
 
 .header {
+  // padding-block: liquid(18, $minmax: (min: 6, max: 12));
+  padding: rem(18);
+}
+
+.header__content {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-block: liquid(20, $minmax: (min: 16, max: 24));
+  min-height: 60px;
+  border-radius: rem(30);
   color: var(--color-white);
   background-color: var(--color-navy-600);
+  padding: 0 rem(40);
 }
 
-@media (--mobile) {
-  .header {
-    // padding-inline: rem(20);
-    padding-inline: liquid(20, $minmax: (min: 20, max: 40));
-  }
-}
+// @media (--mobile) {
+//   .header {
+//     // padding-inline: rem(20);
+//     padding-inline: liquid(20, $minmax: (min: 20, max: 40));
+//   }
+// }
 
-@media (--desktop) {
-  .header {
-    padding-inline: liquid(40, $minmax: (min: 20, max: 40));
-  }
-}
+// @media (--desktop) {
+//   .header {
+//     padding-inline: liquid(40, $minmax: (min: 20, max: 40));
+//   }
+// }

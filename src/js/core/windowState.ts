@@ -28,6 +28,13 @@ class WindowStateSingleton {
       target: window,
       breakpoints: [...BREAKPOINTS],
       on: {
+        scroll: (state) => {
+          const max = state.scrollbars.y.max;
+          document.documentElement.style.setProperty(
+            '--scroll-y',
+            max > 0 ? (state.scrollY / max).toFixed(4) : '0',
+          );
+        },
         changeBreakpoint: (state) => {
           PubSub.publish(TOPIC_IDS.WINDOW_CHANGE_BREAKPOINT, state);
         },

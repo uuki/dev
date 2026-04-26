@@ -6,4 +6,5 @@
   "css.customData": [
     "./.vscode/css.json"
   ],
+  "typescript.updateImportsOnFileMove.enabled": "always"
 }
