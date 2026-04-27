@@ -17,6 +17,10 @@ export interface BlockEffectOptions {
   lerpFactor?: number;
   /** Explicit texture source. Falls back to auto-detection (img/background-image). */
   source?: HTMLImageElement | HTMLCanvasElement | string;
+  /** Block opacity 0–1. When < 1, blocks become transparent and texture is skipped. (default: 1) */
+  opacity?: number;
+  /** Block color in transparent mode (default: 0xffffff) */
+  blockColor?: number;
 }
 
 export interface BlockEffectHandle {

@@ -25,6 +25,8 @@ const DEFAULTS: Required<Omit<BlockEffectOptions, 'source'>> = {
   waveSpeed: 0.9,
   waveAmplitude: 0.4,
   lerpFactor: 0.13,
+  opacity: 1,
+  blockColor: 0xffffff,
 };
 
 // ---------------------------------------------------------------------------
@@ -169,15 +171,36 @@ function setupElement(
   // Shared texture (one upload to GPU, UV region baked per block geometry)
   const texture = srcCanvas ? new THREE.CanvasTexture(srcCanvas) : null;
 
-  // Shared materials — front face uses the texture, sides use a dark solid color
+  const isTransparent = opts.opacity < 1;
+
+  // Shared materials — transparent mode: glass-like, depthWrite disabled to prevent
+  // transparent objects from incorrectly occluding each other in the depth buffer.
+  // Opaque mode: dark sides + texture/solid front.
   const sideMat = new THREE.MeshPhongMaterial({
-    color: 0x111118,
-    specular: 0x223344,
-    shininess: 15,
+    color: isTransparent ? opts.blockColor : 0x111118,
+    specular: isTransparent ? 0x888888 : 0x223344,
+    shininess: isTransparent ? 80 : 15,
+    transparent: isTransparent,
+    opacity: opts.opacity,
+    depthWrite: !isTransparent,
   });
   const frontMat = texture
-    ? new THREE.MeshPhongMaterial({ map: texture, specular: 0x334455, shininess: 50 })
-    : new THREE.MeshPhongMaterial({ color: 0x888888, specular: 0x334455, shininess: 50 });
+    ? new THREE.MeshPhongMaterial({
+        map: texture,
+        specular: 0x334455,
+        shininess: 50,
+        transparent: isTransparent,
+        opacity: opts.opacity,
+        depthWrite: !isTransparent,
+      })
+    : new THREE.MeshPhongMaterial({
+        color: isTransparent ? opts.blockColor : 0x888888,
+        specular: isTransparent ? 0x888888 : 0x334455,
+        shininess: isTransparent ? 80 : 50,
+        transparent: isTransparent,
+        opacity: opts.opacity,
+        depthWrite: !isTransparent,
+      });
   const matArray: THREE.Material[] = [sideMat, sideMat, sideMat, sideMat, frontMat, sideMat];
 
   // Template geometry (cloned per block to bake UV without re-uploading the texture)
@@ -342,7 +365,7 @@ export async function createBlockEffect(
 
   const destroyFns = await Promise.all(
     elements.map(async el => {
-      const srcCanvas = await resolveSource(el, options.source);
+      const srcCanvas = opts.opacity >= 1 ? await resolveSource(el, options.source) : null;
       return setupElement(el, opts, srcCanvas);
     }),
   );
@@ -373,9 +396,20 @@ export async function setupBlockEffect(
   }
 
   const results = await Promise.all(
-    elements.map(el =>
-      createBlockEffect(el, { blockSize: Number(el.dataset.blockSize) || 40 }),
-    ),
+    elements.map(el => {
+      const parse = (v: string | undefined) => (v ? parseFloat(v) : undefined);
+      const blockSize = Number(el.dataset.blockSize) || 40;
+      const opacity = parse(el.dataset.opacity);
+      const waveAmplitude = parse(el.dataset.waveAmplitude);
+      const pushStrength = parse(el.dataset.pushStrength);
+      const blockColor = el.dataset.blockColor ? parseInt(el.dataset.blockColor, 16) : undefined;
+      const opts: BlockEffectOptions = { blockSize };
+      if (opacity !== undefined && !isNaN(opacity)) opts.opacity = opacity;
+      if (waveAmplitude !== undefined && !isNaN(waveAmplitude)) opts.waveAmplitude = waveAmplitude;
+      if (pushStrength !== undefined && !isNaN(pushStrength)) opts.pushStrength = pushStrength;
+      if (blockColor !== undefined && !isNaN(blockColor)) opts.blockColor = blockColor;
+      return createBlockEffect(el, opts);
+    }),
   );
 
   const handles = results.flatMap(r => (isOk(r) ? [r.value] : []));
