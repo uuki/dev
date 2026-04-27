@@ -1,0 +1,86 @@
+@use "sass:list";
+@use "sass:map";
+
+$feature-tests: (
+  'calc-size': (
+    type: 'declaration',
+    value: 'calc-size(auto, size + 1px)'
+  ),
+  'subgrid': (
+    type: 'declaration',
+    value: 'subgrid'
+  ),
+  'has': (
+    type: 'selector',
+    value: ':has(*)'
+  ),
+  'container-query': (
+    type: 'declaration',
+    value: 'inline-size'
+  ),
+  'anchor-position': (
+    type: 'declaration',
+    value: 'anchor(--a)'
+  ),
+);
+
+@mixin support-switch(
+  $feature,
+  $property: null,
+  $override-value: null
+) {
+  $config: map.get($feature-tests, $feature);
+
+  @if $config == null {
+    @error "Unknown feature: #{$feature}";
+  }
+
+  $type: map.get($config, type);
+  $value: map.get($config, value);
+
+  @if $override-value != null {
+    $value: $override-value;
+  }
+
+  @if $type == 'selector' {
+    @supports selector(#{$value}) {
+      @content (supported);
+    }
+    @supports not selector(#{$value}) {
+      @content (fallback);
+    }
+  }
+
+  @else if $type == 'declaration' {
+    @if $property == null {
+      @error "Property is required for declaration feature: #{$feature}";
+    }
+
+    @supports (#{$property}: #{$value}) {
+      @content (supported);
+    }
+    @supports not (#{$property}: #{$value}) {
+      @content (fallback);
+    }
+  }
+
+  @else {
+    @error "Unknown feature type: #{$type}";
+  }
+}
+
+@mixin is-supported($feature, $property: null) {
+  @include support-switch($feature, $property) using ($mode) {
+    @if $mode == supported {
+      @content;
+    }
+  }
+}
+
+@mixin is-not-supported($feature, $property: null) {
+  @include support-switch($feature, $property) using ($mode) {
+    @if $mode == fallback {
+      @content;
+    }
+  }
+}

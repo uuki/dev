@@ -1,13 +1,15 @@
 ---
+import SiteLogo from '@/components/ui/SiteLogo/SiteLogo.astro';
+
 import styles from './Hero.module.scss';
 ---
 
 <div class={styles.hero}>
   <div class={styles.hero__content}>
     <div class={styles.hero__header}>
-      <h1 class={styles.hero__title}>
-        <span>uuki.dev</span>
-      </h1>
+      <!-- <h1 class={styles.hero__logo}>
+        <SiteLogo noLink />
+      </h1> -->
     </div>
     <div class={styles.hero__console} data-ref="consoleEffect">
       <div class={styles.consoleEffect}>

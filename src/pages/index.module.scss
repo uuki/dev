@@ -8,13 +8,8 @@
 
 .top__main {
   flex: 1;
-  padding-top: rem(75);
-  padding-bottom: rem(75);
-
-  @media (--mobile) {
-    padding-top: rem(34);
-    padding-bottom: rem(34);
-  }
+  // padding-top: rem(75);
+  // padding-bottom: rem(75);
 }
 
 .top__content {

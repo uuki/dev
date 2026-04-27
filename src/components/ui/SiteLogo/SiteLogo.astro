@@ -1,12 +1,21 @@
 ---
 import { Image } from 'astro:assets';
-import Link from '../Link/Link.astro';
+import Link, { type Props as LinkProps } from '../Link/Link.astro';
 import styles from './SiteLogo.module.scss';
 
+import imgSymbol from '@/assets/images/symbol.svg?raw';
 import imgLogo from '@/assets/images/logo.jpg';
+
+interface Props {
+  noLink?: boolean;
+}
+
+const { noLink } = Astro.props;
+const Component = (noLink ? 'span' : Link) as any;
+const atts = (noLink ? {} : { href: "/", variant: "opacity" }) as LinkProps;
 ---
 
-<Link href="/" variant="opacity" class={styles.siteLogo}>
+<Component {...atts} class={styles.siteLogo}>
   <Image
     src={imgLogo}
     width={20}
@@ -15,5 +24,5 @@ import imgLogo from '@/assets/images/logo.jpg';
     class={styles.siteLogo__image}
     loading="eager"
   />
-  <span class={styles.siteLogo__text}>uuki.dev</span>
-</Link>
+  <span class={styles.siteLogo__text} aria-label="uuki.dev"><Fragment set:html={imgSymbol} /></span>
+</Component>

@@ -1,8 +1,3 @@
-/**
- * SiteLogo Component Styles
- * Site logo with avatar image and text
- */
-
 .siteLogo {
   display: flex;
   align-items: center;
@@ -24,4 +19,11 @@
 .siteLogo__text {
   margin-left: rem(10);
   @include typography-nav('medium');
+  svg {
+    width: auto;
+    height: fit-content;
+    > path {
+      fill: #fff;
+    }
+  }
 }

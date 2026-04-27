@@ -88,6 +88,7 @@ export default defineConfig({
             '@use "@/styles/tools/mixins/_underline.scss" as *;',
             '@use "@/styles/tools/mixins/_staggered.scss" as *;', // planned refactoring
             '@use "@/styles/tools/mixins/_typography.scss" as *;',
+            '@use "@/styles/tools/mixins/_supports.scss" as *;',
           ].join('\n')
         }
       }

@@ -1,13 +1,19 @@
 ---
 import SiteLogo from '../../ui/SiteLogo/SiteLogo.astro';
 import Gnav from '../../objects/Gnav/Gnav.astro';
-
 import styles from './Header.module.scss';
+
+const isTop = Astro.url.pathname === '/';
+const Component = isTop ? 'h1' : 'div';
 ---
 
 <header class={styles.header}>
   <div class={styles.header__content}>
-    <SiteLogo />
-    <Gnav />
+    <Component class={styles.header__logo}>
+      <SiteLogo noLink={isTop} />
+    </Component>
+    <div class={styles.header__nav}>
+      <Gnav />
+    </div>
   </div>
 </header>
