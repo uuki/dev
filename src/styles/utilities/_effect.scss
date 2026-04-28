@@ -1,0 +1,5 @@
+.u-effect {
+  &[data-effect="line-in-out"] {
+    @include line-in-out;
+  }
+}

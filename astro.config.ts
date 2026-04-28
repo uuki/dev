@@ -16,8 +16,26 @@ import rehypeKatex from 'rehype-katex';
 import { remarkCustomDirectives } from './src/plugins/remark-custom-directives';
 import { remarkEmbedDirectives } from './src/plugins/remark-embed-directives';
 import { remarkOutdatedWarning } from './src/plugins/remark-outdated-warning';
+import fs from 'fs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+
+const loadScssFiles = (dir: string, type: 'functions' | 'mixins') => {
+  return fs.readdirSync(dir)
+    .filter(file => file.endsWith('.scss'))
+    .map(file => `@use "@/styles/tools/${type}/${file}" as *;`);
+};
+
+const functionsDir = path.resolve(__dirname, './src/styles/tools/functions');
+const mixinsDir = path.resolve(__dirname, './src/styles/tools/mixins');
+const functionFiles = loadScssFiles(functionsDir, 'functions');
+const mixinFiles = loadScssFiles(mixinsDir, 'mixins');
+
+const additionalScssData = [
+  ...functionFiles,
+  ...mixinFiles,
+];
 
 /**
  * @docs https://astro.build/config
@@ -78,18 +96,7 @@ export default defineConfig({
           api: 'modern-compiler',
           charset: false,
           // Global addition styles (functions and mixins only)
-          additionalData: [
-            '@use "@/styles/tools/functions/_rem.scss" as *;',
-            '@use "@/styles/tools/functions/_liquid.scss" as *;', // planned refactoring
-            '@use "@/styles/tools/mixins/_line-clamp.scss" as *;',
-            '@use "@/styles/tools/mixins/_link.scss" as *;', // planned refactoring
-            '@use "@/styles/tools/mixins/_marker.scss" as *;',
-            '@use "@/styles/tools/mixins/_smoothing.scss" as *;',
-            '@use "@/styles/tools/mixins/_underline.scss" as *;',
-            '@use "@/styles/tools/mixins/_staggered.scss" as *;', // planned refactoring
-            '@use "@/styles/tools/mixins/_typography.scss" as *;',
-            '@use "@/styles/tools/mixins/_supports.scss" as *;',
-          ].join('\n')
+          additionalData: additionalScssData.join('\n')
         }
       }
     },

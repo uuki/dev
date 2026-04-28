@@ -1,29 +1,43 @@
+@use "sass:string";
 @use "sass:list";
 @use "sass:map";
 
 $feature-tests: (
   'calc-size': (
     type: 'declaration',
+    property: width,
     value: 'calc-size(auto, size + 1px)'
   ),
+
   'subgrid': (
     type: 'declaration',
+    property: grid-template-columns,
     value: 'subgrid'
   ),
+
   'has': (
     type: 'selector',
     value: ':has(*)'
   ),
+
   'container-query': (
     type: 'declaration',
+    property: container-type,
     value: 'inline-size'
   ),
+
   'anchor-position': (
-    type: 'declaration',
-    value: 'anchor(--a)'
+    type: 'raw',
+    value: '(anchor-name: --a) and (top: anchor(--a top))'
   ),
 );
 
+/**
+ * e.g.
+ * @include support-switch('calc-size', 'width') using ($mode) { ... }
+ * @include is-supported('has') { ... }
+ * @include is-not-supported('subgrid', 'grid-template-columns') { ... }
+*/
 @mixin support-switch(
   $feature,
   $property: null,
@@ -42,6 +56,9 @@ $feature-tests: (
     $value: $override-value;
   }
 
+  // -------------------------
+  // selector()
+  // -------------------------
   @if $type == 'selector' {
     @supports selector(#{$value}) {
       @content (supported);
@@ -51,15 +68,40 @@ $feature-tests: (
     }
   }
 
+  // -------------------------
+  // property: value
+  // -------------------------
   @else if $type == 'declaration' {
-    @if $property == null {
+    $resolved-property: $property;
+
+    @if $resolved-property == null {
+      $resolved-property: map.get($config, property);
+    }
+
+    @if $resolved-property == null {
       @error "Property is required for declaration feature: #{$feature}";
     }
 
-    @supports (#{$property}: #{$value}) {
+    @supports (#{$resolved-property}: #{$value}) {
       @content (supported);
     }
-    @supports not (#{$property}: #{$value}) {
+
+    @supports not (#{$resolved-property}: #{$value}) {
+      @content (fallback);
+    }
+  }
+
+  // -------------------------
+  // raw condition
+  // -------------------------
+  @else if $type == 'raw' {
+    $cond: string.unquote($value);
+
+    @supports #{$cond} {
+      @content (supported);
+    }
+
+    @supports not (#{$cond}) {
       @content (fallback);
     }
   }
