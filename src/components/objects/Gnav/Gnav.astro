@@ -3,16 +3,18 @@ import { menu } from '@/data/constants';
 import Link from '../../ui/Link/Link.astro';
 import styles from './Gnav.module.scss';
 
+const gnavData = menu.map((item) => ({
+  ...item,
+  isActive: item.path === Astro.url.pathname,
+}));
+
 ---
 
 <nav class={styles.gnav}>
   <ul class={styles.gnav__list}>
-    {menu.map((item) => (
+    {gnavData.map((item) => (
       <li class={styles.gnav__item}>
-        <a href={item.path}>{item.name}</a>
-        {/* <Link href={item.path} variant="inOutWhite">
-          {item.name}
-        </Link> */}
+        <a href={item.path} class={item.isActive ? '-active' : ''}>{item.name}</a>
       </li>
     ))}
   </ul>
