@@ -2,6 +2,15 @@
   navigation: auto;
 }
 
+html {
+  scroll-behavior: smooth;
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
+}
+
+
+
 :where(body) {
   font-family: var(--font-sans);
   word-wrap: break-word;
