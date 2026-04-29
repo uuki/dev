@@ -107,6 +107,18 @@ describe('normalizeActivities', () => {
     expect(result[0]).toMatchObject({ kind: 'article', url: 'https://example.com', slug: null });
   });
 
+  it('contribution の date が未来の場合は除外する', () => {
+    const futureYear = new Date().getUTCFullYear(); // date = `${futureYear + 1}-01-01` → 未来
+    const result = normalizeActivities([], [], [makeContribution({ year: futureYear })]);
+    expect(result).toHaveLength(0);
+  });
+
+  it('contribution の date が過去の場合は含める', () => {
+    const pastYear = new Date().getUTCFullYear() - 2; // date = `${pastYear + 1}-01-01` → 過去
+    const result = normalizeActivities([], [], [makeContribution({ year: pastYear, total: 100 })]);
+    expect(result).toHaveLength(1);
+  });
+
   it('created_at が文字列の場合も正しく date 変換する', () => {
     const post = makePost({ created_at: '2024-06-15T00:00:00Z' as unknown as Date, slug: 'p' });
     const result = normalizeActivities([post], [], []);

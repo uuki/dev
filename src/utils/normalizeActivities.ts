@@ -58,12 +58,15 @@ export function normalizeActivities(
     prerelease: r.data.prerelease,
   }));
 
-  const contributionItems: Activity[] = contributions.map((c) => ({
-    kind: 'contribution',
-    date: `${c.data.year + 1}-01-01`,
-    year: c.data.year,
-    total: c.data.total,
-  }));
+  const today = new Date().toISOString().split('T')[0];
+  const contributionItems: Activity[] = contributions
+    .map<Activity>((c) => ({
+      kind: 'contribution',
+      date: `${c.data.year + 1}-01-01`,
+      year: c.data.year,
+      total: c.data.total,
+    }))
+    .filter((c) => c.date <= today);
 
   return [...articles, ...releaseItems, ...contributionItems].sort((a, b) =>
     b.date.localeCompare(a.date),
