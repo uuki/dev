@@ -2,7 +2,7 @@
 import AppLayout from '@/layouts/App.astro';
 import { getCollection } from 'astro:content';
 import Hero from '@/components/layouts/Hero/Hero.astro';
-import ActivityLog from '@/components/layouts/ActivityLog/ActivityLog.astro';
+import SectionActivity from '@/components/layouts/SectionActivity/SectionActivity.astro';
 import BlogCard from '@/components/objects/BlogCard/BlogCard.astro';
 import Link from '@/components/ui/Link/Link.astro';
 import { normalizeActivities } from '@/utils/normalizeActivities';
@@ -13,7 +13,6 @@ const allReleases = await getCollection('releases');
 const allContributions = await getCollection('contributions');
 
 const activities = normalizeActivities(allPosts, allReleases, allContributions);
-const recentPosts = allPosts.slice(0, 10);
 
 ---
 <AppLayout>
@@ -22,20 +21,17 @@ const recentPosts = allPosts.slice(0, 10);
   </div>
 
   <div id="contents" class={styles.top__content}>
-    <!-- <ActivityLog items={recentPosts.map((post) => ({
-      title: post.data.title,
-      kind: 'post',
-      date: post.data.created_at,
-      items: []
-    }))} /> -->
 
-    <ul class={styles.top__posts}>
+    <SectionActivity data={activities} />
+
+    <!-- <ul class={styles.top__posts}>
       {recentPosts.map((post, i) => (
         <li class={styles.top__postItem}>
           <BlogCard post={post} key={String(i)} />
         </li>
       ))}
-    </ul>
+    </ul> -->
+
     <div class={styles.top__more}>
       <Link href="/blog/" variant="opacity" class={styles.top__moreLink}>
         <span>記事一覧へ</span>
@@ -44,7 +40,3 @@ const recentPosts = allPosts.slice(0, 10);
     </div>
   </div>
 </AppLayout>
-
-<script define:vars={{ activities }}>
-  console.log(activities);
-</script>

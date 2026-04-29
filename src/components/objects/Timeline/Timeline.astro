@@ -1,45 +1,56 @@
 ---
+import { type Activity } from '@/types/activity';
 import { format } from 'date-fns';
-import style from './Timeline.module.scss';
 
-export type TimelineSection = {
-  title: string;
-  kind: 'article' | 'release' | 'development' | 'event';
-  date: string;
-  items: astroHTML.JSX.Element[];
-};
+import style from './Timeline.module.scss';
+import iconWrite from '@/assets/icons/write.svg';
+import iconRocket from '@/assets/icons/rocket.svg';
+import iconRibbon from '@/assets/icons/ribbon.svg';
+import iconGitHub from '@/assets/icons/github.svg';
+import iconComment from '@/assets/icons/comment.svg';
 
 interface Props {
-  data: TimelineSection[];
+  year: number;
+  data: Activity[];
 }
 
-const formats = {
-  article: 'Posted article',
-  release: 'Released project',
-  development: 'Developed feature',
-  event: '',
+const mapIcons = {
+  article: iconWrite,
+  release: iconRocket,
+  contribution: iconGitHub,
+  award: iconRibbon,
 };
-const formatDate = (date: string) => {
-  return format(new Date(date), 'MMM. d');
+
+const titleFormats = {
+  article: 'Posted article %%date%%',
+  release: 'Released project %%date%%',
+  contribution: 'Total number of contributions last year',
+  award: 'Received award %%date%%',
 };
+
+const getFormat = (item: Activity) => {
+  return (titleFormats[item.kind] || '').replace('%%date%%', format(new Date(item.date), 'MMM. d'));
+}
 
 const props = Astro.props;
 ---
 
-<div class={ style.timeline }>
+<section class={ style.timeline }>
+  <h3 class={ style.timeline__year }>{props.year}</h3>
   {props.data.map((item) => (
     <div class={ style.timeline__item }>
       <div class={ style.timeline__header }>
-        <span class={ style.timeline__icon }></span>
-        <h3 class={ style.timeline__heading }>{formats[item.kind]} {formatDate(item.date)}</h3>
+        <span class={ style.timeline__icon }>
+          <img src={mapIcons[item.kind]?.src || iconComment.src} alt="" />
+        </span>
+        <h3 class={ style.timeline__heading }>{getFormat(item)}</h3>
       </div>
       <div class={ style.timeline__content }>
-        <ul>
-          {item.items.map((subItem) => (
-            <li>{subItem}</li>
-          ))}
-        </ul>
+
+        {/* <details>
+          <summary>more items</summary>
+        </details> */}
       </div>
     </div>
   ))}
-</div>
+</section>
