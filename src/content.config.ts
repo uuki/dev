@@ -1,6 +1,8 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { blogLoader } from '@/loaders/blogLoader';
+import { githubContributionsLoader } from '@/loaders/githubContributionsLoader.server';
+import { githubReleasesLoader } from '@/loaders/githubReleasesLoader.server';
 
 const blog = defineCollection({
   loader: blogLoader(),
@@ -37,4 +39,38 @@ const pages = defineCollection({
   }),
 });
 
-export const collections = { blog, pages };
+const contributions = defineCollection({
+  loader: githubContributionsLoader({
+    login: import.meta.env.GITHUB_LOGIN ?? 'uuki',
+    startYear: 2013,
+    token: import.meta.env.GITHUB_TOKEN,
+  }),
+  schema: z.object({
+    year: z.number(),
+    total: z.number(),
+  }),
+});
+
+const releases = defineCollection({
+  loader: githubReleasesLoader(
+    [
+      'uuki/lit-issue-reporter',
+      'uuki/astro-basic-template',
+      'uuki/style-template-flocss',
+      'uuki/11ty-hbs-webpack',
+    ],
+    { token: import.meta.env.GITHUB_TOKEN },
+  ),
+  schema: z.object({
+    title: z.string(),
+    version: z.string(),
+    repo: z.string(),
+    url: z.string(),
+    created_at: z.coerce.date(),
+    description: z.string().default(''),
+    prerelease: z.boolean().default(false),
+    tags: z.array(z.string()).default([]),
+  }),
+});
+
+export const collections = { blog, pages, contributions, releases };

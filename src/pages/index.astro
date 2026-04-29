@@ -11,6 +11,8 @@ import styles from './index.module.scss';
 const allPosts = await getCollection('blog', ({ data }) => {
   return !data.draft;
 });
+const contributions = await getCollection('contributions');
+const releases = await getCollection('releases');
 
 // // Sort by created_at descending
 // const sortedAllPosts = allPosts.sort((a, b) => {
@@ -72,6 +74,8 @@ const recentPosts = allPosts.slice(0, 10);
   </div> -->
 </AppLayout>
 
-<script define:vars={{ postsByYearMonth }}>
+<script define:vars={{ postsByYearMonth, contributions, releases }}>
   console.log(postsByYearMonth);
+  console.log(contributions);
+  console.log(releases);
 </script>
