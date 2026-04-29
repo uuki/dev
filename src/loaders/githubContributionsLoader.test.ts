@@ -4,9 +4,10 @@ import type { LoaderContext } from 'astro/loaders';
 
 vi.mock('../graphql/github/client.server', () => ({
   executeGithubQuery: vi.fn(),
+  assertTokenScopesAllowed: vi.fn().mockResolvedValue(undefined),
 }));
 
-import { executeGithubQuery } from '../graphql/github/client.server';
+import { executeGithubQuery, assertTokenScopesAllowed } from '../graphql/github/client.server';
 
 const CURRENT_YEAR = new Date().getFullYear();
 const START_YEAR = 2013;
@@ -110,6 +111,17 @@ describe('githubContributionsLoader', () => {
     await loader.load(ctx as LoaderContext);
 
     expect(ctx.logger.warn).toHaveBeenCalled();
+  });
+
+  it('"repo" スコープを持つトークンはエラーをスローする', async () => {
+    vi.mocked(assertTokenScopesAllowed).mockRejectedValueOnce(
+      new Error('[GitHub] Token has "repo" scope'),
+    );
+    const ctx = makeContext();
+    const loader = githubContributionsLoader({ login: 'uuki', startYear: 2024, token: TOKEN });
+
+    await expect(loader.load(ctx as LoaderContext)).rejects.toThrow('"repo" scope');
+    expect(mockExecuteQuery).not.toHaveBeenCalled();
   });
 
   it('token が未設定の場合は何も fetch せず早期 return する', async () => {

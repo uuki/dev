@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { parse } from 'graphql';
-import { executeGithubQuery } from './client.server';
+import { executeGithubQuery, assertTokenScopesAllowed } from './client.server';
 
 const ENDPOINT = 'https://api.github.com/graphql';
 const TOKEN = 'test-token';
@@ -74,5 +74,69 @@ describe('executeGithubQuery', () => {
     }));
 
     await expect(executeGithubQuery(mockDoc, {}, TOKEN)).rejects.toThrow('Field not found');
+  });
+});
+
+describe('assertTokenScopesAllowed', () => {
+  function makeUserFetch(scopeHeader: string | null) {
+    return vi.fn().mockResolvedValue({
+      ok: true,
+      headers: { get: (h: string) => h === 'X-OAuth-Scopes' ? scopeHeader : null },
+    });
+  }
+
+  beforeEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it.each([
+    ['repo',             'repo, read:user'],
+    ['admin:org',        'admin:org'],
+    ['admin:enterprise', 'admin:enterprise'],
+    ['project',          'project'],
+  ])('"%s" スコープがある場合はエラーをスローする', async (scope, header) => {
+    vi.stubGlobal('fetch', makeUserFetch(header));
+
+    await expect(assertTokenScopesAllowed(TOKEN)).rejects.toThrow(
+      'overly permissive scopes',
+    );
+  });
+
+  it('禁止スコープのエラーメッセージにスコープ名が含まれる', async () => {
+    vi.stubGlobal('fetch', makeUserFetch('repo, admin:org'));
+
+    await expect(assertTokenScopesAllowed(TOKEN)).rejects.toThrow('repo, admin:org');
+  });
+
+  it('"read:user" のみの場合はスローしない', async () => {
+    vi.stubGlobal('fetch', makeUserFetch('read:user'));
+
+    await expect(assertTokenScopesAllowed(TOKEN)).resolves.toBeUndefined();
+  });
+
+  it('"user:email" を含む場合はスローしない', async () => {
+    vi.stubGlobal('fetch', makeUserFetch('read:user, user:email'));
+
+    await expect(assertTokenScopesAllowed(TOKEN)).resolves.toBeUndefined();
+  });
+
+  it('スコープが空（fine-grained PAT）の場合はスローしない', async () => {
+    vi.stubGlobal('fetch', makeUserFetch(null));
+
+    await expect(assertTokenScopesAllowed(TOKEN)).resolves.toBeUndefined();
+  });
+
+  it('/user エンドポイントに Authorization ヘッダ付きでリクエストする', async () => {
+    const fetch = makeUserFetch('read:user');
+    vi.stubGlobal('fetch', fetch);
+
+    await assertTokenScopesAllowed(TOKEN);
+
+    expect(fetch).toHaveBeenCalledWith(
+      'https://api.github.com/user',
+      expect.objectContaining({
+        headers: expect.objectContaining({ Authorization: `Bearer ${TOKEN}` }),
+      }),
+    );
   });
 });

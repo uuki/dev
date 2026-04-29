@@ -1,7 +1,7 @@
 // SERVER-ONLY: do not import from client components or client:* scripts.
 import type { Loader, LoaderContext } from 'astro/loaders';
 import { z } from 'zod';
-import { executeGithubQuery } from '../graphql/github/client.server';
+import { assertTokenScopesAllowed, executeGithubQuery } from '../graphql/github/client.server';
 import { contributionsQuery } from '../graphql/github/queries/contributions';
 import { withConcurrency } from '../utils/concurrency';
 
@@ -36,6 +36,8 @@ export function githubContributionsLoader(options: Options): Loader {
         context.logger.warn('[ContributionsLoader] GITHUB_TOKEN is not set — skipping');
         return;
       }
+
+      await assertTokenScopesAllowed(token);
 
       const currentYear = new Date().getUTCFullYear();
 

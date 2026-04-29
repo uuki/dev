@@ -12,6 +12,26 @@ function redactSecrets(message: string): string {
     .replace(/github_pat_[A-Za-z0-9_]+/gi, '[REDACTED]');
 }
 
+const ALLOWED_SCOPES = new Set(['read:user', 'user:email']);
+
+export async function assertTokenScopesAllowed(token: string): Promise<void> {
+  const res = await fetch('https://api.github.com/user', {
+    headers: { Authorization: `Bearer ${token}` },
+    signal: AbortSignal.timeout(TIMEOUT_MS),
+  });
+  const scopes = (res.headers.get('X-OAuth-Scopes') ?? '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const forbidden = scopes.filter((s) => !ALLOWED_SCOPES.has(s));
+  if (forbidden.length > 0) {
+    throw new Error(
+      `[GitHub] Token has overly permissive scopes: ${forbidden.join(', ')}. ` +
+      'Revoke it and reissue with "read:user" scope only.',
+    );
+  }
+}
+
 const graphqlResponseSchema = z.object({
   data: z.unknown().optional(),
   errors: z.array(z.object({ message: z.string() })).optional(),

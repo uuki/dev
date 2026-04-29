@@ -23,7 +23,7 @@ export default defineConfig({
       screenshotFailures: true,
     },
     include: ['src/**/*.{test,spec}.{js,ts,jsx,tsx}'],
-    exclude: ['src/graphql/**', 'src/loaders/**'],
+    exclude: ['src/graphql/**', 'src/loaders/**', 'src/utils/**'],
     globals: true,
     coverage: {
       provider: 'v8',

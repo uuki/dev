@@ -4,7 +4,7 @@ export default defineConfig({
   test: {
     name: 'node',
     environment: 'node',
-    include: ['src/graphql/**/*.test.ts', 'src/loaders/**/*.test.ts'],
+    include: ['src/graphql/**/*.test.ts', 'src/loaders/**/*.test.ts', 'src/utils/**/*.test.ts'],
     globals: true,
   },
   resolve: {

@@ -44,12 +44,25 @@ function makeRelease(overrides: Partial<{
   };
 }
 
-function stubFetch(responses: Record<string, unknown[]>) {
+function makeHeaders(scope: string | null) {
+  return { get: (h: string) => h === 'X-OAuth-Scopes' ? scope : null };
+}
+
+function stubFetch(responses: Record<string, unknown[]>, scopeHeader: string | null = 'read:user') {
   return vi.fn().mockImplementation((url: string) => {
+    if (url === 'https://api.github.com/user') {
+      return Promise.resolve({
+        ok: true, status: 200,
+        headers: makeHeaders(scopeHeader),
+        json: () => Promise.resolve({ login: 'uuki' }),
+      });
+    }
     const matched = Object.entries(responses).find(([key]) => url.includes(key));
-    if (!matched) return Promise.resolve({ ok: false, status: 404, json: () => Promise.resolve([]) });
+    if (!matched) {
+      return Promise.resolve({ ok: false, status: 404, headers: makeHeaders(null), json: () => Promise.resolve([]) });
+    }
     const [, body] = matched;
-    return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(body) });
+    return Promise.resolve({ ok: true, status: 200, headers: makeHeaders(null), json: () => Promise.resolve(body) });
   });
 }
 
@@ -152,9 +165,10 @@ describe('githubReleasesLoader', () => {
 
   it('リポジトリの fetch が失敗した場合はそのリポジトリをスキップして続行する', async () => {
     const fetch = vi.fn()
-      .mockResolvedValueOnce({ ok: false, status: 404, json: () => Promise.resolve([]) })
+      .mockResolvedValueOnce({ ok: true, status: 200, headers: makeHeaders('read:user'), json: () => Promise.resolve({}) }) // pre-flight
+      .mockResolvedValueOnce({ ok: false, status: 404, headers: makeHeaders(null), json: () => Promise.resolve([]) })
       .mockResolvedValue({
-        ok: true, status: 200,
+        ok: true, status: 200, headers: makeHeaders(null),
         json: () => Promise.resolve([makeRelease({ tag_name: 'v1.0.0' })]),
       });
     vi.stubGlobal('fetch', fetch);
@@ -165,6 +179,16 @@ describe('githubReleasesLoader', () => {
 
     expect(ctx.store.set).toHaveBeenCalledTimes(1);
     expect(ctx.logger.warn).toHaveBeenCalled();
+  });
+
+  it('"repo" スコープを持つトークンはエラーをスローする', async () => {
+    vi.stubGlobal('fetch', stubFetch({}, 'repo, read:user'));
+    const ctx = makeContext();
+
+    const loader = githubReleasesLoader(['uuki/repo-a'], { token: TOKEN });
+
+    await expect(loader.load(ctx as LoaderContext)).rejects.toThrow('overly permissive scopes');
+    expect(ctx.store.set).not.toHaveBeenCalled();
   });
 
   it('token が未設定の場合は早期 return する', async () => {

@@ -3,6 +3,7 @@ import type { Loader, LoaderContext } from 'astro/loaders';
 import { z } from 'zod';
 import { sanitize } from '@/js/libs/Sanitizer';
 import { isOk } from '@/js/libs/result';
+import { assertTokenScopesAllowed } from '../graphql/github/client.server';
 import { withConcurrency } from '../utils/concurrency';
 
 const CONCURRENCY = 3;
@@ -37,6 +38,8 @@ export function githubReleasesLoader(repos: string[], options: ReleaseOptions = 
         context.logger.warn('[ReleasesLoader] GITHUB_TOKEN is not set — skipping');
         return;
       }
+
+      await assertTokenScopesAllowed(token);
 
       const validRepos = repos.filter((repo) => {
         if (REPO_RE.test(repo)) return true;
