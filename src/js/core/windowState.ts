@@ -24,16 +24,19 @@ class WindowStateSingleton {
   }
 
   private initialize(): void {
+    const updateScrollY = (scrollY: number, max: number) => {
+      document.documentElement.style.setProperty('--scroll-y', max > 0 ? (scrollY / max).toFixed(4) : '0');
+    };
+
     const result = createWindowState({
       target: window,
       breakpoints: [...BREAKPOINTS],
       on: {
+        load: (state) => {
+          updateScrollY(state.scrollY, state.scrollbars.y.max);
+        },
         scroll: (state) => {
-          const max = state.scrollbars.y.max;
-          document.documentElement.style.setProperty(
-            '--scroll-y',
-            max > 0 ? (state.scrollY / max).toFixed(4) : '0',
-          );
+          updateScrollY(state.scrollY, state.scrollbars.y.max);
         },
         changeBreakpoint: (state) => {
           PubSub.publish(TOPIC_IDS.WINDOW_CHANGE_BREAKPOINT, state);

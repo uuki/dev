@@ -1,0 +1,18 @@
+---
+import style from './HeadingSection.module.scss';
+
+interface Props {
+  heading: 'h2' | 'h3';
+  class?: string;
+}
+
+const {
+  heading: TagName,
+  class: className,
+  ...props
+} = Astro.props;
+
+---
+<TagName class:list={[style.headingSection,`${className ?? ''}`]} {...props}>
+  <slot />
+</TagName>

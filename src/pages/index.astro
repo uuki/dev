@@ -2,6 +2,7 @@
 import AppLayout from '@/layouts/App.astro';
 import { getCollection } from 'astro:content';
 import Hero from '@/components/layouts/Hero/Hero.astro';
+import ActivityLog from '@/components/layouts/ActivityLog/ActivityLog.astro';
 import BlogCard from '@/components/objects/BlogCard/BlogCard.astro';
 import Link from '@/components/ui/Link/Link.astro';
 import styles from './index.module.scss';
@@ -11,13 +12,29 @@ const allPosts = await getCollection('blog', ({ data }) => {
   return !data.draft;
 });
 
-// Sort by created_at descending
-const sortedPosts = allPosts.sort((a, b) => {
-  return new Date(b.data.created_at).getTime() - new Date(a.data.created_at).getTime();
-});
+// // Sort by created_at descending
+// const sortedAllPosts = allPosts.sort((a, b) => {
+//   return new Date(b.data.created_at).getTime() - new Date(a.data.created_at).getTime();
+// });
 
-// Take first 5 posts
-const recentPosts = sortedPosts.slice(0, 5);
+// Group posts by year and month
+const postsByYearMonth = allPosts.reduce((acc, post) => {
+  const date = new Date(post.data.created_at);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const key = `${year}-${String(month).padStart(2, '0')}`;
+
+  if (!acc[key]) {
+    acc[key] = [];
+  }
+  acc[key].push(post);
+
+  return acc;
+}, {} as Record<string, typeof allPosts>);
+
+// Get recent posts (for display)
+const recentPosts = allPosts.slice(0, 10);
+
 ---
 <AppLayout>
   <div class={styles.top__hero}>
@@ -25,6 +42,13 @@ const recentPosts = sortedPosts.slice(0, 5);
   </div>
 
   <div id="contents" class={styles.top__content}>
+    <!-- <ActivityLog items={recentPosts.map((post) => ({
+      title: post.data.title,
+      kind: 'post',
+      date: post.data.created_at,
+      items: []
+    }))} /> -->
+
     <ul class={styles.top__posts}>
       {recentPosts.map((post, i) => (
         <li class={styles.top__postItem}>
@@ -47,3 +71,7 @@ const recentPosts = sortedPosts.slice(0, 5);
     </main>
   </div> -->
 </AppLayout>
+
+<script define:vars={{ postsByYearMonth }}>
+  console.log(postsByYearMonth);
+</script>

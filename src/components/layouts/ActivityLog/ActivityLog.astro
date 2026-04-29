@@ -1,0 +1,16 @@
+---
+import Timeline from '@/components/objects/Timeline/Timeline.astro';
+import HeadingSection from '@/components/ui/HeadingSection/HeadingSection.astro';
+import style from './ActivityLog.module.scss';
+
+interface Props {
+}
+
+const props = Astro.props;
+---
+<div class={ style.activityLog }>
+  <HeadingSection heading="h2">Activity Log</HeadingSection>
+  <div class={ style.activityLog__content }>
+    <Timeline />
+  </div>
+</div>

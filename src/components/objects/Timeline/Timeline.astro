@@ -1,0 +1,45 @@
+---
+import { format } from 'date-fns';
+import style from './Timeline.module.scss';
+
+export type TimelineSection = {
+  title: string;
+  kind: 'article' | 'release' | 'development' | 'event';
+  date: string;
+  items: astroHTML.JSX.Element[];
+};
+
+interface Props {
+  data: TimelineSection[];
+}
+
+const formats = {
+  article: 'Posted article',
+  release: 'Released project',
+  development: 'Developed feature',
+  event: '',
+};
+const formatDate = (date: string) => {
+  return format(new Date(date), 'MMM. d');
+};
+
+const props = Astro.props;
+---
+
+<div class={ style.timeline }>
+  {props.data.map((item) => (
+    <div class={ style.timeline__item }>
+      <div class={ style.timeline__header }>
+        <span class={ style.timeline__icon }></span>
+        <h3 class={ style.timeline__heading }>{formats[item.kind]} {formatDate(item.date)}</h3>
+      </div>
+      <div class={ style.timeline__content }>
+        <ul>
+          {item.items.map((subItem) => (
+            <li>{subItem}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  ))}
+</div>

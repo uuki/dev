@@ -41,6 +41,11 @@
 }
 
 .header__logo {
+  transition: opacity 0.2s;
+  html:not([style]) & {
+    opacity: 0;
+  }
+
   :global(.is-top) & {
     --_speed: 8;
     // NOTE: calc-size() がintrinsic size系のプロパティのみでなく、inset系に適用できるようになれば最適化可能
