@@ -10,6 +10,20 @@
   padding: var(--_gap);
   min-height: var(--_h);
   box-sizing: content-box;
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(var(--_h) + var(--_gap));
+    background: linear-gradient(
+      to bottom in oklab,
+      var(--color-bg-primary) 20%,
+      transparent 100%
+    );
+    z-index: calc(var(--z-global-header) - 1);
+  }
 }
 
 .header__content {
