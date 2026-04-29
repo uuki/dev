@@ -28,12 +28,23 @@
       anchor(bottom)
       anchor(left);
     border-radius: rem(12);
-    background-color: rgba(0, 0, 0, 0.5);
     transition:
       inset 0.25s,
       opacity 0.2s;
     opacity: 0;
     z-index: -1;
+    background:
+      // グロー効果
+      linear-gradient(
+        45deg,
+        transparent,
+        rgba(120, 190, 255, 0.1),
+        /*rgba(170, 140, 255, 0.12),*/
+        rgba(131, 255, 105, 0.1),
+        transparent
+      ),
+      // ベース
+      rgba(255, 255, 255, 0.05);
   }
 }
 
