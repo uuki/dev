@@ -1,0 +1,34 @@
+---
+import { routes } from '@/data/constants';
+import styles from './Console.module.scss';
+// import AsciiChar from '@/data/ascii-art.txt?raw';
+
+interface Props {
+}
+const props = Astro.props;
+
+const blogRoute = routes.find(item => item.id === 'blog');
+const aboutRoute = routes.find(item => item.id === 'about');
+
+// const splashScreen = AsciiChar.trim();
+
+---
+<div class={styles.console}>
+  <header class={styles.console__header}>
+    <span class={styles.console__dots}>
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
+    <span class={styles.console__title}>dev - Pane #1</span>
+  </header>
+  <div class={styles.console__content}>
+    <pre class={styles.console__splash}></pre>
+    <p class={styles.console__meta}>dev<br><span>v0.1.0</span></p>
+    <nav class={styles.console__nav}>
+      <a href="#contents">uuki run serve</a>
+      <a href={blogRoute?.path}>uuki run archive</a>
+      <a href={aboutRoute?.path}>uuki run about</a>
+    </nav>
+  </div>
+</div>

@@ -1,7 +1,7 @@
 ---
 import AppLayout from '@/layouts/App.astro';
 import { getCollection } from 'astro:content';
-import Hero from '@/components/objects/Hero/Hero.astro';
+import Hero from '@/components/layouts/Hero/Hero.astro';
 import BlogCard from '@/components/objects/BlogCard/BlogCard.astro';
 import Link from '@/components/ui/Link/Link.astro';
 import styles from './index.module.scss';
@@ -20,28 +20,30 @@ const sortedPosts = allPosts.sort((a, b) => {
 const recentPosts = sortedPosts.slice(0, 5);
 ---
 <AppLayout>
-  <div class={styles.top}>
+  <div class={styles.top__hero}>
+    <Hero />
+  </div>
+
+  <div class={styles.top__content}>
+    <ul class={styles.top__posts}>
+      {recentPosts.map((post, i) => (
+        <li class={styles.top__postItem}>
+          <BlogCard post={post} key={String(i)} />
+        </li>
+      ))}
+    </ul>
+    <div class={styles.top__more}>
+      <Link href="/blog/" variant="opacity" class={styles.top__moreLink}>
+        <span>記事一覧へ</span>
+        <span class={styles.top__moreIcon}>→</span>
+      </Link>
+    </div>
+  </div>
+
+  <!-- <div class={styles.top}>
     <main class={styles.top__main}>
       <div class={styles.top__container}>
-        <div class={styles.top__hero}>
-          <Hero />
-        </div>
-        <div class={styles.top__content}>
-          <ul class={styles.top__posts}>
-            {recentPosts.map((post, i) => (
-              <li class={styles.top__postItem}>
-                <BlogCard post={post} key={String(i)} />
-              </li>
-            ))}
-          </ul>
-          <div class={styles.top__more}>
-            <Link href="/blog/" variant="opacity" class={styles.top__moreLink}>
-              <span>記事一覧へ</span>
-              <span class={styles.top__moreIcon}>→</span>
-            </Link>
-          </div>
-        </div>
       </div>
     </main>
-  </div>
+  </div> -->
 </AppLayout>

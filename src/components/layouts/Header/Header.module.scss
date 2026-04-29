@@ -1,22 +1,21 @@
-/**
- * Header Component Styles
- * Site header with logo and navigation
- */
-
 .header {
-  --_gap: #{rem(18)};
-  --_h: #{rem(60)};
-  // padding-block: liquid(18, $minmax: (min: 6, max: 12));
-  padding: var(--_gap);
+  --_pad: var(--size-header-padding);
+  --_h: var(--size-header-height);
+  padding: var(--_pad);
   min-height: var(--_h);
   box-sizing: content-box;
+  :global(.is-top) & {
+    position: fixed;
+    width: 100%;
+    z-index: var(--z-global-header);
+  }
   &::before {
     content: '';
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: calc(var(--_h) + var(--_gap));
+    height: calc(var(--_h) + var(--_pad));
     background: linear-gradient(
       to bottom in oklab,
       var(--color-bg-primary) 20%,
@@ -32,7 +31,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: calc(100% - (var(--_gap) * 2));
+  width: calc(100% - (var(--_pad) * 2));
   min-height: inherit;
   border-radius: rem(30);
   color: var(--color-white);
@@ -46,10 +45,10 @@
     --_speed: 8;
     // NOTE: calc-size() がintrinsic size系のプロパティのみでなく、inset系に適用できるようになれば最適化可能
     --_base-pos-top: calc((1.125rem + var(--_h) / 2) - 10.5px);
-    --_base-pos-left: calc(var(--_gap) + var(--_side-pad));
+    --_base-pos-left: calc(var(--_pad) + var(--_side-pad));
     position: fixed;
     top: calc(var(--_base-pos-top) + max(0%, calc((50% - var(--_base-pos-top)) * (1 - var(--scroll-y, 0) * var(--_speed)))));
-    left: calc(var(--_base-pos-left) + max(0%, calc((25% - var(--_base-pos-left)) * (1 - var(--scroll-y, 0) * var(--_speed)))));
+    left: calc(var(--_base-pos-left) + max(0%, calc((20% - var(--_base-pos-left)) * (1 - var(--scroll-y, 0) * var(--_speed)))));
     transform: translate3d(
       min(0%, max(-50%, calc(-50% * (1 - var(--scroll-y, 0) * var(--_speed))))),
       min(0%, max(-50%, calc(-50% * (1 - var(--scroll-y, 0) * calc(var(--_speed) * 1))))),

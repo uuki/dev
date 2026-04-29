@@ -1,6 +1,6 @@
-export const menu = [
-  { name: 'Blog', path: '/blog/' },
-  { name: 'Tags', path: '/tags/' },
-  { name: 'Search', path: '/search/' },
-  { name: 'About', path: '/about/' },
+export const routes = [
+  { id: 'blog', name: 'Blog', path: '/blog/' },
+  { id: 'tags', name: 'Tags', path: '/tags/' },
+  { id: 'search', name: 'Search', path: '/search/' },
+  { id: 'about', name: 'About', path: '/about/' },
 ] as const;

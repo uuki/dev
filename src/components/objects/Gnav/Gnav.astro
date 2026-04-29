@@ -1,11 +1,13 @@
 ---
-import { menu } from '@/data/constants';
+import { routes } from '@/data/constants';
 import Link from '../../ui/Link/Link.astro';
 import styles from './Gnav.module.scss';
 
-const gnavData = menu.map((item) => ({
-  ...item,
-  isActive: item.path === Astro.url.pathname,
+const gnavData = routes
+  .filter(it => ['blog', 'search', 'about', 'tags'].includes(it.id))
+  .map((it) => ({
+    ...it,
+    isActive: it.path === Astro.url.pathname,
 }));
 
 ---
