@@ -10,3 +10,16 @@
     --font-size-level: 1;
   }
 }
+
+@mixin typography-heading($size: 'medium', $weight: 700) {
+  font-weight: $weight;
+  line-height: 1.4;
+
+  @if ($size == 'medium') {
+    --font-size-level: 14;
+  } @else if ($size == 'large') {
+    --font-size-level: 18;
+  } @else if ($size == 'xlarge') {
+    --font-size-level: 24;
+  }
+}

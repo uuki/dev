@@ -37,20 +37,22 @@ const props = Astro.props;
 
 <section class={ style.timeline }>
   <h3 class={ style.timeline__year }>{props.year}</h3>
-  {props.data.map((item) => (
-    <div class={ style.timeline__item }>
-      <div class={ style.timeline__header }>
-        <span class={ style.timeline__icon }>
-          <img src={mapIcons[item.kind]?.src || iconComment.src} alt="" />
-        </span>
-        <h3 class={ style.timeline__heading }>{getFormat(item)}</h3>
-      </div>
-      <div class={ style.timeline__content }>
+  <div class={ style.timeline__content }>
+    {props.data.map((item) => (
+      <div class={ style.timeline__item }>
+        <div class={ style.timeline__header }>
+          <span class={ style.timeline__icon }>
+            <img src={mapIcons[item.kind]?.src || iconComment.src} alt="" />
+          </span>
+          <h3 class={ style.timeline__heading }>{getFormat(item)}</h3>
+        </div>
+        <div class={ style.timeline__content }>
 
-        {/* <details>
-          <summary>more items</summary>
-        </details> */}
+          {/* <details>
+            <summary>more items</summary>
+          </details> */}
+        </div>
       </div>
-    </div>
-  ))}
+    ))}
+  </div>
 </section>

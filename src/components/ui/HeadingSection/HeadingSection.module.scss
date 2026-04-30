@@ -1,4 +1,6 @@
 .headingSection {
+  @include typography-heading;
+  color: #B0B0B0;
 }
 
 @media(--mobile) {

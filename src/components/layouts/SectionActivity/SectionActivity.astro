@@ -1,5 +1,6 @@
 ---
 import { type Activity } from '@/types/activity';
+import ContentLayout from '@/components/layouts/Content/Content.astro';
 import Timeline from '@/components/objects/Timeline/Timeline.astro';
 import HeadingSection from '@/components/ui/HeadingSection/HeadingSection.astro';
 import style from './SectionActivity.module.scss';
@@ -24,17 +25,21 @@ const activitiesByYear = props.data.reduce<YearGroup[]>((groups, activity) => {
 }, []);
 ---
 <section class={ style.sectionActivity }>
-  <HeadingSection heading="h2">Activity Log</HeadingSection>
-  <div class={ style.sectionActivity__content }>
-    <div class={ style.sectionActivity__profile }>
-      <!-- profile -->
+  <ContentLayout>
+    <div class={ style.sectionActivity__header }>
+      <HeadingSection heading="h2">Activity Log</HeadingSection>
     </div>
-    <div class={ style.sectionActivity__timeline }>
-      {activitiesByYear.map(({ year, items }) => (
-        <Timeline year={year} data={items} />
-      ))}
+    <div class={ style.sectionActivity__content }>
+      <div class={ style.sectionActivity__profile }>
+        <!-- profile -->
+      </div>
+      <div class={ style.sectionActivity__timeline }>
+        {activitiesByYear.map(({ year, items }) => (
+          <Timeline year={year} data={items} />
+        ))}
+      </div>
     </div>
-  </div>
+  </ContentLayout>
 </section>
 
 <script define:vars={{ activitiesByYear }}>

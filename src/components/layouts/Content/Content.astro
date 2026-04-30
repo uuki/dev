@@ -1,0 +1,11 @@
+---
+import style from './Content.module.scss';
+
+interface Props {
+}
+
+const props = Astro.props;
+---
+<div class={ style.content }>
+  <slot />
+</div>
