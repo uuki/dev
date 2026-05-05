@@ -3,7 +3,7 @@
   display: grid;
   grid-template-rows: auto 1fr;
   background-color: var(--color-navy-600);
-  border-radius: rem(20);
+  border-radius: var(--corners-lg);
   width: 100%;
   height: min(rem(500), 100%);
   padding: rem(10) rem(12);
@@ -48,7 +48,7 @@
   grid-template-columns: 1fr auto;
   grid-template-rows: repeat(2, auto);
   padding: rem(10);
-  border-radius: rem(20 - 10);
+  border-radius: calc(var(--corners-lg) - rem(10));
   background-color: #2C333A;
 }
 .console__splash {

@@ -1,6 +1,10 @@
 .content {
-  width: min(980px, 100%);
+  width: min(1366px, 100%);
   margin-inline: auto;
+  padding-inline: rem(40);
+  &.-narrow {
+    width: min(980px, 100%);
+  }
 }
 
 @media(--mobile) {

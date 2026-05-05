@@ -3,6 +3,8 @@ import { type Activity } from '@/types/activity';
 import ContentLayout from '@/components/layouts/Content/Content.astro';
 import Timeline from '@/components/objects/Timeline/Timeline.astro';
 import HeadingSection from '@/components/ui/HeadingSection/HeadingSection.astro';
+import ProfileCard from '@/components/ui/ProfileCard/ProfileCard.astro';
+
 import style from './SectionActivity.module.scss';
 
 interface Props {
@@ -24,14 +26,14 @@ const activitiesByYear = props.data.reduce<YearGroup[]>((groups, activity) => {
   return groups;
 }, []);
 ---
-<section class={ style.sectionActivity }>
+<section class:list={[style.sectionActivity, 'u-effect']} data-effect-root="progress-x">
   <ContentLayout>
     <div class={ style.sectionActivity__header }>
       <HeadingSection heading="h2">Activity Log</HeadingSection>
     </div>
     <div class={ style.sectionActivity__content }>
       <div class={ style.sectionActivity__profile }>
-        <!-- profile -->
+        <ProfileCard />
       </div>
       <div class={ style.sectionActivity__timeline }>
         {activitiesByYear.map(({ year, items }) => (

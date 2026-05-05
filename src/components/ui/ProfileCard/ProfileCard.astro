@@ -1,0 +1,31 @@
+---
+import style from './ProfileCard.module.scss';
+import imgLogo from '@/assets/images/logo.jpg';
+
+interface Props {
+}
+
+const props = Astro.props;
+---
+<div class={ style.profileCard }>
+  <div class={ style.profileCard__header }>
+    <h3 class={ style.profileCard__name }><img src={imgLogo.src} alt="">uuki</h3>
+    <span class={ style.profileCard__status }></span>
+  </div>
+  <div class={ style.profileCard__detail }>
+    <div class={ style.profileCard__item }>
+      <h4 class={ style.profileCard__title }>Progress</h4>
+      <progress class:list={[style.profileCard__progress, 'u-effect']} data-effect="progress-x" aria-hidden="true"></progress>
+    </div>
+    <div class={ style.profileCard__item }>
+      <h4 class={ style.profileCard__title }>Skills</h4>
+      <ul class={ style.profileCard__skills }>
+        <li>example<span>`n`</span></li>
+      </ul>
+    </div>
+    <div class={ style.profileCard__item }>
+      <h4 class={ style.profileCard__title }>Note</h4>
+      <p class={ style.profileCard__note }>Sample Profile Text</p>
+    </div>
+  </div>
+</div>

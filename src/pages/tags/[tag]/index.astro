@@ -6,7 +6,7 @@ import slugify from 'slugify';
 import AppLayout from '@/layouts/App.astro';
 import PageHeader from '@/components/ui/PageHeader/PageHeader.astro';
 import InputText from '@/components/ui/InputText/InputText.astro';
-import BlogCard from '@/components/objects/BlogCard/BlogCard.astro';
+import PostCard from '@/components/ui/PostCard/PostCard.astro';
 import { getAllTags, getAllTagNames } from '@/utils/tags';
 import styles from './index.module.scss';
 
@@ -77,7 +77,7 @@ const { posts, tagName } = Astro.props;
             {posts.map((post) => (
               <li class={styles.tagPosts__postItem}>
                 <div class={styles.tagPosts__postCard}>
-                  <BlogCard post={post} />
+                  <PostCard post={post} />
                 </div>
               </li>
             ))}

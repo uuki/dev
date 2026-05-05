@@ -1,6 +1,9 @@
 ---
+import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
 import { type Activity } from '@/types/activity';
 import { format } from 'date-fns';
+
+import PostCard from '@/components/ui/PostCard/PostCard.astro';
 
 import style from './Timeline.module.scss';
 import iconWrite from '@/assets/icons/write.svg';
@@ -33,24 +36,36 @@ const getFormat = (item: Activity) => {
 }
 
 const props = Astro.props;
+
+const componentMap: Partial<Record<Activity['kind'], AstroComponentFactory>> = {
+  article: PostCard,
+} as const;
+
+const getComponentByItem = (item: Activity) =>
+  componentMap[item.kind] ?? null;
+
 ---
 
 <section class={ style.timeline }>
-  <h3 class={ style.timeline__year }>{props.year}</h3>
-  <div class={ style.timeline__content }>
+  <div class={ style.timeline__header }>
+    <h3 class={ style.timeline__year }>{props.year}</h3>
+  </div>
+  <div class={ style.timeline__row }>
     {props.data.map((item) => (
-      <div class={ style.timeline__item }>
-        <div class={ style.timeline__header }>
+      <div class:list={[style.timeline__item]}>
+        <div class={ style.timeline__meta }>
           <span class={ style.timeline__icon }>
             <img src={mapIcons[item.kind]?.src || iconComment.src} alt="" />
           </span>
-          <h3 class={ style.timeline__heading }>{getFormat(item)}</h3>
+          <h3 class={ style.timeline__title }>{getFormat(item)}</h3>
         </div>
-        <div class={ style.timeline__content }>
-
-          {/* <details>
-            <summary>more items</summary>
-          </details> */}
+        <div class:list={[style.timeline__content]}>
+          <div class:list={[style.timeline__contentInner]}>
+            {(() => {
+              const Component = getComponentByItem(item);
+              return Component ? <Component post={item} /> : null;
+            })()}
+          </div>
         </div>
       </div>
     ))}

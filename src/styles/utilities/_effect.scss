@@ -1,5 +1,34 @@
+@keyframes effect-progress-x {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
 .u-effect {
+  &[data-effect-root="progress-x"] {
+    view-timeline-name: --section-progress;
+  }
+
   &[data-effect="line-in-out"] {
     @include line-in-out;
+  }
+
+  &[data-effect="progress-x"] {
+    position: relative;
+    overflow: hidden;
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 100%;
+      animation: effect-progress-x 1s linear both;
+      animation-timeline: --section-progress;
+      animation-range: entry 100% exit 0%;
+    }
   }
 }

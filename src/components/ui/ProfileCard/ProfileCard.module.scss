@@ -1,0 +1,54 @@
+.profileCard {
+  color: #fff;
+  background-color: #3A3636;
+  border-radius: var(--corners-lg);
+  padding: rem(56) rem(40);
+}
+.profileCard__header {}
+.profileCard__name {
+  display: flex;
+  gap: rem(24);
+  font-size: rem(40);
+  img {
+    width: rem(48);
+    aspect-ratio: 1;
+    border-radius: 50%;
+  }
+}
+.profileCard__status {}
+.profileCard__detail {
+  display: flex;
+  flex-direction: column;
+  gap: rem(24);
+  margin-top: rem(24);
+}
+.profileCard__item {}
+.profileCard__title {}
+
+.profileCard__progress {
+  width: 100%;
+  height: rem(10);
+  border-radius: rem(6);
+  &[value] {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  &::-webkit-progress-bar {
+    background: #cacaca;
+  }
+  &::after {
+    background: #6D7D5F;
+  }
+}
+.profileCard__skills {}
+.profileCard__note {}
+
+@media(--mobile) {
+
+}
+
+@media(--desktop) {
+  .profileCard {
+    min-width: rem(298);
+  }
+}

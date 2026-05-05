@@ -1,8 +1,8 @@
 /**
- * BlogCard Component Styles
+ * PostCard Component Styles
  * Blog post card for listing pages
  */
-.blogCard {
+.postCard {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -16,11 +16,11 @@
   }
 }
 
-.blogCard__origin {
+.postCard__origin {
   margin-bottom: rem(5);
 }
 
-.blogCard__title {
+.postCard__title {
   margin-bottom: rem(7);
   font-size: rem(18);
   font-weight: 700;
@@ -29,10 +29,10 @@
   }
 }
 
-.blogCard__tags {
+.postCard__tags {
   margin-bottom: rem(7);
 }
 
-.blogCard__meta {
+.postCard__meta {
   margin-top: auto;
 }

@@ -1,4 +1,5 @@
 :root {
   --size-header-height: #{rem(60)};
   --size-header-padding: #{rem(18)};
+  --size-header-with-safety: calc(var(--size-header-height) + var(--size-header-padding) * 2);
 }

@@ -1,9 +1,23 @@
 .sectionActivity {
 }
+
+.sectionActivity__header {}
 .sectionActivity__content {
   display: grid;
+  gap: rem(38);
   grid-template-columns: auto 1fr;
   margin-top: rem(40);
+}
+.sectionActivity__profile {
+  > * {
+    position: sticky;
+    top: var(--size-header-with-safety);
+  }
+}
+.sectionActivity__timeline {
+  display: flex;
+  flex-direction: column;
+  // gap: rem(24);
 }
 
 @media(--mobile) {

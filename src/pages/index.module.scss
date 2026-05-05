@@ -6,11 +6,11 @@
 }
 
 .top__content {
-  --_speed: 4;
-  --_clamped: clamp(0, var(--scroll-y) * var(--_speed), 1);
+  // --_speed: 4;
+  // --_clamped: clamp(0, var(--scroll-y) * var(--_speed), 1);
 
-  transform: translateY(calc(10% * (1 - var(--_clamped))));
-  opacity: calc(var(--_clamped) * 1.2);
+  // transform: translateY(calc(10% * (1 - var(--_clamped))));
+  // opacity: calc(var(--_clamped) * 1.2);
 }
 
 // .top__container {
