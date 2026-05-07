@@ -1,10 +1,119 @@
-.profileCard {
-  color: #fff;
-  background-color: #3A3636;
-  border-radius: var(--corners-lg);
-  padding: rem(56) rem(40);
+@use "sass:math";
+@use "sass:list";
+
+// スプライトの総フレーム数
+$total-frames: 4;
+// フレームアニメーションの順序
+$base-frames: 0, 2, 3, 2, 3, 1;
+// view-timeline のエリア内におけるanimationループ数
+$loops: 3;
+
+$frames: ();
+$max-index: $total-frames - 1;
+
+// 各ループにおけるフレームのリストを生成
+@for $i from 1 through $loops {
+  $frames: list.join($frames, $base-frames, comma);
 }
-.profileCard__header {}
+$count: length($frames);
+
+// 各フレームのアニメーションを定義
+@keyframes _blink {
+  @for $i from 1 through $count {
+    $start: math.percentage(math.div($i - 1, $count));
+    $end: math.percentage(math.div($i, $count)) - 0.001%;
+    $frame: nth($frames, $i);
+
+    #{$start},
+    #{$end} {
+      background-position:
+        calc(#{$frame} * 100% / #{$max-index})
+        50%;
+    }
+  }
+}
+
+.profileCard {
+  --_content-side: #{rem(24)};
+
+  position: relative;
+  color: #fff;
+  border-radius: var(--corners-lg);
+  overflow: hidden;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+  &::before {
+    background-color: #2A3340;
+    backdrop-filter: blur(rem(20));
+    z-index: -1;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    @include texture-grain() {
+      opacity: 0.9;
+    };
+  }
+}
+
+.profileCard__header {
+  --_side-radius: #{rem(24)};
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: rem(16);
+  padding: rem(16) rem(32);
+  background-color: #4c515b;
+  z-index: 0;
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    block-size: var(--_side-radius);
+    aspect-ratio: 1;
+    corner-shape: scoop;
+    background-color: inherit;
+    z-index: -1;
+    pointer-events: none;
+  }
+  &::before {
+    border-bottom-right-radius: 100vmax;
+    left: 0;
+  }
+  &::after {
+    border-bottom-left-radius: 100vmax;
+    right: 0;
+  }
+}
+.profileCard__sprite {
+  position: relative;
+  display: block;
+  width: rem(60);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  // background-color: #ccc;
+  background-color: rgba(255,255,255,0.9);
+  border: 2px solid #6D7D5F;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('@/assets/images/sprite.webp');
+    background-repeat: no-repeat;
+    background-size: 400% auto;
+    animation: _blink both linear; // steps(#{$step-count}, end) ではなく、linear
+    animation-timeline: --section-progress;
+    filter: grayscale(1);
+  }
+}
 .profileCard__name {
   display: flex;
   gap: rem(24);
@@ -20,28 +129,53 @@
   display: flex;
   flex-direction: column;
   gap: rem(24);
-  margin-top: rem(24);
+  padding: rem(16) var(--_content-side);
 }
-.profileCard__item {}
-.profileCard__title {}
+.profileCard__item {
+  display: flex;
+  flex-direction: column;
+  gap: rem(8);
+}
+.profileCard__title {
+  font-size: rem(12);
+  color: rgba(255, 255, 255, 0.78);
+}
 
 .profileCard__progress {
   width: 100%;
-  height: rem(10);
+  height: rem(6);
   border-radius: rem(6);
   &[value] {
     -webkit-appearance: none;
     appearance: none;
   }
   &::-webkit-progress-bar {
-    background: #cacaca;
+    background: rgba(255, 255, 255, 0.78);
   }
   &::after {
     background: #6D7D5F;
   }
 }
-.profileCard__skills {}
 .profileCard__note {}
+.profileCard__list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: rem(16);
+  p {
+    color: rgba(#fff, 0.28);
+  }
+}
+.profileCard__listHeader {
+  display: grid;
+  grid-template-columns: auto max-content;
+  gap: rem(24);
+  font-size: rem(12);
+}
+.profileCard__listHeading {
+  font-weight: normal;
+}
+.profileCard__listDescription {
+}
 
 @media(--mobile) {
 

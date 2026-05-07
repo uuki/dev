@@ -27,7 +27,7 @@
   position: sticky;
   top: 30%;
   font-size: var(--_year-size);
-  height: var(--_year-size);
+  height: calc(var(--_year-size) * 0.78);
   color: #A8A8A8;
   line-height: 1;
   font-family: var(--font-inter);
@@ -104,7 +104,7 @@
   grid-row: 2;
   display: grid;
   grid-template-columns: subgrid;
-  min-height: rem(54);
+  min-height: rem(60);
   padding-block: rem(20);
 
   &::before {

@@ -24,11 +24,32 @@
   display: inline-flex;
   align-items: center;
   flex-wrap: wrap;
-  padding: rem(6) rem(30);
+  padding: rem(8) rem(32);
   margin: 0;
   list-style: none;
   background-color: var(--color-navy-400);
-  border-radius: 0 0 rem(6) rem(6);
+  border-radius: 0 0 rem(16) rem(16);
+
+  --_surface-radius: #{rem(16)};
+  position: relative;
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    block-size: var(--_surface-radius);
+    aspect-ratio: 1;
+    corner-shape: scoop;
+    background-color: var(--color-navy-400);
+  }
+  &::before {
+    border-bottom-right-radius: 100vmax;
+    left: 100%;
+  }
+  &::after {
+    border-bottom-left-radius: 100vmax;
+    right: 100%;
+  }
 }
 
 .footer__socialItem {

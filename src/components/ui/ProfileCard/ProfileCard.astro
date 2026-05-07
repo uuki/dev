@@ -1,4 +1,5 @@
 ---
+import { format, differenceInYears } from 'date-fns';
 import style from './ProfileCard.module.scss';
 import imgLogo from '@/assets/images/logo.jpg';
 
@@ -6,25 +7,75 @@ interface Props {
 }
 
 const props = Astro.props;
+const now = new Date();
+
+const jobNPastime = [
+  {
+    title: 'Frontend Developer',
+    yearsOfExperience: differenceInYears(now, new Date(2013, 3)),
+    description: '',
+  },
+  {
+    title: 'IT Department',
+    yearsOfExperience: 5,
+    description: '',
+  },
+  {
+    title: 'Tech Lead',
+    yearsOfExperience: differenceInYears(now, new Date(2022, 3)),
+    description: '',
+  },
+  {
+    title: 'Photo',
+    yearsOfExperience: 'on a whim',
+    description: 'Started with Nikon D3100, then D850 to α7iii.',
+  },
+  {
+    title: 'Game',
+    yearsOfExperience: 'to oblivion',
+    description: 'Into BotW, Splatoon, Overcooked, and more.',
+  },
+  {
+    title: 'Watching streams',
+    yearsOfExperience: 'a lot',
+    description: 'Into VTubers, RiJ, esports, and more.'
+  },
+  {
+    title: 'Movies & Anime',
+    yearsOfExperience: 'a lifetime',
+    description: 'I bought Interstellar. I’m into Inception, Iron Man, and anime like Steins;Gate... too much to name.'
+  }
+];
 ---
 <div class={ style.profileCard }>
-  <div class={ style.profileCard__header }>
-    <h3 class={ style.profileCard__name }><img src={imgLogo.src} alt="">uuki</h3>
+  <hgroup class={ style.profileCard__header }>
+    <span class={ style.profileCard__sprite }></span>
+    <h3 class={ style.profileCard__name }>uuki</h3>
     <span class={ style.profileCard__status }></span>
-  </div>
+  </hgroup>
   <div class={ style.profileCard__detail }>
     <div class={ style.profileCard__item }>
-      <h4 class={ style.profileCard__title }>Progress</h4>
+      <h4 class={ style.profileCard__title }>PROGRESS</h4>
       <progress class:list={[style.profileCard__progress, 'u-effect']} data-effect="progress-x" aria-hidden="true"></progress>
     </div>
     <div class={ style.profileCard__item }>
-      <h4 class={ style.profileCard__title }>Skills</h4>
-      <ul class={ style.profileCard__skills }>
-        <li>example<span>`n`</span></li>
+      <h4 class={ style.profileCard__title }>JOB & PASTIME</h4>
+      <ul class={ style.profileCard__list }>
+        {
+          jobNPastime.map(item => (
+            <li>
+              <hgroup class={ style.profileCard__listHeader }>
+                <h5 class={ style.profileCard__listHeading }>{item.title}</h5>
+                <b>YoE {item.yearsOfExperience}</b>
+              </hgroup>
+              <p class={ style.profileCard__listDescription }>{item.description}</p>
+            </li>
+          ))
+        }
       </ul>
     </div>
     <div class={ style.profileCard__item }>
-      <h4 class={ style.profileCard__title }>Note</h4>
+      <h4 class={ style.profileCard__title }>NOTE</h4>
       <p class={ style.profileCard__note }>Sample Profile Text</p>
     </div>
   </div>

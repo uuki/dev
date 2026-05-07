@@ -1,0 +1,26 @@
+@mixin texture-grain(
+  $size: 80,
+  $frequency: 1.5,
+  $octaves: 4,
+  $blend-mode: overlay
+) {
+  /* Decoded SVG
+  <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">
+    <filter id="n">
+      <feTurbulence
+        type="fractalNoise"
+        baseFrequency="1.5"
+        numOctaves="4"
+        stitchTiles="stitch"/>
+    </filter>
+    <rect
+      width="200"
+      height="200"
+      filter="url(#n)"/>
+  </svg>
+  */
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="#{$size}" height="#{$size}"%3E%3Cfilter id="n"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="#{$frequency}" numOctaves="#{$octaves}" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="#{$size}" height="#{$size}" filter="url(%23n)"/%3E%3C/svg%3E');
+  background-size: #{$size}px #{$size}px;
+  mix-blend-mode: $blend-mode;
+  @content;
+}
