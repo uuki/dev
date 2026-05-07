@@ -6,7 +6,7 @@ interface Props {
   tags: string[];
 }
 
-const { tags } = Astro.props;
+const { tags = [] } = Astro.props;
 ---
 
 <ul class={styles.listTag}>
