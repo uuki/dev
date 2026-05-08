@@ -1,8 +1,3 @@
-/**
- * Configuration Types
- * Type definitions for config.yml
- */
-
 export interface GitConfig {
   enabled: boolean;
   repoUrl?: string;

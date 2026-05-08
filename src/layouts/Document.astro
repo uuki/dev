@@ -1,7 +1,7 @@
 ---
 import { SEO } from 'astro-seo';
 import { type MetaProps, createMeta } from '@/utils/meta';
-import configData from '@/data/config.yml';
+import { siteConfig } from '@/data/constants';
 import metaData from '@/data/meta.yml';
 import GoogleAnalytics from '@/components/features/GoogleAnalytics/GoogleAnalytics.astro';
 
@@ -26,11 +26,11 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
 
 // Format titles and descriptions
 const fullTitle = meta.title
-  ? [meta.title, configData.siteName].filter(Boolean).join(' - ')
-  : configData.siteName;
+  ? [meta.title, siteConfig.siteName].filter(Boolean).join(' - ')
+  : siteConfig.siteName;
 
 const ogTitle = meta['og:title']
-  ? [meta['og:title'], configData.siteName].filter(Boolean).join(' - ')
+  ? [meta['og:title'], siteConfig.siteName].filter(Boolean).join(' - ')
   : fullTitle;
 
 const description = meta.description || metaData.description;
@@ -53,7 +53,7 @@ const isTop = Astro.url.pathname === '/';
 ---
 
 <!DOCTYPE html>
-<html lang={configData.lang} class={isTop ? 'is-top' : ''}>
+<html lang={siteConfig.lang} class={isTop ? 'is-top' : ''}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
@@ -73,12 +73,12 @@ const isTop = Astro.url.pathname === '/';
         },
         optional: {
           description: formats['og:description'],
-          siteName: configData.siteName,
+          siteName: siteConfig.siteName,
           locale: 'ja_JP',
         },
         image: {
           url: formats.ogImage,
-          alt: meta.title || configData.siteName,
+          alt: meta.title || siteConfig.siteName,
         },
       }}
       twitter={{

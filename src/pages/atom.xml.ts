@@ -1,7 +1,7 @@
 import rss from '@astrojs/rss';
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
-import configData from '@/data/config.yml';
+import { siteConfig } from '@/data/constants';
 
 export const GET: APIRoute = async (context) => {
   // Get all published blog posts
@@ -15,7 +15,7 @@ export const GET: APIRoute = async (context) => {
   });
 
   return rss({
-    title: configData.siteName || 'uuki.dev',
+    title: siteConfig.siteName || 'uuki.dev',
     description: 'Tech blog and development notes',
     site: context.site || 'https://uuki.dev',
     items: sortedPosts.map((post) => {

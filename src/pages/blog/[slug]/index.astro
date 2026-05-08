@@ -1,6 +1,5 @@
 ---
 import type { GetStaticPaths } from 'astro';
-import type { SiteConfig } from '@/types/config';
 import { getCollection, getEntry, render } from 'astro:content';
 import AppLayout from '@/layouts/App.astro';
 import PostHeader from '@/components/ui/PostHeader/PostHeader.astro';
@@ -10,10 +9,8 @@ import ListSocial from '@/components/objects/ListSocial/ListSocial.astro';
 import OptimizedImage from '@/components/ui/OptimizedImage/OptimizedImage.astro';
 import PostHistory from '@/components/objects/PostHistory/PostHistory.astro';
 import { getFileRevision } from '@/utils/git';
-import configData from '@/data/config.yml';
+import { siteConfig } from '@/data/constants';
 import styles from './index.module.scss';
-
-const config = configData as unknown as SiteConfig;
 
 export const getStaticPaths = (async () => {
   const allPosts = await getCollection('blog', ({ data }) => {
@@ -44,10 +41,10 @@ const { title, description, created_at, tags = [] } = post.data;
 const slug = post.id.replace(/\.mdx?$/, '');
 
 // Git history retrieval
-const history = config.git?.enabled
+const history = siteConfig.git?.enabled
   ? getFileRevision({
       slug: `blog/${slug}`,
-      limit: config.git.maxCommits || 10
+      limit: siteConfig.git.maxCommits || 10
     })
   : [];
 
@@ -85,7 +82,7 @@ const meta = {
               {history.length > 0 && (
                 <PostHistory
                   history={history}
-                  repoUrl={config.git?.repoUrl}
+                  repoUrl={siteConfig.git?.repoUrl}
                 />
               )}
             </div>

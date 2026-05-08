@@ -3,11 +3,8 @@ import { getEntry, render } from 'astro:content';
 import AppLayout from '@/layouts/App.astro';
 import Author from '@/components/ui/Author/Author.astro';
 import Link from '@/components/ui/Link/Link.astro';
-import configData from '@/data/config.yml';
-import type { SiteConfig } from '@/types/config';
+import { siteConfig } from '@/data/constants';
 import styles from './about.module.scss';
-
-const config = configData as unknown as SiteConfig;
 
 const entry = await getEntry('pages', 'about');
 
@@ -25,17 +22,17 @@ const meta = {
 
 const socialLinks = [
   {
-    url: `https://twitter.com/${config.social?.twitter}`,
+    url: `https://twitter.com/${siteConfig.social?.twitter}`,
     icon: 'twitter',
     label: 'Twitter',
   },
   {
-    url: `https://github.com/${config.social?.github}`,
+    url: `https://github.com/${siteConfig.social?.github}`,
     icon: 'github',
     label: 'GitHub',
   },
   {
-    url: `mailto:${config.social?.email}`,
+    url: `mailto:${siteConfig.social?.email}`,
     icon: 'mail',
     label: 'Email',
   },
