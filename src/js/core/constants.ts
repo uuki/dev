@@ -17,6 +17,16 @@ export const BREAKPOINTS = [
   { id: 'desktop', query: MEDIA_QUERIES.DESKTOP },
 ] as const satisfies readonly BreakpointConfig[];
 
+export const SESSION_KEYS = {
+  COMPAT_TOAST_DISMISSED: 'ui_compat_toast_dismissed',
+} as const;
+
+export const SELECTORS = {
+  TOAST:        '.js-toast',
+  ASCII_EFFECT: '.js-ascii-effect',
+  BLOCK_EFFECT: '.js-block-effect',
+} as const;
+
 export const WEBFONT_CONFIG = {
   google: {
     families: ['Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900'],

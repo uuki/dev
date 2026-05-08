@@ -35,10 +35,20 @@
   min-height: inherit;
   border-radius: rem(30);
   color: var(--color-white);
-  background-color: var(--color-navy-600);
+  // background-color: var(--color-navy-600);
   box-shadow: 0 2px 8px relative-alpha(var(--color-navy-600), 0.1);
   padding: 0 var(--_side-pad);
   z-index: var(--z-global-header);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: relative-alpha(rgb(29 42 58), 0.9);
+    backdrop-filter: blur(2px);
+    z-index: -1;
+  }
 }
 
 .header__logo {

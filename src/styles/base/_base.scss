@@ -9,8 +9,6 @@ html {
   }
 }
 
-
-
 :where(body) {
   font-family: var(--font-sans);
   word-wrap: break-word;
@@ -51,10 +49,6 @@ html {
 
 :where(a) {
   text-decoration: none;
-}
-
-@view-transition {
-  navigation: auto;
 }
 
 ::view-transition-old(container),

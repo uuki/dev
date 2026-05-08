@@ -30,6 +30,12 @@ $feature-tests: (
     type: 'raw',
     value: '(anchor-name: --a) and (top: anchor(--a top))'
   ),
+
+  'corner-shape': (
+    type: 'declaration',
+    property: corner-shape,
+    value: 'scoop'
+  )
 );
 
 /**

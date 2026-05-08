@@ -50,7 +50,9 @@ const jobNPastime = [
 <div class={ style.profileCard }>
   <hgroup class={ style.profileCard__header }>
     <span class={ style.profileCard__sprite }></span>
-    <h3 class={ style.profileCard__name }>uuki</h3>
+    <h3 class={ style.profileCard__name }>
+      {'uuki'.split('').map(char => <span>{char}</span>)}
+    </h3>
     <span class={ style.profileCard__status }></span>
   </hgroup>
   <div class={ style.profileCard__detail }>

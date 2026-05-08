@@ -32,6 +32,7 @@
 
   --_surface-radius: #{rem(16)};
   position: relative;
+
   &::before,
   &::after {
     content: '';
@@ -41,6 +42,9 @@
     aspect-ratio: 1;
     corner-shape: scoop;
     background-color: var(--color-navy-400);
+    @include is-not-supported('corner-shape') {
+      display: none;
+    }
   }
   &::before {
     border-bottom-right-radius: 100vmax;

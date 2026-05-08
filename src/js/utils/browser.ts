@@ -58,6 +58,39 @@ export function removeLocalStorage(key: string): boolean {
 }
 
 // ---------------------------------------------------------------------------
+// SessionStorage
+// ---------------------------------------------------------------------------
+
+export function setSessionStorage(key: string, value: string): boolean {
+  try {
+    sessionStorage.setItem(key, value);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export function getSessionStorage(key: string): string | null {
+  try {
+    const raw = sessionStorage.getItem(key);
+    if (raw === null) return null;
+    // 長さ制限 + HTML インジェクションに使われる文字を除去
+    return raw.slice(0, 256).replace(/[<>&"'`]/g, '');
+  } catch {
+    return null;
+  }
+}
+
+export function removeSessionStorage(key: string): boolean {
+  try {
+    sessionStorage.removeItem(key);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Cookie
 // ---------------------------------------------------------------------------
 

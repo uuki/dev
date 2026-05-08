@@ -1,4 +1,4 @@
-import { WEBFONT_CONFIG } from './core/constants';
+import { WEBFONT_CONFIG, SELECTORS } from './core/constants';
 import './core/windowState'; // singleton — self-initializing
 import { loadWebFonts } from './libs/WebfontLoader';
 import { createDisableScroll } from './libs/DisableScroll';
@@ -6,19 +6,7 @@ import { setupAsciiEffect } from './features/ascii-effect';
 import { setupBlockEffect } from './features/block-effect';
 import { isOk } from './libs/result';
 import { getUserAgent } from './utils/browser';
-import type { DisableScrollHandle } from './libs/DisableScroll';
-import type { AsciiEffectHandle } from './features/ascii-effect';
-import type { BlockEffectHandle } from './features/block-effect';
-
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
-
-type AppFeatures = {
-  disableScroll: DisableScrollHandle;
-  asciiEffect: AsciiEffectHandle;
-  blockEffect: BlockEffectHandle;
-};
+import type { AppFeatures } from './types';
 
 // ---------------------------------------------------------------------------
 // App
@@ -40,6 +28,13 @@ class App {
       console.warn('[App] WebfontLoader:', fontsResult.error);
     }
 
+    document.addEventListener('pageswap', (e) => {
+      const { viewTransition } = e as Event & { viewTransition: unknown };
+      if (!viewTransition) return;
+      // スナップショット撮影前に scroll を instant でリセット
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    });
+
     // Disable scroll — wired via PubSub (TOPIC_IDS.DISABLE_SCROLL_*)
     const dsResult = createDisableScroll();
     if (isOk(dsResult)) {
@@ -48,21 +43,22 @@ class App {
       console.warn('[App] DisableScroll:', dsResult.error);
     }
 
-    // ASCII effect — applied to all [.js-ascii-effect] elements
-    const aeResult = setupAsciiEffect('.js-ascii-effect');
+    // ASCII effect
+    const aeResult = setupAsciiEffect(SELECTORS.ASCII_EFFECT);
     if (isOk(aeResult)) {
       this.features.asciiEffect = aeResult.value;
     } else if (import.meta.env.DEV) {
       console.warn('[App] AsciiEffect:', aeResult.error);
     }
 
-    // Block effect — applied to all [.js-block-effect] elements
-    const beResult = await setupBlockEffect('.js-block-effect');
+    // Block effect
+    const beResult = await setupBlockEffect(SELECTORS.BLOCK_EFFECT);
     if (isOk(beResult)) {
       this.features.blockEffect = beResult.value;
     } else if (import.meta.env.DEV) {
       console.warn('[App] BlockEffect:', beResult.error);
     }
+
   }
 
   destroy(): void {

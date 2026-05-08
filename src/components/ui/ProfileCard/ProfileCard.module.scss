@@ -83,6 +83,9 @@ $count: length($frames);
     background-color: inherit;
     z-index: -1;
     pointer-events: none;
+    @include is-not-supported('corner-shape') {
+      display: none;
+    }
   }
   &::before {
     border-bottom-right-radius: 100vmax;
@@ -116,12 +119,33 @@ $count: length($frames);
 }
 .profileCard__name {
   display: flex;
-  gap: rem(24);
-  font-size: rem(40);
+  gap: .08ch;
+  flex-wrap: wrap;
+  cursor: crosshair;
+  > span {
+    --_h: 1.2em;
+    --_step: 45ms;
+    --_delay: calc((sibling-index() - 1) * var(--_step));
+    font-size: rem(40);
+    line-height: var(--_h);
+    color: transparent;
+    text-shadow:
+      0 calc(-1 * var(--_t, 0em)) rgba(#fff, 0.86),
+      0 calc(var(--_h) - var(--_t, 0em)) rgba(#fff, 1);
+    overflow: hidden;
+    transition: text-shadow .35s var(--_delay);
+  }
   img {
     width: rem(48);
     aspect-ratio: 1;
     border-radius: 50%;
+  }
+  @media (--hover) {
+    &:hover {
+      > span {
+        --_t: var(--_h);
+      }
+    }
   }
 }
 .profileCard__status {}
