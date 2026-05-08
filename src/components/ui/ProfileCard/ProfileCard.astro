@@ -11,36 +11,37 @@ const now = new Date();
 
 const jobNPastime = [
   {
+    type: 'job',
     title: 'Frontend Developer',
     yearsOfExperience: differenceInYears(now, new Date(2013, 3)),
     description: '',
   },
   {
-    title: 'IT Department',
-    yearsOfExperience: 5,
-    description: '',
-  },
-  {
+    type: 'job',
     title: 'Tech Lead',
-    yearsOfExperience: differenceInYears(now, new Date(2022, 3)),
+    yearsOfExperience: differenceInYears(now, new Date(2021, 3)),
     description: '',
   },
   {
+    type: 'hobby',
     title: 'Photo',
     yearsOfExperience: 'on a whim',
     description: 'Started with Nikon D3100, then D850 to α7iii.',
   },
   {
+    type: 'hobby',
     title: 'Game',
     yearsOfExperience: 'to oblivion',
     description: 'Into BotW, Splatoon, Overcooked, and more.',
   },
   {
+    type: 'hobby',
     title: 'Watching streams',
     yearsOfExperience: 'a lot',
     description: 'Into VTubers, RiJ, esports, and more.'
   },
   {
+    type: 'hobby',
     title: 'Movies & Anime',
     yearsOfExperience: 'a lifetime',
     description: 'I bought Interstellar. I’m into Inception, Iron Man, and anime like Steins;Gate... too much to name.'
@@ -68,9 +69,9 @@ const jobNPastime = [
             <li>
               <hgroup class={ style.profileCard__listHeader }>
                 <h5 class={ style.profileCard__listHeading }>{item.title}</h5>
-                <b>YoE {item.yearsOfExperience}</b>
+                <b class={ style.profileCard__listYears }>{item.type === 'job' ? 'YoE' : ''} {item.yearsOfExperience}</b>
               </hgroup>
-              <p class={ style.profileCard__listDescription }>{item.description}</p>
+              {!!item.description && <p class={ style.profileCard__listDescription }>{item.description}</p>}
             </li>
           ))
         }
@@ -78,7 +79,9 @@ const jobNPastime = [
     </div>
     <div class={ style.profileCard__item }>
       <h4 class={ style.profileCard__title }>NOTE</h4>
-      <p class={ style.profileCard__note }>Sample Profile Text</p>
+      <div class={ style.profileCard__note }>
+        <p>Sample Profile Text Sample Profile TextSample Profile TextSample Profile TextSample Profile TextSample Profile TextSample Profile Text</p>
+      </div>
     </div>
   </div>
 </div>

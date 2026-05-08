@@ -27,21 +27,19 @@ const activitiesByYear = props.data.reduce<YearGroup[]>((groups, activity) => {
 }, []);
 ---
 <section class:list={[style.sectionActivity, 'u-effect']} data-effect-root="progress-x">
-  <ContentLayout>
-    <div class={ style.sectionActivity__header }>
-      <HeadingSection heading="h2">Activity Log</HeadingSection>
+  <div class={ style.sectionActivity__content }>
+    <div class={ style.sectionActivity__profile }>
+      <ProfileCard />
     </div>
-    <div class={ style.sectionActivity__content }>
-      <div class={ style.sectionActivity__profile }>
-        <ProfileCard />
+    <div class={ style.sectionActivity__timeline }>
+      <div class={ style.sectionActivity__header }>
+        <HeadingSection heading="h2">Activity Log</HeadingSection>
       </div>
-      <div class={ style.sectionActivity__timeline }>
-        {activitiesByYear.map(({ year, items }) => (
-          <Timeline year={year} data={items} />
-        ))}
-      </div>
+      {activitiesByYear.map(({ year, items }) => (
+        <Timeline year={year} data={items} />
+      ))}
     </div>
-  </ContentLayout>
+  </div>
 </section>
 
 <script define:vars={{ activitiesByYear }}>

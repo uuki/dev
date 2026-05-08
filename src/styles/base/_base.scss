@@ -20,8 +20,7 @@ html {
   font-feature-settings: 'palt';
 }
 
-:where(body),
-:where(body *) {
+:where(body) {
   --_font-size-min: 14;
   --_font-size-max: 16;
   --_vw-min: 375;

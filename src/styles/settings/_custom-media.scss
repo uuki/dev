@@ -3,5 +3,6 @@
  * @see https://www.npmjs.com/package/postcss-custom-media
  */
 @custom-media --mobile (width <= 768px);
-@custom-media --desktop (width >= 769px);
+@custom-media --desktop (width >= 769px) and (width <= 1280px);
+@custom-media --desktop-large (width >= 1281px);
 @custom-media --hover (any-hover: hover);

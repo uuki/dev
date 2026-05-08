@@ -2,4 +2,11 @@
   --size-header-height: #{rem(60)};
   --size-header-padding: #{rem(18)};
   --size-header-with-safety: calc(var(--size-header-height) + var(--size-header-padding) * 2);
+  --size-content-padding: #{rem(40)};
+}
+
+@media (--mobile) {
+  :root {
+    --size-content-padding: #{rem(20)};
+  }
 }

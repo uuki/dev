@@ -40,6 +40,7 @@ $count: length($frames);
   color: #fff;
   border-radius: var(--corners-lg);
   overflow: hidden;
+  z-index: 0;
 
   &::before,
   &::after {
@@ -148,7 +149,6 @@ $count: length($frames);
     }
   }
 }
-.profileCard__status {}
 .profileCard__detail {
   display: flex;
   flex-direction: column;
@@ -158,7 +158,7 @@ $count: length($frames);
 .profileCard__item {
   display: flex;
   flex-direction: column;
-  gap: rem(8);
+  gap: rem(12);
 }
 .profileCard__title {
   font-size: rem(12);
@@ -180,29 +180,47 @@ $count: length($frames);
     background: #6D7D5F;
   }
 }
-.profileCard__note {}
 .profileCard__list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: rem(16);
-  p {
-    color: rgba(#fff, 0.28);
+  > li {
+    display: flex;
+    flex-direction: column;
+    gap: rem(8);
+    border-bottom: 1px solid rgba(#fff, 0.18);
+    padding-bottom: rem(8);
   }
 }
 .profileCard__listHeader {
   display: grid;
-  grid-template-columns: auto max-content;
-  gap: rem(24);
+  grid-template-columns: repeat(2, 1fr);
+  gap: rem(10);
   font-size: rem(12);
 }
 .profileCard__listHeading {
+  font-size: rem(11);
   font-weight: normal;
 }
+.profileCard__listYears {
+  font-size: rem(11);
+  margin-left: auto;
+}
 .profileCard__listDescription {
+  color: rgba(#fff, 0.28);
+  @include typography-description('xsmall');
+}
+.profileCard__note {
+  @include typography-description('xsmall');
+  line-height: 1.4;
+  color: rgba(#fff, 0.28);
+  background-color: rgba(#fff, 0.12);
+  padding: rem(8) rem(10);
+  border-radius: calc(var(--corners-lg) - rem(16));
+  word-break: break-word;
 }
 
 @media(--mobile) {
-
 }
 
 @media(--desktop) {
