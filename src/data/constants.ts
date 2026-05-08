@@ -32,21 +32,43 @@ export const siteConfig = {
     maxCommits: 10,
   },
   social: [
-    { type: 'x',      url: 'https://twitter.com/uuki_dev', handle: '@uuki_dev', label: 'X (Twitter)' },
-    { type: 'github', url: 'https://github.com/uuki',      handle: 'uuki',      label: 'GitHub'      },
+    {
+      type: 'x',
+      url: 'https://twitter.com/uuki_dev',
+      handle: '@uuki_dev',
+      label: 'X (Twitter)',
+    },
+    {
+      type: 'github',
+      url: 'https://github.com/uuki',
+      handle: 'uuki',
+      label: 'GitHub',
+    },
+    {
+      type: 'discord',
+      url: 'http://discordapp.com/users/924211572866424872',
+      handle: 'uuki.dev',
+      label: 'Discord',
+    },
   ],
   contact: [
-    { type: 'email', url: 'mailto:uuki@gmail.com', handle: 'uuki@gmail.com', label: 'Email' },
+    {
+      type: 'email',
+      url: 'https://forms.gle/GoBw75gRQkD9EnEF6',
+      handle: 'uuki@gmail.com',
+      label: 'Email',
+    },
   ],
   feeds: {
     atom: '/atom.xml',
-    rss:  '/rss.xml',
+    rss: '/rss.xml',
   },
 } satisfies SiteConfig;
 
 export const socialIconMap: Record<SocialType, string> = {
   x:      iconMap['x'],
   github: iconMap['github'],
+  discord: iconMap['discord'],
 };
 
 export const contactIconMap: Record<ContactType, string> = {

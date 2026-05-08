@@ -4,14 +4,6 @@ import ListMenu from '../../objects/ListMenu/ListMenu.astro';
 import { siteConfig, iconMap } from '@/data/constants';
 
 import styles from './Footer.module.scss';
-
-// // Social media icons (using Unicode for now, can be replaced with icon library later)
-// const social: = [
-//   { url: 'https://x.com/uuki_dev', icon: '𝕏', label: 'Twitter' },
-//   { url: 'https://github.com/uuki', icon: '', label: 'GitHub' },
-//   { url: '/atom.xml', icon: '', label: 'RSS' },
-// ];
-
 const currentYear = new Date().getFullYear();
 ---
 
@@ -36,6 +28,6 @@ const currentYear = new Date().getFullYear();
     </div>
   </div>
   <div class={styles.footer__copyright}>
-    <small>© {currentYear} uuki.dev</small>
+    <small>© 2017-{currentYear} uuki.dev</small>
   </div>
 </footer>

@@ -1,4 +1,4 @@
-export type SocialType = 'x' | 'github';
+export type SocialType = 'x' | 'github' | 'discord';
 export type ContactType = 'email';
 
 interface BaseLink {
