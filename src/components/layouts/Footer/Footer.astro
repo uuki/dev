@@ -1,14 +1,16 @@
 ---
 import Link from '../../ui/Link/Link.astro';
 import ListMenu from '../../objects/ListMenu/ListMenu.astro';
+import { siteConfig, iconMap } from '@/data/constants';
+
 import styles from './Footer.module.scss';
 
-// Social media icons (using Unicode for now, can be replaced with icon library later)
-const socialItems = [
-  { url: 'https://x.com/uuki_dev', icon: '𝕏', label: 'Twitter' },
-  { url: 'https://github.com/uuki', icon: '', label: 'GitHub' },
-  { url: '/atom.xml', icon: '', label: 'RSS' },
-];
+// // Social media icons (using Unicode for now, can be replaced with icon library later)
+// const social: = [
+//   { url: 'https://x.com/uuki_dev', icon: '𝕏', label: 'Twitter' },
+//   { url: 'https://github.com/uuki', icon: '', label: 'GitHub' },
+//   { url: '/atom.xml', icon: '', label: 'RSS' },
+// ];
 
 const currentYear = new Date().getFullYear();
 ---
@@ -16,13 +18,18 @@ const currentYear = new Date().getFullYear();
 <footer class={styles.footer}>
   <div class={styles.footer__content}>
     <ul class={styles.footer__socialList}>
-      {socialItems.map((item) => (
+      {siteConfig.social.map((it) => (
         <li class={styles.footer__socialItem}>
-          <Link href={item.url} variant="opacity" class={styles.footer__socialLink} aria-label={item.label}>
-            {item.icon}
+          <Link href={it.url} class={styles.footer__socialLink} aria-label={it.label}>
+            <Fragment set:html={iconMap[it.type]} />
           </Link>
         </li>
       ))}
+      <li class={styles.footer__socialItem}>
+        <Link href={siteConfig.feeds.atom} class={styles.footer__socialLink} aria-label="RSS">
+          <Fragment set:html={iconMap['rss']} />
+        </Link>
+      </li>
     </ul>
     <div class={styles.footer__menu}>
       <ListMenu />
