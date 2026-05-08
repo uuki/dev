@@ -15,7 +15,7 @@ export const GET: APIRoute = async (context) => {
   });
 
   return rss({
-    title: siteConfig.siteName || 'uuki.dev',
+    title: siteConfig.siteName,
     description: 'Tech blog and development notes',
     site: context.site || 'https://uuki.dev',
     items: sortedPosts.map((post) => {
