@@ -28,12 +28,12 @@ class App {
       console.warn('[App] WebfontLoader:', fontsResult.error);
     }
 
-    document.addEventListener('pageswap', (e) => {
-      const { viewTransition } = e as Event & { viewTransition: unknown };
-      if (!viewTransition) return;
-      // スナップショット撮影前に scroll を instant でリセット
-      window.scrollTo({ top: 0, behavior: 'instant' });
-    });
+    // document.addEventListener('pageswap', (e) => {
+    //   const { viewTransition } = e as Event & { viewTransition: unknown };
+    //   if (!viewTransition) return;
+    //   // スナップショット撮影前に scroll を instant でリセット
+    //   window.scrollTo({ top: 0, behavior: 'instant' });
+    // });
 
     // Disable scroll — wired via PubSub (TOPIC_IDS.DISABLE_SCROLL_*)
     const dsResult = createDisableScroll();
