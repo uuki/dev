@@ -1,7 +1,8 @@
 ---
 import { format, differenceInYears } from 'date-fns';
+import waveCircle from '@/assets/shapes/wave-circle.svg?raw';
+
 import style from './ProfileCard.module.scss';
-import imgLogo from '@/assets/images/logo.jpg';
 
 interface Props {
 }
@@ -50,7 +51,9 @@ const jobNPastime = [
 ---
 <div class={ style.profileCard }>
   <hgroup class={ style.profileCard__header }>
-    <span class={ style.profileCard__sprite }></span>
+    <span class={ style.profileCard__sprite }>
+      <Fragment set:html={waveCircle} / >
+    </span>
     <h3 class={ style.profileCard__name }>
       {'uuki'.split('').map(char => <span>{char}</span>)}
     </h3>

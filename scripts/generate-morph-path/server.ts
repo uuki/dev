@@ -17,6 +17,10 @@ const { values: args } = parseArgs({
     dur:   { type: "string", default: "2" },
     hn:    { type: "string", default: "1" },
     hd:    { type: "string", default: "1.5" },
+    hs:    { type: "string", default: "7" },
+    dp:    { type: "string", default: "0" },
+    bw:    { type: "string", default: "0" },
+    fr:    { type: "string", default: "4" },
   },
 });
 
@@ -33,6 +37,10 @@ const INIT = {
   dur:   args.dur!,
   hn:    args.hn!,
   hd:    args.hd!,
+  hs:    args.hs!,
+  dp:    args.dp!,
+  bw:    args.bw!,
+  fr:    args.fr!,
 };
 const HTML = path.join(import.meta.dirname, "index.html");
 
@@ -49,5 +57,5 @@ server.listen(PORT, () => {
   console.log(`wave-morph running → http://localhost:${PORT}`);
   console.log(`  m=${INIT.m}  amp=${INIT.amp}  speed=${INIT.speed}  dur=${INIT.dur}`);
   console.log(`  shape=${INIT.shape}  rw=${INIT.rw}  rh=${INIT.rh}  r=${INIT.r}  cr=${INIT.cr}`);
-  console.log(`  hn=${INIT.hn}  hd=${INIT.hd}`);
+  console.log(`  hn=${INIT.hn}  hd=${INIT.hd}  hs=${INIT.hs}  dp=${INIT.dp}  bw=${INIT.bw}`);
 });

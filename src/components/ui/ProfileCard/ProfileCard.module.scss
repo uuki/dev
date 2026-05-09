@@ -33,6 +33,15 @@ $count: length($frames);
   }
 }
 
+@keyframes _rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .profileCard {
   --_content-side: #{rem(24)};
 
@@ -97,15 +106,30 @@ $count: length($frames);
     right: 0;
   }
 }
+
 .profileCard__sprite {
   position: relative;
   display: block;
   width: rem(60);
   aspect-ratio: 1;
   border-radius: 50%;
-  // background-color: #ccc;
-  background-color: rgba(255,255,255,0.9);
-  border: 2px solid #6D7D5F;
+  z-index: 0;
+
+  // background-color: rgba(255,255,255,0.9);
+  // border: 2px solid #6D7D5F;
+  svg {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    animation: _rotate 30s linear infinite;
+    z-index: -1;
+    path {
+      transform: scale(1.2);
+      fill: rgba(255,255,255,0.9);
+    }
+  }
+
   &::before {
     content: '';
     position: absolute;
@@ -118,6 +142,7 @@ $count: length($frames);
     filter: grayscale(1);
   }
 }
+
 .profileCard__name {
   display: flex;
   gap: .08ch;

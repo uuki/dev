@@ -103,8 +103,24 @@
       <div class="ctrl-row"><label>減衰 hd</label><span id="hdv">1.5</span></div>
       <input type="range" id="hd" min="0" max="3" value="1.5" step="0.1">
     </div>
+    <div class="ctrl">
+      <div class="ctrl-row"><label>周波数間隔 hs</label><span id="hsv">7</span></div>
+      <input type="range" id="hs" min="1" max="20" value="7" step="1">
+    </div>
+    <div class="ctrl">
+      <div class="ctrl-row"><label>分散 dp</label><span id="dpv">0</span></div>
+      <input type="range" id="dp" min="0" max="1" value="0" step="0.05">
+    </div>
+    <div class="ctrl">
+      <div class="ctrl-row"><label>逆行波 bw</label><span id="bwv">0</span></div>
+      <input type="range" id="bw" min="0" max="1" value="0" step="0.05">
+    </div>
     <button id="randomizeBtn">ランダム化</button>
 
+    <div class="ctrl">
+      <div class="ctrl-row"><label>フレーム数 fr</label><span id="frv">4</span></div>
+      <input type="range" id="fr" min="4" max="16" value="4" step="4">
+    </div>
     <div class="ctrl">
       <div class="ctrl-row"><label>アニメ時間 dur</label><span id="durv">2</span>s</div>
       <input type="range" id="dur" min="0.5" max="8" value="2" step="0.5">
@@ -152,7 +168,7 @@
 const INIT = __INIT_PARAMS__;
 
 // ---- スライダー初期値 ----
-const sliderIds = ["m","amp","spd","hn","hd","rad","rw","rh","cr","dur"];
+const sliderIds = ["m","amp","spd","hn","hd","hs","dp","bw","fr","rad","rw","rh","cr","dur"];
 const sl = {}, lb = {};
 sliderIds.forEach(k => {
   sl[k] = document.getElementById(k);
@@ -163,6 +179,10 @@ sl.amp.value = INIT.amp;   lb.amp.textContent  = INIT.amp;
 sl.spd.value = INIT.speed; lb.spd.textContent  = INIT.speed;
 sl.hn.value  = INIT.hn;    lb.hn.textContent   = INIT.hn;
 sl.hd.value  = INIT.hd;    lb.hd.textContent   = INIT.hd;
+sl.hs.value  = INIT.hs;    lb.hs.textContent   = INIT.hs;
+sl.dp.value  = INIT.dp;    lb.dp.textContent   = INIT.dp;
+sl.bw.value  = INIT.bw;    lb.bw.textContent   = INIT.bw;
+sl.fr.value  = INIT.fr;    lb.fr.textContent   = INIT.fr;
 sl.rad.value = INIT.r;     lb.rad.textContent  = INIT.r;
 sl.rw.value  = INIT.rw;    lb.rw.textContent   = INIT.rw;
 sl.rh.value  = INIT.rh;    lb.rh.textContent   = INIT.rh;
@@ -173,22 +193,61 @@ sliderIds.forEach(k => {
   sl[k].addEventListener("input", () => { lb[k].textContent = sl[k].value; });
 });
 
-// ---- シェイプ切替 ----
+// ---- シェイプ切替・波形パラメータ記憶 ----
+// circle は dp=0 だと位相進行が回転と等価になるため dp>0 が必須。
+// hd=1.5 にして上位倍音の振幅比を均等寄りにし、差分進化を可視化する。
+const shapeWaveDefaults = {
+  rect:   null,
+  circle: { m: '6', amp: '12', spd: '6', hn: '6', hd: '1.5', hs: '1', dp: '0.5', bw: '0.4', fr: '8' },
+};
+const waveParamKeys = ['m', 'amp', 'spd', 'hn', 'hd', 'hs', 'dp', 'bw', 'fr'];
+const savedShapeParams = { rect: null, circle: null };
+let activeShape = INIT.shape;
+
+function captureWaveParams() {
+  const p = {};
+  waveParamKeys.forEach(k => { p[k] = sl[k].value; });
+  return p;
+}
+
+function applyWaveParams(p) {
+  waveParamKeys.forEach(k => {
+    sl[k].value      = p[k];
+    lb[k].textContent = p[k];
+  });
+}
+
 function onShapeChange() {
-  const isCircle = document.querySelector('input[name="shape"]:checked').value === 'circle';
-  document.getElementById('rect-controls').hidden = isCircle;
+  const newShape = document.querySelector('input[name="shape"]:checked').value;
+  if (newShape === activeShape) return;
+
+  savedShapeParams[activeShape] = captureWaveParams();
+  activeShape = newShape;
+
+  const isCircle = newShape === 'circle';
+  document.getElementById('rect-controls').hidden  = isCircle;
   document.getElementById('circle-controls').hidden = !isCircle;
+
+  const saved    = savedShapeParams[newShape];
+  const defaults = shapeWaveDefaults[newShape];
+  if (saved)         applyWaveParams(saved);
+  else if (defaults) applyWaveParams(defaults);
 }
 
 document.querySelectorAll('input[name="shape"]').forEach(r => {
   if (r.value === INIT.shape) r.checked = true;
   r.addEventListener("change", onShapeChange);
 });
-onShapeChange();
+
+// 初期表示
+{
+  const isCircle = INIT.shape === 'circle';
+  document.getElementById('rect-controls').hidden  = isCircle;
+  document.getElementById('circle-controls').hidden = !isCircle;
+}
 
 function getShape() {
-  const type = document.querySelector('input[name="shape"]:checked').value;
-  if (type === 'circle') return { type: 'circle', cr: +sl.cr.value };
+  if (activeShape === 'circle') return { type: 'circle', cr: +sl.cr.value };
   return { type: 'rect', rw: +sl.rw.value, rh: +sl.rh.value, r: +sl.rad.value };
 }
 
@@ -205,24 +264,35 @@ function randomizeHarmonics() {
   randomPhases = Array.from({ length: MAX_HARMONICS }, () => Math.random() * 2 * Math.PI);
 }
 
-// hn 個の調波プロファイルを構築。振幅は 1/k^hd で正規化。
-function getHarmonics(hn, hd) {
+// hn 個の調波プロファイルを構築。
+// 周波数: m, m+hs, m+2hs, ...  振幅: 1/(i+1)^hd で正規化。
+// hs=m のとき倍音列（現行互換）、hs=1 のとき隣接整数周波数（長距離 beat）。
+function getHarmonics(hn, hd, hs, m) {
   const entries = [];
   let total = 0;
   for (let i = 0; i < hn; i++) {
-    const k = i + 1;
-    const a = hd > 0 ? 1 / Math.pow(k, hd) : 1;
-    entries.push({ k, a, phaseOffset: randomPhases[i] });
+    const freq = m + i * hs;              // 絶対周波数（整数）
+    const a    = hd > 0 ? 1 / Math.pow(i + 1, hd) : 1;
+    entries.push({ freq, a, phaseOffset: randomPhases[i] });
     total += a;
   }
-  return entries.map(e => ({ k: e.k, relAmp: e.a / total, phaseOffset: e.phaseOffset }));
+  return entries.map(e => ({ freq: e.freq, relAmp: e.a / total, phaseOffset: e.phaseOffset }));
 }
 
-// Σₖ relAmp_k * sin(2π * k * m * s − phase + φₖ)
-function waveDisp(s, m, amp, phase, harmonics) {
+// 前進波 + 逆行波の重ね合わせ
+// bw=0  : 純前進波 sin(freq·θ − phase + φ)            → 回転
+// bw=0.5: 前進+逆行等量 → cos(phase)·sin(freq·θ + φ) → 定在波（凹凸が位置固定で反転）
+// bw=1  : 純逆行波 sin(freq·θ + phase + φ)            → 逆回転
+// dp>0  : 倍音ごとに位相速度を変え、定在波パターン自体もうねらせる
+function waveDisp(s, amp, phase, harmonics, dp, bw) {
+  const freq0 = harmonics[0].freq;
   let d = 0;
   for (const h of harmonics) {
-    d += h.relAmp * Math.sin(2 * Math.PI * m * h.k * s - phase + h.phaseOffset);
+    const lp  = phase * (1 + dp * (h.freq / freq0 - 1));
+    const arg = 2 * Math.PI * h.freq * s + h.phaseOffset;
+    const fwd = Math.sin(arg - lp);
+    const bwd = Math.sin(arg + lp);
+    d += h.relAmp * ((1 - bw) * fwd + bw * bwd);
   }
   return amp * d;
 }
@@ -298,14 +368,14 @@ function arcLength(pts) {
 
 // ---- パス生成（位相 phase を受け取る）----
 // 全点を M + L*N + Z の統一コマンドで出力 → animate モーフィング互換
-function buildWavedPath(shape, m, amp, phase, harmonics, offsetX = 0, offsetY = 0) {
+function buildWavedPath(shape, amp, phase, harmonics, dp, bw, offsetX = 0, offsetY = 0) {
   const base    = buildContour(shape);
   const normals = computeNormals(base);
   const { lens, total } = arcLength(base);
 
   const coords = base.map((pt, i) => {
     const s    = lens[i] / total;
-    const disp = waveDisp(s, m, amp, phase, harmonics);
+    const disp = waveDisp(s, amp, phase, harmonics, dp, bw);
     return [
       offsetX + pt[0] + normals[i][0]*disp,
       offsetY + pt[1] + normals[i][1]*disp,
@@ -334,9 +404,11 @@ function draw(ts) {
   const m         = +sl.m.value;
   const amp       = +sl.amp.value;
   const c         = +sl.spd.value;
-  const harmonics = getHarmonics(+sl.hn.value, +sl.hd.value);
+  const dp        = +sl.dp.value;
+  const bw        = +sl.bw.value;
+  const harmonics = getHarmonics(+sl.hn.value, +sl.hd.value, +sl.hs.value, m);
 
-  const omega = 2*Math.PI*m*c*0.05;
+  const omega = 2*Math.PI*harmonics[0].freq*c*0.05;
   t += dt * omega;
 
   const base    = buildContour(shape);
@@ -370,7 +442,7 @@ function draw(ts) {
   ctx.beginPath();
   for (let i=0; i<base.length; i++) {
     const s    = lens[i] / total;
-    const disp = waveDisp(s, m, amp, t, harmonics);
+    const disp = waveDisp(s, amp, t, harmonics, dp, bw);
     const x = base[i][0] + normals[i][0]*disp;
     const y = base[i][1] + normals[i][1]*disp;
     i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
@@ -387,11 +459,11 @@ function draw(ts) {
   ctx.font      = "11px monospace";
   ctx.fillStyle = "rgba(0,0,0,0.22)";
   ctx.textAlign = "center";
-  const hn = +sl.hn.value, hd = +sl.hd.value;
+  const freqList = harmonics.map(h => h.freq).join(",");
   const shapeLabel = shape.type === 'circle'
     ? `circle cr=${shape.cr}`
     : `rect ${shape.rw}×${shape.rh}  r=${shape.r}`;
-  ctx.fillText(`m=${m}  amp=${amp}  c=${c}  hn=${hn}  hd=${hd}  ${shapeLabel}`, W/2, H-12);
+  ctx.fillText(`freqs:[${freqList}]  amp=${amp}  c=${c}  ${shapeLabel}`, W/2, H-12);
 
   requestAnimationFrame(draw);
 }
@@ -403,10 +475,13 @@ document.getElementById("exportBtn").addEventListener("click", () => {
   const m         = +sl.m.value;
   const amp       = +sl.amp.value;
   const dur       = +sl.dur.value;
-  const harmonics = getHarmonics(+sl.hn.value, +sl.hd.value);
+  const dp        = +sl.dp.value;
+  const bw        = +sl.bw.value;
+  const harmonics = getHarmonics(+sl.hn.value, +sl.hd.value, +sl.hs.value, m);
 
-  const phases = [0, Math.PI/2, Math.PI, Math.PI*3/2];
-  const paths  = phases.map(ph => buildWavedPath(shape, m, amp, ph, harmonics));
+  const fr     = +sl.fr.value;
+  const phases = Array.from({ length: fr }, (_, i) => 2 * Math.PI * i / fr);
+  const paths  = phases.map(ph => buildWavedPath(shape, amp, ph, harmonics, dp, bw));
 
   // viewBox（波の振れ幅を余白に含める）
   const pad = amp + 30;
@@ -420,14 +495,14 @@ document.getElementById("exportBtn").addEventListener("click", () => {
     vw = shape.rw + 2*pad;    vh = shape.rh + 2*pad;
   }
 
-  // <animate> values: f0→f1→f2→f3→f0 で 1 周ループ
+  // <animate> values: f0→...→f(n-1)→f0 で 1 周ループ
   const values = [...paths, paths[0]].join(";");
 
   const svgStr = [
     `<svg xmlns="http://www.w3.org/2000/svg"`,
     `     viewBox="${vx.toFixed(1)} ${vy.toFixed(1)} ${vw.toFixed(1)} ${vh.toFixed(1)}"`,
     `     width="${Math.round(vw)}" height="${Math.round(vh)}">`,
-    `  <path fill="rgba(83,74,183,0.15)" stroke="#534AB7" stroke-width="2" stroke-linejoin="round">`,
+    `  <path fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round">`,
     `    <animate`,
     `      attributeName="d"`,
     `      values="${values}"`,

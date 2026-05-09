@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node --experimental-strip-types server.ts",
     "start:example": "node --experimental-strip-types server.ts --m=4 --amp=20 --speed=2 --r=60 --rw=500 --rh=300",
-    "start:circle": "node --experimental-strip-types server.ts --shape=circle --cr=150 --m=6 --amp=12 --speed=1"
+    "start:circle": "node --experimental-strip-types server.ts --shape=circle --m=6 --amp=12 --speed=6 --hn=6 --hd=1.5 --hs=1 --dp=0.5 --bw=0.4 --dur=2 --cr=140"
   },
   "engines": { "node": ">=22.6.0" }
 }
