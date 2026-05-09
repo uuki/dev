@@ -37,7 +37,7 @@ if (!post) {
   return Astro.redirect('/404');
 }
 
-const { Content } = await render(post);
+const { Content, remarkPluginFrontmatter } = await render(post);
 
 const { title, description, created_at, tags = [] } = post.data;
 const slug = post.id.replace(/\.mdx?$/, '');
@@ -68,13 +68,7 @@ const meta = {
   type: 'article' as const,
 };
 
-const readingTime = 0;
-// const postMeta = [
-//   {
-//     icon: '',
-//     content:
-//   }
-// ];
+const readingTime: number = remarkPluginFrontmatter.readingTime ?? 0;
 ---
 
 <AppLayout meta={meta}>

@@ -16,6 +16,7 @@ import rehypeKatex from 'rehype-katex';
 import { remarkCustomDirectives } from './src/plugins/remark-custom-directives';
 import { remarkEmbedDirectives } from './src/plugins/remark-embed-directives';
 import { remarkOutdatedWarning } from './src/plugins/remark-outdated-warning';
+import { remarkReadingTime } from './src/plugins/remark-reading-time';
 import fs from 'fs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -71,6 +72,7 @@ export default defineConfig({
   ],
   markdown: {
     remarkPlugins: [
+      remarkReadingTime,
       remarkDirective,
       remarkCustomDirectives,
       remarkEmbedDirectives,
