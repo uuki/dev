@@ -1,4 +1,28 @@
 @font-face {
+  font-family: "Rubik";
+  src: url('/fonts/Rubik/Rubik-VariableFont_wght.ttf') format('truetype');
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url('/fonts/Roboto/Roboto-VariableFont_wdth,wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url('/fonts/Roboto/Roboto-Italic-VariableFont_wdth,wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
   font-family: "Kenney Future";
   src: url('/fonts/kenney_kenney-fonts/Fonts/Kenney Future.ttf') format('truetype');
   font-weight: 400;
@@ -49,22 +73,6 @@
 @font-face {
   font-family: "Kenney Pixel Square";
   src: url('/fonts/kenney_kenney-fonts/Fonts/Kenney Pixel Square.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Kenney Rocket";
-  src: url('/fonts/kenney_kenney-fonts/Fonts/Kenney Rocket.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Kenney Rocket Square";
-  src: url('/fonts/kenney_kenney-fonts/Fonts/Kenney Rocket Square.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;

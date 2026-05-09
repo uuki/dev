@@ -1,18 +1,21 @@
-@mixin line-in-out {
+@mixin line-in-out($y: -2px, $dur: 0.3s) {
   position: relative;
+  text-decoration: none;
   &::after {
     content: '';
     position: absolute;
-    bottom: -2px;
-    left: 0;
+    bottom: $y;
+    right: 0;
     width: 0;
     height: 1px;
     background-color: currentColor;
-    transition: width 0.3s ease-in-out;
+    transition: width $dur ease-in-out;
   }
   @media (--hover) {
     &:hover::after {
       width: 100%;
+      left: 0;
+      right: auto;
     }
   }
 }

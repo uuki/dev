@@ -5,7 +5,8 @@
   );
 }
 
-@mixin typography-nav($size: 'medium', $weight: 700) {
+@mixin typography-nav($size: 'medium', $weight: 500) {
+  font-family: var(--font-rubik);
   font-weight: $weight;
   line-height: 1.4;
 
@@ -20,6 +21,7 @@
 }
 
 @mixin typography-heading($size: 'medium', $weight: 700) {
+  font-family: var(--font-rubik);
   font-weight: $weight;
   line-height: 1.4;
 

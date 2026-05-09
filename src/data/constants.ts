@@ -7,6 +7,10 @@ export const routes = [
   { id: 'about', name: 'About', path: '/about/' },
 ] as const;
 
+export const footerLinks = [
+  { path: '/privacy/', name: 'Privacy Policy' },
+];
+
 const rawIconGlob = import.meta.glob<string>('../assets/icons/*.svg', {
   eager: true,
   query: '?raw',

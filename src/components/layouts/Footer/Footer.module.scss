@@ -22,6 +22,7 @@
 
 .footer__socialList {
   display: inline-flex;
+  gap: rem(8);
   align-items: center;
   flex-wrap: wrap;
   padding: rem(8) rem(32);
@@ -57,13 +58,17 @@
 }
 
 .footer__socialItem {
-  margin-left: rem(10);
-  margin-right: rem(10);
-}
-
-.footer__socialLink {
   display: block;
   font-size: rem(19.2);
+  border-radius: var(--corners-sm);
+  padding: rem(6);
+  background-color: rgba(#fff, 0);
+  transition: background-color 0.2s;
+  @media (--hover) {
+    &:hover {
+      background-color: rgba(#fff, 0.1);
+    }
+  }
 }
 
 .footer__menu {
