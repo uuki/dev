@@ -10,9 +10,9 @@
 .timeline {
   display: flex;
   gap: liquid(
-    $size-at-base: 8,
+    $size-at-base: 2,
     $base-vw: mobile,
-    $minmax: (min: 8, max: 24)
+    $minmax: (min: 2, max: 4)
   );
 
   &:last-child {
@@ -27,7 +27,7 @@
   width: clamp(rem(40), 8.2svw, rem(120));
 }
 .timeline__year {
-  --_year-size: #{rem(112)};
+  --_year-size: #{rem(96)};
   position: sticky;
   top: 30%;
   font-size: clamp(rem(60), 14svw, var(--_year-size));

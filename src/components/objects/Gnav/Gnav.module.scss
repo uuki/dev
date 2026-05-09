@@ -56,7 +56,7 @@
   z-index: 0;
   a {
     display: inline-block;
-    @include typography-nav('medium');
+    @include typography-nav('small');
     @include support-switch('anchor-position') using ($mode) {
       @if $mode == supported {
         padding: rem(8) rem(6);

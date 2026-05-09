@@ -4,7 +4,7 @@
 @use '@/styles/tools/functions/rem' as *;
 
 $viewports: (
-  desktop: 1366,
+  desktop: 1280,
   mobile: 375,
 );
 
@@ -36,4 +36,30 @@ $viewports: (
   }
 
   @return $preferred;
+}
+
+@function liquid-range($min-vw, $max-vw, $max-size, $min-size) {
+  @if math.compatible($min-size, 1%) {
+    $max-px: math.div($max-size, 1%) * 0.01 * $min-vw;
+    $min-px: math.div($min-size, 1%) * 0.01 * $max-vw;
+    $slope: math.div($min-px - $max-px, $max-vw - $min-vw);
+    $slope-vw: math.div(math.round($slope * 10000), 100);
+    $intercept: math.div(math.round(($max-px - $slope * $min-vw) * 100), 100);
+
+    @return clamp(
+      #{$min-size},
+      unquote("calc(#{$intercept}px + #{$slope-vw}vw)"),
+      #{$max-size}
+    );
+  }
+
+  $slope: math.div($min-size - $max-size, $max-vw - $min-vw);
+  $vw-rate: math.div(math.round($slope * 100 * 100), 100) * 1vw;
+  $intercept: math.div(math.round(($max-size - ($slope * $min-vw)) * 100), 100);
+
+  @return clamp(
+    #{$min-size},
+    unquote("calc(#{$intercept} - #{abs($vw-rate)})"),
+    #{$max-size}
+  );
 }

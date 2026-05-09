@@ -1,5 +1,5 @@
 .headingSection {
-  @include typography-heading;
+  @include typography-heading('large');
   color: #B0B0B0;
 }
 

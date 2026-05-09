@@ -10,11 +10,11 @@
   font-weight: $weight;
   line-height: 1.4;
 
-  @if ($size == 'medium') {
+  @if ($size == 'small') {
     --font-size-level: -1;
-  } @else if ($size == 'large') {
+  } @else if ($size == 'medium') {
     --font-size-level: 0;
-  } @else if ($size == 'xlarge') {
+  } @else if ($size == 'large') {
     --font-size-level: 1;
   }
   @include _fluid-font-size;
@@ -25,11 +25,11 @@
   font-weight: $weight;
   line-height: 1.4;
 
-  @if ($size == 'medium') {
+  @if ($size == 'small') {
     --font-size-level: 14;
-  } @else if ($size == 'large') {
+  } @else if ($size == 'medium') {
     --font-size-level: 18;
-  } @else if ($size == 'xlarge') {
+  } @else if ($size == 'large') {
     --font-size-level: 24;
   }
   @include _fluid-font-size;

@@ -9,9 +9,13 @@ const Component = isTop ? 'h1' : 'div';
 
 <header class={styles.header}>
   <div class={styles.header__content}>
-    <Component class={styles.header__logo}>
-      <SiteLogo noLink={isTop} />
-    </Component>
+    <div class={styles.header__logoTransformX}>
+      <div class={styles.header__logoTransformY}>
+        <Component class={styles.header__logo}>
+          <SiteLogo noLink={isTop} />
+        </Component>
+      </div>
+    </div>
     <div class={styles.header__nav}>
       <Gnav />
     </div>

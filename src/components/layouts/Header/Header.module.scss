@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .header {
   --_pad: var(--size-header-padding);
   --_h: var(--size-header-height);
@@ -51,27 +53,45 @@
   }
 }
 
+.header__logoTransformX {
+  :global(.is-top) & {
+    position: fixed;
+    width: calc(liquid-range(
+      $min-vw: 375,
+      $max-vw: 1280,
+      $max-size: 100%,
+      $min-size: 50%
+    ) - (var(--size-header-padding) + var(--_side-pad)));
+    top: 0;
+    height: 100svh;
+  }
+}
+
+.header__logoTransformY {
+  --_offset-top: calc((var(--_h) / 2) + var(--size-header-padding));
+  position: relative;
+  top: calc((var(--_h) / 2) + var(--size-header-padding));
+  height: calc(100% - var(--_offset-top));
+}
+
 .header__logo {
   transition: opacity 0.2s;
   html:not([style]) & {
     opacity: 0;
   }
 
+  // NOTE: calc-size() がintrinsic size系のプロパティのみでなく、inset系に適用できるようになれば、親要素による初期位置の正規化不要で単体で算出可能かも
   :global(.is-top) & {
-    --_speed: 8;
-    // NOTE: calc-size() がintrinsic size系のプロパティのみでなく、inset系に適用できるようになれば最適化可能
-    --_base-pos-top: calc((1.125rem + var(--_h) / 2) - 10.5px);
-    --_base-pos-left: calc(var(--_pad) + var(--_side-pad));
-    position: fixed;
-    top: calc(var(--_base-pos-top) + max(0%, calc((50% - var(--_base-pos-top)) * (1 - var(--scroll-y, 0) * var(--_speed)))));
-    left: calc(var(--_base-pos-left) + max(0%, calc((20% - var(--_base-pos-left)) * (1 - var(--scroll-y, 0) * var(--_speed)))));
-    transform: translate3d(
-      min(0%, max(-50%, calc(-50% * (1 - var(--scroll-y, 0) * var(--_speed))))),
-      min(0%, max(-50%, calc(-50% * (1 - var(--scroll-y, 0) * calc(var(--_speed) * 1))))),
-      0
-    ) scale(max(1, calc(3 - (2 * var(--scroll-y, 0) * var(--_speed)))));
+    --_speed: 8.6;
+    position: absolute;
+    top: max(0%, calc(50% * (1 - var(--scroll-y, 0) * var(--_speed))));
+    left: max(0%, calc(50% * (1 - var(--scroll-y, 0) * var(--_speed))));
+    transform:
+      translateX(min(0%, max(-50%, calc(-50% * (1 - var(--scroll-y, 0) * var(--_speed))))))
+      translateY(min(-10px, max(calc(-50% - 10px), calc((-50% - 10px) * (1 - var(--scroll-y, 0) * var(--_speed))))))
+      scale(max(1, calc(3 - (2 * var(--scroll-y, 0) * var(--_speed)))));
     svg {
-      filter: invert(max(0, calc(0.7 - (0.7 * var(--scroll-y, 0) * calc(var(--_speed) * 1)))));
+      filter: invert(max(0, calc(0.7 - (0.7 * var(--scroll-y, 0) * var(--_speed)))));
     }
   }
 }

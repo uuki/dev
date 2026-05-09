@@ -35,10 +35,10 @@ $count: length($frames);
 
 @keyframes _rotate {
   0% {
-    transform: rotate(0deg);
+    rotate: 0deg;
   }
   100% {
-    transform: rotate(360deg);
+    rotate: 360deg;
   }
 }
 
@@ -107,6 +107,11 @@ $count: length($frames);
   }
   @media (--hover) {
     &:hover {
+      .profileCard__sprite {
+        svg {
+          scale: 1.28;
+        }
+      }
       .profileCard__name {
         > span {
           --_t: var(--_h);
@@ -133,6 +138,7 @@ $count: length($frames);
     width: 100%;
     height: 100%;
     animation: _rotate 30s linear infinite;
+    transition: scale 0.2s;
     z-index: -1;
     path {
       transform: scale(1.2);
@@ -157,6 +163,8 @@ $count: length($frames);
   display: flex;
   flex-wrap: wrap;
   font-family: var(--font-rubik);
+  font-weight: 500;
+  letter-spacing: -0.05em;
   > span {
     --_h: 1.2em;
     --_step: 45ms;
