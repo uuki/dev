@@ -68,10 +68,12 @@
 }
 
 .header__logoTransformY {
-  --_offset-top: calc((var(--_h) / 2) + var(--size-header-padding));
-  position: relative;
-  top: calc((var(--_h) / 2) + var(--size-header-padding));
-  height: calc(100% - var(--_offset-top));
+  :global(.is-top) & {
+    --_offset-top: calc((var(--_h) / 2) + var(--size-header-padding));
+    position: relative;
+    top: calc((var(--_h) / 2) + var(--size-header-padding));
+    height: calc(100% - var(--_offset-top));
+  }
 }
 
 .header__logo {
