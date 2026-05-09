@@ -1,6 +1,7 @@
 @use "sass:map";
 @use "sass:math";
 @use "sass:meta";
+@use '@/styles/tools/functions/rem' as *;
 
 $viewports: (
   desktop: 1366,
@@ -24,10 +25,13 @@ $viewports: (
   $preferred: calc(#{$size-at-base} * 100vw / #{$base});
 
   @if $minmax != null {
+    $min: map.get($minmax, min);
+    $max: map.get($minmax, max);
+
     @return clamp(
-      #{map.get($minmax, min)}px,
+      #{rem($min)},
       #{$preferred},
-      #{map.get($minmax, max)}px
+      #{rem($max)}
     );
   }
 

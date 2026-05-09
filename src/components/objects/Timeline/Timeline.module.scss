@@ -9,7 +9,11 @@
 
 .timeline {
   display: flex;
-  gap: rem(24);
+  gap: liquid(
+    $size-at-base: 8,
+    $base-vw: mobile,
+    $minmax: (min: 8, max: 24)
+  );
 
   &:last-child {
     .timeline__content {
@@ -20,26 +24,26 @@
   }
 }
 .timeline__header {
-  // width: min(rem(120), 100%);
-  width: clamp(rem(60), 8svw, rem(120));
+  width: clamp(rem(40), 8.2svw, rem(120));
 }
 .timeline__year {
-  --_year-size: #{rem(106)};
+  --_year-size: #{rem(112)};
   position: sticky;
   top: 30%;
-  // font-size: var(--_year-size);
-  font-size: clamp(rem(60), 8svw, var(--_year-size));
-  height: calc(var(--_year-size) * 0.78);
+  font-size: clamp(rem(60), 14svw, var(--_year-size));
+  height: 0.8lh;
   color: #A8A8A8;
   line-height: 1;
   font-family: var(--font-inter);
   letter-spacing: -0.02em;
+  font-family: var(--font-kenney-mini-square);
   &::after {
     content: attr(data-year);
     position: absolute;
     bottom: 0;
     z-index: -1;
     opacity: 0.2;
+    line-height: 0.8;
   }
 }
 .timeline__row {
@@ -78,7 +82,7 @@
   .timeline__item:not([data-type='misc']) & {
     aspect-ratio: 1 / 1.25;
     @include in-view(
-      $inset: 30%
+      $inset: 45%
     ) {
       animation-name: _category-rotate;
       animation-duration: 1s;

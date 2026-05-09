@@ -25,7 +25,7 @@ class WindowStateSingleton {
 
   private initialize(): void {
     const updateScrollY = (scrollY: number, max: number) => {
-      document.documentElement.style.setProperty('--scroll-y', max > 0 ? (scrollY / max).toFixed(4) : '0');
+      document.documentElement.style.setProperty('--scroll-y', max > 0 ? (scrollY / max).toFixed(3) : '0');
     };
 
     const result = createWindowState({

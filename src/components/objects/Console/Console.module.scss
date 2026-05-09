@@ -4,8 +4,8 @@
   grid-template-rows: auto 1fr;
   background-color: var(--color-navy-600);
   border-radius: var(--corners-lg);
-  width: 100%;
-  height: min(rem(500), 100%);
+  height: min(rem(340), 100%);
+  aspect-ratio: 1.618 / 1;
   padding: rem(10) rem(12);
   transform: scale(max(0, calc(1 - (var(--scroll-y, 0) * var(--_speed)))));
   opacity: calc(1 - (var(--scroll-y, 0) * (var(--_speed) * 1.4)));
@@ -45,9 +45,10 @@
 }
 .console__content {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 36% 1fr;
   grid-template-rows: repeat(2, auto);
-  padding: rem(10);
+  padding: rem(24);
+  gap: rem(24);
   border-radius: calc(var(--corners-lg) - rem(10));
   background-color: #2C333A;
 }
@@ -60,14 +61,77 @@
   white-space: pre;
   overflow: hidden;
 }
-.console__meta {
-  grid-area: 1 / 2 / 2 / 3;
+.console__ui {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  grid-area: 1 / 2 / 3 / 3;
+}
+.console__heading {
+  color: #3B8C88;
+  font-weight: bold;
+  font-size: rem(16);
+  line-height: 1.4;
+  span {
+    color: #677C42;
+    font-weight: normal;
+    font-size: rem(14);
+  }
+}
+.console__command {
+  font-size: rem(14);
+  color: rgba(#fff, 0.48);
 }
 .console__nav {
   grid-area: 2 / 2 / 3 / 3;
   display: flex;
   flex-direction: column;
-  gap: rem(6);
+  gap: rem(16);
+}
+
+@keyframes _blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.console__navList {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  font-size: rem(14);
+  color: #B5F44A;
+
+  > li {
+    padding-left: 1.2em;
+    padding-block: rem(4);
+    &:hover {
+      anchor-name: --nav-item;
+    }
+  }
+
+  @media (--hover) {
+    &:hover {
+      &::before {
+        opacity: 1;
+      }
+    }
+  }
+
+  &::before {
+    content: '>';
+    position: absolute;
+    position-anchor: --nav-item;
+    left: anchor(left);
+    top: calc(anchor(top) + rem(4));
+    // translate: calc(-100% - rem(8)) 0;
+    opacity: 0;
+    color: #B5F44A;
+    animation: _blink 1s infinite;
+  }
 }
 
 @media(--mobile) {

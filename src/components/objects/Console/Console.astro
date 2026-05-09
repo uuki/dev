@@ -24,11 +24,16 @@ const aboutRoute = routes.find(item => item.id === 'about');
   </header>
   <div class={styles.console__content}>
     <pre class={styles.console__splash}></pre>
-    <p class={styles.console__meta}>dev<br><span>v0.1.0</span></p>
-    <nav class={styles.console__nav}>
-      <a href="#contents">uuki run serve</a>
-      <a href={blogRoute?.path}>uuki run archive</a>
-      <a href={aboutRoute?.path}>uuki run about</a>
-    </nav>
+    <div class={styles.console__ui}>
+      <h2 class={styles.console__heading}>Personal archive of code, ideas, and experiments.</h2>
+      <nav class={styles.console__nav}>
+        <p class={styles.console__command}>$ nav --list</p>
+        <ul class={styles.console__navList}>
+          <li><a href="#contents"><span>scroll to contents</span></a></li>
+          <li><a href={blogRoute?.path}><span>archive</span></a></li>
+          <li><a href={aboutRoute?.path}><span>about me</span></a></li>
+        </ul>
+      </nav>
+    </div>
   </div>
 </div>

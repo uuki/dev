@@ -1,14 +1,11 @@
 .hero {
   --_speed: 1;
+  position: relative;
   display: grid;
   grid-template-columns: repeat(2, auto);
   font-weight: 700;
   font-size: rem(18);
-  height: max(
-    rem(400),
-    calc(100svh - (var(--scroll-y, 0) * 100svh * var(--_speed)))
-  );
-  transition: height 0.05s;
+  height: 100svh;
 }
 
 .hero__console {
