@@ -20,10 +20,11 @@
   @include _fluid-font-size;
 }
 
-@mixin typography-heading($size: 'medium', $weight: 700) {
+@mixin typography-heading($size: 'medium', $weight: 600) {
   font-family: var(--font-rubik);
   font-weight: $weight;
   line-height: 1.4;
+  letter-spacing: -0.01em;
 
   @if ($size == 'small') {
     --font-size-level: 14;

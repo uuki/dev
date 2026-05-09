@@ -8,6 +8,7 @@ import PageHeader from '@/components/ui/PageHeader/PageHeader.astro';
 import InputText from '@/components/ui/InputText/InputText.astro';
 import PostCard from '@/components/ui/PostCard/PostCard.astro';
 import { getAllTags, getAllTagNames } from '@/utils/tags';
+import { normalizeBlogEntry } from '@/utils/normalizeActivities';
 import styles from './index.module.scss';
 
 export const getStaticPaths = (async () => {
@@ -52,7 +53,9 @@ interface Props {
   tagSlug: string;
 }
 
-const { posts, tagName } = Astro.props;
+const { posts: rawPosts, tagName } = Astro.props;
+
+const posts = rawPosts.map(normalizeBlogEntry);
 ---
 
 <AppLayout meta={{ title: `${tagName} - Tags`, description: `${tagName}タグの記事一覧` }}>

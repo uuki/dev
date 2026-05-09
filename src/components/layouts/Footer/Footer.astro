@@ -9,20 +9,22 @@ const currentYear = new Date().getFullYear();
 
 <footer class={styles.footer}>
   <nav class={styles.footer__content}>
-    <ul class={styles.footer__socialList}>
-      {siteConfig.social.map((it) => (
+    <div class={styles.footer__socialArea}>
+      <ul class:list={[styles.footer__list, 'u-effect']} data-effect="anchor-hover">
+        {siteConfig.social.map((it) => (
+          <li>
+            <a href={it.url} target="_blank" rel="noopener" class={styles.footer__socialItem} aria-label={it.label}>
+              <Fragment set:html={iconMap[it.type]} />
+            </a>
+          </li>
+        ))}
         <li>
-          <a href={it.url} target="_blank" rel="noopener" class={styles.footer__socialItem} aria-label={it.label}>
-            <Fragment set:html={iconMap[it.type]} />
+          <a href={siteConfig.feeds.atom} target="_blank" rel="noopener" class={styles.footer__socialItem} aria-label="RSS">
+            <Fragment set:html={iconMap['rss']} />
           </a>
         </li>
-      ))}
-      <li>
-        <a href={siteConfig.feeds.atom} target="_blank" rel="noopener" class={styles.footer__socialItem} aria-label="RSS">
-          <Fragment set:html={iconMap['rss']} />
-        </a>
-      </li>
-    </ul>
+      </ul>
+    </div>
     <div class={styles.footer__menu}>
       <ListMenu />
     </div>

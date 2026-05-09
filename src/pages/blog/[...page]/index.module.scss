@@ -28,22 +28,22 @@
   margin-bottom: rem(23);
 }
 
-.blogList__search {
-  display: flex;
-  justify-content: center;
-  margin-bottom: rem(30);
+// .blogList__search {
+//   display: flex;
+//   justify-content: center;
+//   margin-bottom: rem(30);
 
-  @media (--mobile) {
-    margin-bottom: rem(20);
-  }
-}
+//   @media (--mobile) {
+//     margin-bottom: rem(20);
+//   }
+// }
 
-.blogList__searchInput {
-  display: block;
-  width: 100%;
-  max-width: 60%;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-}
+// .blogList__searchInput {
+//   display: block;
+//   width: 100%;
+//   max-width: 60%;
+//   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+// }
 
 .blogList__posts {
   display: flex;

@@ -1,23 +1,26 @@
-/**
- * PostCard Component Styles
- * Blog post card for listing pages
- */
 .postCard {
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
-  padding: rem(16) rem(25);
-  background-color: var(--color-white);
-  border-radius: rem(6);
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  // background: relative-alpha(rgb(29 42 58), 0.2);
+  background-color: #e0e0e0;
+  border-radius: var(--corners-lg);
+  overflow: hidden;
   a {
     view-transition-name: var(--slug);
   }
 }
 
+.postCard__content {
+  padding: rem(16) rem(25);
+}
+
 .postCard__origin {
-  margin-bottom: rem(5);
+  width: fit-content;
+  padding: rem(4) rem(8);
+  border-radius: var(--corners-sm);
+  background-color: rgba(#fff, 0.8);
 }
 
 .postCard__title {
@@ -30,9 +33,30 @@
 }
 
 .postCard__tags {
-  margin-bottom: rem(7);
-}
+  --_tags-radius: var(--corners-lg);
 
-.postCard__meta {
-  margin-top: auto;
+  width: fit-content;
+  position: relative;
+  padding-block: 1cap;
+  padding-inline: 1.4ch;
+  border-top-right-radius: var(--_tags-radius);
+  background-color: #fff;
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    block-size: var(--_tags-radius);
+    aspect-ratio: 1;
+    border-top-right-radius: 100vmax;
+    corner-shape: scoop;
+    background-color: inherit;
+  }
+  &::before {
+    bottom: 100%;
+    left: 0;
+  }
+  &::after {
+    bottom: 0;
+    left: 100%;
+  }
 }

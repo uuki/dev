@@ -4,6 +4,7 @@ import { type Activity } from '@/types/activity';
 import { format } from 'date-fns';
 
 import PostCard from '@/components/ui/PostCard/PostCard.astro';
+import ReleaseCard from '@/components/ui/ReleaseCard/ReleaseCard.astro';
 
 import style from './Timeline.module.scss';
 import iconWrite from '@/assets/icons/write.svg';
@@ -36,6 +37,7 @@ const titleMap = {
 
 const componentMap: Partial<Record<Activity['kind'], AstroComponentFactory>> = {
   article: PostCard,
+  release: ReleaseCard,
 } as const;
 
 const getComponentByItem = (item: Activity) =>

@@ -1,0 +1,21 @@
+---
+import type { ReleaseActivity } from '@/types/activity';
+
+import style from './ReleaseCard.module.scss';
+
+interface Props {
+  post: ReleaseActivity;
+}
+
+const { post } = Astro.props;
+const {
+  url,
+  version,
+  repo,
+  prerelease
+} = post;
+---
+<a href={url} class={ style.releaseCard }>
+  <h2 class={ style.releaseCard__title }>{repo}</h2>
+  <p class={ style.releaseCard__version }>{version}</p>
+</a>

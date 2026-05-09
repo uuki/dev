@@ -1,0 +1,25 @@
+.releaseCard {
+  display: flex;
+  flex-direction: column;
+  gap: rem(16);
+  background-color: #e0e0e0;
+  border-radius: var(--corners-lg);
+  padding: rem(16) rem(25);
+}
+
+.releaseCard__title {
+  background-color: #e0e0e0;
+  border-radius: var(--corners-lg);
+  font-size: rem(18);
+  font-weight: 700;
+}
+
+.releaseCard__version {
+  color: rgba(#000, 0.2);
+}
+
+@media(--mobile) {
+}
+
+@media(--desktop) {
+}

@@ -4,9 +4,10 @@ import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import AppLayout from '@/layouts/App.astro';
 import PageHeader from '@/components/ui/PageHeader/PageHeader.astro';
-import InputText from '@/components/ui/InputText/InputText.astro';
+// import InputText from '@/components/ui/InputText/InputText.astro';
 import PostCard from '@/components/ui/PostCard/PostCard.astro';
 import Pagination from '@/components/objects/Pagination/Pagination.astro';
+import { normalizeBlogEntry } from '@/utils/normalizeActivities';
 import styles from './index.module.scss';
 
 export const getStaticPaths = (async ({ paginate }) => {
@@ -29,6 +30,8 @@ interface Props {
 }
 
 const { page } = Astro.props;
+
+const posts = page.data.map(normalizeBlogEntry);
 ---
 
 <AppLayout meta={{ title: 'All Posts', description: 'uuki.devのブログ記事一覧' }}>
@@ -40,17 +43,8 @@ const { page } = Astro.props;
             <PageHeader>All Posts</PageHeader>
           </div>
 
-          <div class={styles.blogList__search}>
-            <InputText
-              type="search"
-              placeholder="Search articles"
-              aria-label="Search articles"
-              class={styles.blogList__searchInput}
-            />
-          </div>
-
           <ul class={styles.blogList__posts}>
-            {page.data.map((post) => (
+            {posts.map((post) => (
               <li class={styles.blogList__postItem}>
                 <div class={styles.blogList__postCard}>
                   <PostCard post={post} />

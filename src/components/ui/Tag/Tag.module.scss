@@ -1,14 +1,9 @@
-/**
- * Tag Component Styles
- * Tag badge for categorization
- */
-
 .tag {
   display: inline-block;
-  padding: 0 rem(6);
+  padding: rem(2) rem(8);
   font-size: rem(12);
-  font-weight: 700;
+  font-weight: bold;
   color: var(--color-white);
   background-color: var(--color-navy-600);
-  border-radius: rem(4);
+  border-radius: var(--corners-sm);
 }

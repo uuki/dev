@@ -13,7 +13,7 @@ const gnavData = routes
 ---
 
 <nav class={styles.gnav}>
-  <ul class={styles.gnav__list}>
+  <ul class:list={[styles.gnav__list, 'u-effect']} data-effect="anchor-hover">
     {gnavData.map((item) => (
       <li class={styles.gnav__item}>
         <a href={item.path} class={item.isActive ? '-active' : ''}>{item.name}</a>

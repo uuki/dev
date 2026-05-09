@@ -1,4 +1,4 @@
-import type { Activity } from '@/types/activity';
+import type { Activity, ArticleActivity } from '@/types/activity';
 
 export interface BlogEntry {
   id: string;
@@ -32,12 +32,8 @@ export interface ContributionEntry {
 
 const toDateStr = (d: Date | string): string => new Date(d).toISOString().split('T')[0];
 
-export function normalizeActivities(
-  posts: BlogEntry[],
-  releases: ReleaseEntry[],
-  contributions: ContributionEntry[],
-): Activity[] {
-  const articles: Activity[] = posts.map((p) => ({
+export function normalizeBlogEntry(p: BlogEntry): ArticleActivity {
+  return {
     kind: 'article',
     id: p.id,
     date: toDateStr(p.data.created_at),
@@ -45,7 +41,15 @@ export function normalizeActivities(
     url: p.data.url ?? null,
     slug: p.data.slug ?? null,
     tags: p.data.tags,
-  }));
+  };
+}
+
+export function normalizeActivities(
+  posts: BlogEntry[],
+  releases: ReleaseEntry[],
+  contributions: ContributionEntry[],
+): Activity[] {
+  const articles: Activity[] = posts.map(normalizeBlogEntry);
 
   const releaseItems: Activity[] = releases.map((r) => ({
     kind: 'release',

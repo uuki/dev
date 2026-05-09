@@ -31,4 +31,47 @@
       animation-range: entry 100% exit 0%;
     }
   }
+
+  &[data-effect="anchor-hover"] {
+    position: relative;
+    z-index: 0;
+    > *:is(:hover) {
+      anchor-name: --item;
+    }
+    @media (--hover) {
+      &:has(> *:hover) {
+        &::before {
+          opacity: 1;
+        }
+      }
+    }
+    &::before {
+      content: '';
+      position: absolute;
+      position-anchor: --item;
+      inset:
+        anchor(top)
+        anchor(right)
+        anchor(bottom)
+        anchor(left);
+      border-radius: rem(12);
+      transition:
+        inset 0.25s,
+        opacity 0.2s;
+      opacity: 0;
+      z-index: -1;
+      background:
+        // グロー効果
+        linear-gradient(
+          45deg,
+          transparent,
+          rgba(120, 190, 255, 0.1),
+          /*rgba(170, 140, 255, 0.12),*/
+          rgb(210, 255, 201, 0.1), /* green */
+          transparent
+        ),
+        // ベース
+        rgba(255, 255, 255, 0.05);
+    }
+  }
 }

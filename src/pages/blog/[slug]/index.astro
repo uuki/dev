@@ -10,6 +10,8 @@ import OptimizedImage from '@/components/ui/OptimizedImage/OptimizedImage.astro'
 import PostHistory from '@/components/objects/PostHistory/PostHistory.astro';
 import { getFileRevision } from '@/utils/git';
 import { siteConfig } from '@/data/constants';
+import PostDate from '@/components/ui/PostDate/PostDate.astro';
+
 import styles from './index.module.scss';
 
 export const getStaticPaths = (async () => {
@@ -65,6 +67,14 @@ const meta = {
   'og:image': ogImageUrl,
   type: 'article' as const,
 };
+
+const readingTime = 0;
+// const postMeta = [
+//   {
+//     icon: '',
+//     content:
+//   }
+// ];
 ---
 
 <AppLayout meta={meta}>
@@ -77,15 +87,26 @@ const meta = {
             <div class={styles.blogPost__tags}>
               <ListTag tags={tags} />
             </div>
-            <div class={styles.blogPost__meta}>
-              <ListMeta date={created_at} />
+            <ul class={styles.blogPost__meta}>
+              {created_at && (
+                <li class={styles.listMeta__item}>
+                  <span class={styles.listMeta__icon}>✏️</span>
+                  <PostDate date={created_at} />
+                </li>
+              )}
+              {readingTime && (
+                <li class={styles.listMeta__item}>
+                  <span class={styles.listMeta__icon}>📖</span>
+                  {Math.round(readingTime)} min read
+                </li>
+              )}
               {history.length > 0 && (
                 <PostHistory
                   history={history}
                   repoUrl={siteConfig.git?.repoUrl}
                 />
               )}
-            </div>
+            </ul>
           </div>
 
           {heroImage && (

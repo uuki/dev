@@ -98,6 +98,13 @@
 }
 .timeline__title {
   grid-column: 2;
+  font-family: var(--font-rubik);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-size: liquid(
+    $size-at-base: 22,
+    $minmax: (min: 18, max: 22)
+  );
   .timeline__item[data-type='misc'] & {
     font-size: rem(14);
     color: #A8A8A8;
@@ -111,7 +118,7 @@
   display: grid;
   grid-template-columns: subgrid;
   min-height: rem(60);
-  padding-block: rem(20);
+  padding-block: rem(16) rem(24);
 
   &::before {
     content: '';
