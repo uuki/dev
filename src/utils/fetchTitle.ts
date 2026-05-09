@@ -95,14 +95,25 @@ function saveCacheToFile(cache: Record<string, string>): void {
 }
 
 /**
- * Fetch title with persistent caching (only in production build)
+ * Return a cached title without any network fetch.
+ * Returns null if the URL is not in either cache.
+ */
+export function getCachedTitle(url: string): string | null {
+  if (memoryCache.has(url)) {
+    return memoryCache.get(url) ?? null;
+  }
+  const fileCache = loadCacheFromFile();
+  if (fileCache[url]) {
+    memoryCache.set(url, fileCache[url]);
+    return fileCache[url];
+  }
+  return null;
+}
+
+/**
+ * Fetch title with persistent caching
  */
 export async function fetchTitleWithCache(url: string): Promise<string | null> {
-  // Skip fetching in development mode (astro dev)
-  if (import.meta.env.DEV) {
-    return null;
-  }
-
   // Check in-memory cache first
   if (memoryCache.has(url)) {
     return memoryCache.get(url) || null;
