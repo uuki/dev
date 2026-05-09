@@ -9,7 +9,7 @@ import Toast from '@/components/features/Toast/Toast.svelte';
 import { SESSION_KEYS } from '@/js/core/constants';
 
 import { normalizeActivities } from '@/utils/normalizeActivities';
-import styles from './index.module.scss';
+import styles from './top.module.scss';
 
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
 const allReleases = await getCollection('releases');

@@ -37,7 +37,6 @@
   min-height: inherit;
   border-radius: rem(30);
   color: var(--color-white);
-  // background-color: var(--color-navy-600);
   box-shadow: 0 2px 8px relative-alpha(var(--color-navy-600), 0.1);
   padding: 0 var(--_side-pad);
   z-index: var(--z-global-header);
@@ -56,14 +55,8 @@
 .header__logoTransformX {
   :global(.is-top) & {
     position: fixed;
-    width: calc(liquid-range(
-      $min-vw: 375,
-      $max-vw: 1280,
-      $max-size: 100%,
-      $min-size: 50%
-    ) - (var(--size-header-padding) + var(--_side-pad)));
     top: 0;
-    height: 100svh;
+    pointer-events: none;
   }
 }
 
@@ -84,7 +77,6 @@
 
   // NOTE: calc-size() がintrinsic size系のプロパティのみでなく、inset系に適用できるようになれば、親要素による初期位置の正規化不要で単体で算出可能かも
   :global(.is-top) & {
-    --_speed: 8.6;
     position: absolute;
     top: max(0%, calc(50% * (1 - var(--scroll-y, 0) * var(--_speed))));
     left: max(0%, calc(50% * (1 - var(--scroll-y, 0) * var(--_speed))));
@@ -102,15 +94,30 @@
   margin-left: auto;
 }
 
-// @media (--mobile) {
-//   .header {
-//     // padding-inline: rem(20);
-//     padding-inline: liquid(20, $minmax: (min: 20, max: 40));
-//   }
-// }
+@media (--mobile) {
+  .header__logoTransformX {
+    :global(.is-top) & {
+      width: calc(100% - ((var(--size-header-padding) + var(--_side-pad)) * 2));
+      height: max(rem(400), 70svh);
+    }
+  }
+  .header__logo {
+    :global(.is-top) & {
+      --_speed: 17.2;
+    }
+  }
+}
 
-// @media (--desktop) {
-//   .header {
-//     padding-inline: liquid(40, $minmax: (min: 20, max: 40));
-//   }
-// }
+@media (--desktop) {
+  .header__logoTransformX {
+    :global(.is-top) & {
+      width: 50%;
+      height: 100svh;
+    }
+  }
+  .header__logo {
+    :global(.is-top) & {
+      --_speed: 8.6;
+    }
+  }
+}

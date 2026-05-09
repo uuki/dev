@@ -38,7 +38,7 @@ $viewports: (
   @return $preferred;
 }
 
-@function liquid-range($min-vw, $max-vw, $max-size, $min-size) {
+@function liquid-range($min-vw: 375, $max-vw: 1280, $max-size, $min-size) {
   @if math.compatible($min-size, 1%) {
     $max-px: math.div($max-size, 1%) * 0.01 * $min-vw;
     $min-px: math.div($min-size, 1%) * 0.01 * $max-vw;

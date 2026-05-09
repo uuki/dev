@@ -10,6 +10,7 @@ html {
 }
 
 :where(body) {
+  min-width: 375px;
   font-family: var(--font-sans);
   word-wrap: break-word;
   background-color: var(--color-bg-primary);

@@ -1,16 +1,35 @@
 .hero {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(2, auto);
-  font-weight: 700;
-  font-size: rem(18);
-  height: 100svh;
+  display: flex;
+  height: max(rem(700), 100svh);
 }
 
 .hero__console {
-  grid-area: 1 / 2 / 2 / 3;
+  margin-left: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-inline: rem(80) rem(40);
+  padding-inline: liquid(
+    $size-at-base: 40,
+    $minmax: (
+      min: 20,
+      max: 60
+    )
+  );
+}
+
+@media (--mobile) {
+  .hero {
+    padding-block: rem(40);
+  }
+  .hero__console {
+    align-items: flex-end;
+    width: 100%;
+  }
+}
+
+@media (--desktop) {
+  .hero__console {
+    align-items: center;
+    width: 50%;
+  }
 }
