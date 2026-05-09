@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wave Morph v4</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, sans-serif; background: #f5f4f1; color: #1a1a1a; padding: 24px; }
+  h1 { font-size: 16px; font-weight: 500; margin-bottom: 16px; color: #444; }
+
+  .layout { display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap; }
+
+  canvas { display: block; border-radius: 8px; background: #fff; border: 0.5px solid rgba(0,0,0,0.1); }
+
+  .panel { width: 220px; flex-shrink: 0; display: flex; flex-direction: column; gap: 12px; }
+
+  .ctrl { display: flex; flex-direction: column; gap: 4px; }
+  .ctrl-row { display: flex; justify-content: space-between; align-items: baseline; }
+  .ctrl label { font-size: 12px; color: #666; }
+  .ctrl span  { font-size: 13px; font-weight: 500; color: #1a1a1a; min-width: 28px; text-align: right; }
+  input[type=range] { width: 100%; accent-color: #534AB7; }
+
+  .shape-toggle { display: flex; gap: 6px; }
+  .shape-toggle label {
+    flex: 1; text-align: center; font-size: 12px; padding: 5px 8px;
+    border-radius: 4px; cursor: pointer;
+    border: 0.5px solid rgba(0,0,0,0.2); background: #fff; color: #555;
+    transition: background 0.1s, color 0.1s;
+    user-select: none;
+  }
+  .shape-toggle input[type=radio] { display: none; }
+  .shape-toggle label:has(input:checked) { background: #534AB7; color: #fff; border-color: #534AB7; }
+
+  /* display:contents で flex の直接子として振る舞い、hidden で非表示 */
+  .ctrl-group { display: contents; }
+  .ctrl-group[hidden] { display: none; }
+
+  .divider { border: none; border-top: 0.5px solid rgba(0,0,0,0.1); }
+
+  .export-section { display: flex; flex-direction: column; gap: 8px; }
+  .export-section p { font-size: 12px; color: #666; line-height: 1.5; }
+
+  button {
+    padding: 8px 12px; font-size: 13px; border-radius: 6px; cursor: pointer;
+    border: 0.5px solid rgba(0,0,0,0.2); background: #fff; color: #1a1a1a;
+    transition: background 0.1s;
+  }
+  button:hover { background: #f0eff8; }
+  button.primary { background: #534AB7; color: #fff; border-color: #534AB7; }
+  button.primary:hover { background: #3C3489; }
+
+  textarea {
+    width: 100%; height: 120px; font-size: 10px; font-family: monospace;
+    border: 0.5px solid rgba(0,0,0,0.15); border-radius: 6px;
+    padding: 8px; resize: vertical; background: #fafafa; color: #333;
+    line-height: 1.4;
+  }
+
+  .frames-preview { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+  .frames-preview svg { border-radius: 4px; border: 0.5px solid rgba(0,0,0,0.1); background: #fff; }
+
+  .badge {
+    display: inline-block; font-size: 10px; padding: 2px 6px;
+    border-radius: 4px; background: #eeedfe; color: #3C3489; font-weight: 500;
+  }
+</style>
+</head>
+<body>
+
+<h1>Wave Morph <span class="badge">v4</span></h1>
+
+<div class="layout">
+  <canvas id="cv" width="620" height="340"></canvas>
+
+  <div class="panel">
+    <!-- シェイプ切替 -->
+    <div class="shape-toggle">
+      <label><input type="radio" name="shape" value="rect" checked><span>Rect</span></label>
+      <label><input type="radio" name="shape" value="circle"><span>Circle</span></label>
+    </div>
+
+    <!-- 共通スライダー -->
+    <div class="ctrl">
+      <div class="ctrl-row"><label>モード m</label><span id="mv">7</span></div>
+      <input type="range" id="m" min="1" max="12" value="7" step="1">
+    </div>
+    <div class="ctrl">
+      <div class="ctrl-row"><label>振幅</label><span id="ampv">3</span></div>
+      <input type="range" id="amp" min="2" max="60" value="3" step="1">
+    </div>
+    <div class="ctrl">
+      <div class="ctrl-row"><label>速さ c</label><span id="spdv">1</span></div>
+      <input type="range" id="spd" min="1" max="10" value="1" step="1">
+    </div>
+
+    <!-- 多重調波 -->
+    <div class="ctrl">
+      <div class="ctrl-row"><label>倍音数 hn</label><span id="hnv">1</span></div>
+      <input type="range" id="hn" min="1" max="8" value="1" step="1">
+    </div>
+    <div class="ctrl">
+      <div class="ctrl-row"><label>減衰 hd</label><span id="hdv">1.5</span></div>
+      <input type="range" id="hd" min="0" max="3" value="1.5" step="0.1">
+    </div>
+    <button id="randomizeBtn">ランダム化</button>
+
+    <div class="ctrl">
+      <div class="ctrl-row"><label>アニメ時間 dur</label><span id="durv">2</span>s</div>
+      <input type="range" id="dur" min="0.5" max="8" value="2" step="0.5">
+    </div>
+
+    <!-- Rect 専用 -->
+    <div class="ctrl-group" id="rect-controls">
+      <div class="ctrl">
+        <div class="ctrl-row"><label>幅 rw</label><span id="rwv">420</span></div>
+        <input type="range" id="rw" min="100" max="600" value="420" step="10">
+      </div>
+      <div class="ctrl">
+        <div class="ctrl-row"><label>高さ rh</label><span id="rhv">220</span></div>
+        <input type="range" id="rh" min="60" max="400" value="220" step="10">
+      </div>
+      <div class="ctrl">
+        <div class="ctrl-row"><label>角の丸み r</label><span id="radv">22</span></div>
+        <input type="range" id="rad" min="0" max="100" value="22" step="1">
+      </div>
+    </div>
+
+    <!-- Circle 専用 -->
+    <div class="ctrl-group" id="circle-controls" hidden>
+      <div class="ctrl">
+        <div class="ctrl-row"><label>半径 cr</label><span id="crv">150</span></div>
+        <input type="range" id="cr" min="40" max="250" value="150" step="5">
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- SVG エクスポート -->
+    <div class="export-section">
+      <p>1周を4分割した位相（0, π/2, π, 3π/2）から SVG を生成します。<code>&lt;animate&gt;</code> のコマンド構造は全フレーム統一。</p>
+      <button class="primary" id="exportBtn">SVG を生成</button>
+      <div class="frames-preview" id="preview"></div>
+      <textarea id="output" readonly placeholder="ここに SVG が出力されます"></textarea>
+      <button id="copyBtn">クリップボードにコピー</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---- 初期パラメータ（サーバーから注入）----
+const INIT = __INIT_PARAMS__;
+
+// ---- スライダー初期値 ----
+const sliderIds = ["m","amp","spd","hn","hd","rad","rw","rh","cr","dur"];
+const sl = {}, lb = {};
+sliderIds.forEach(k => {
+  sl[k] = document.getElementById(k);
+  lb[k] = document.getElementById(k + "v");
+});
+sl.m.value   = INIT.m;     lb.m.textContent   = INIT.m;
+sl.amp.value = INIT.amp;   lb.amp.textContent  = INIT.amp;
+sl.spd.value = INIT.speed; lb.spd.textContent  = INIT.speed;
+sl.hn.value  = INIT.hn;    lb.hn.textContent   = INIT.hn;
+sl.hd.value  = INIT.hd;    lb.hd.textContent   = INIT.hd;
+sl.rad.value = INIT.r;     lb.rad.textContent  = INIT.r;
+sl.rw.value  = INIT.rw;    lb.rw.textContent   = INIT.rw;
+sl.rh.value  = INIT.rh;    lb.rh.textContent   = INIT.rh;
+sl.cr.value  = INIT.cr;    lb.cr.textContent   = INIT.cr;
+sl.dur.value = INIT.dur;   lb.dur.textContent  = INIT.dur;
+
+sliderIds.forEach(k => {
+  sl[k].addEventListener("input", () => { lb[k].textContent = sl[k].value; });
+});
+
+// ---- シェイプ切替 ----
+function onShapeChange() {
+  const isCircle = document.querySelector('input[name="shape"]:checked').value === 'circle';
+  document.getElementById('rect-controls').hidden = isCircle;
+  document.getElementById('circle-controls').hidden = !isCircle;
+}
+
+document.querySelectorAll('input[name="shape"]').forEach(r => {
+  if (r.value === INIT.shape) r.checked = true;
+  r.addEventListener("change", onShapeChange);
+});
+onShapeChange();
+
+function getShape() {
+  const type = document.querySelector('input[name="shape"]:checked').value;
+  if (type === 'circle') return { type: 'circle', cr: +sl.cr.value };
+  return { type: 'rect', rw: +sl.rw.value, rh: +sl.rh.value, r: +sl.rad.value };
+}
+
+// ---- 定数 ----
+const W = 620, H = 340, CX = W/2, CY = H/2;
+const NSAMP = 800;
+const MAX_HARMONICS = 8;
+
+// ---- 多重調波プロファイル ----
+// 各倍音の位相オフセット（固定乱数）。ランダム化ボタンで再抽選。
+let randomPhases = Array.from({ length: MAX_HARMONICS }, () => Math.random() * 2 * Math.PI);
+
+function randomizeHarmonics() {
+  randomPhases = Array.from({ length: MAX_HARMONICS }, () => Math.random() * 2 * Math.PI);
+}
+
+// hn 個の調波プロファイルを構築。振幅は 1/k^hd で正規化。
+function getHarmonics(hn, hd) {
+  const entries = [];
+  let total = 0;
+  for (let i = 0; i < hn; i++) {
+    const k = i + 1;
+    const a = hd > 0 ? 1 / Math.pow(k, hd) : 1;
+    entries.push({ k, a, phaseOffset: randomPhases[i] });
+    total += a;
+  }
+  return entries.map(e => ({ k: e.k, relAmp: e.a / total, phaseOffset: e.phaseOffset }));
+}
+
+// Σₖ relAmp_k * sin(2π * k * m * s − phase + φₖ)
+function waveDisp(s, m, amp, phase, harmonics) {
+  let d = 0;
+  for (const h of harmonics) {
+    d += h.relAmp * Math.sin(2 * Math.PI * m * h.k * s - phase + h.phaseOffset);
+  }
+  return amp * d;
+}
+
+document.getElementById('randomizeBtn').addEventListener('click', randomizeHarmonics);
+
+// ---- 輪郭生成 ----
+function buildRectContour(rw, rh, r) {
+  r = Math.min(r, Math.min(rw/2, rh/2));
+  const hw = rw/2, hh = rh/2;
+  const pts = [];
+  const perim = 2*(rw+rh) - 8*r + 2*Math.PI*r;
+  const sH = Math.round(NSAMP*(rw-2*r)/perim);
+  const sV = Math.round(NSAMP*(rh-2*r)/perim);
+  const sA = Math.round(NSAMP*(Math.PI/2*r)/perim);
+  const dH = sH > 0 ? (rw-2*r)/sH : 0;
+  const dV = sV > 0 ? (rh-2*r)/sV : 0;
+
+  function arc(cx, cy, a0, a1, steps) {
+    for (let i = 0; i <= steps; i++) {
+      const a = steps > 0 ? a0 + (a1-a0)*(i/steps) : a0;
+      pts.push([cx + r*Math.cos(a), cy + r*Math.sin(a)]);
+    }
+  }
+
+  for (let i=0;i<=sH;i++) pts.push([-hw+r+dH*i, -hh]);
+  arc( hw-r, -hh+r, -Math.PI/2, 0,           sA);
+  for (let i=0;i<=sV;i++) pts.push([hw, -hh+r+dV*i]);
+  arc( hw-r,  hh-r,  0,          Math.PI/2,   sA);
+  for (let i=0;i<=sH;i++) pts.push([hw-r-dH*i, hh]);
+  arc(-hw+r,  hh-r,  Math.PI/2,  Math.PI,     sA);
+  for (let i=0;i<=sV;i++) pts.push([-hw, hh-r-dV*i]);
+  arc(-hw+r, -hh+r,  Math.PI,    Math.PI*3/2, sA);
+  return pts;
+}
+
+function buildCircleContour(cr) {
+  const pts = [];
+  for (let i = 0; i < NSAMP; i++) {
+    const a = 2 * Math.PI * i / NSAMP;
+    pts.push([cr * Math.cos(a), cr * Math.sin(a)]);
+  }
+  return pts;
+}
+
+function buildContour(shape) {
+  if (shape.type === 'circle') return buildCircleContour(shape.cr);
+  return buildRectContour(shape.rw, shape.rh, shape.r);
+}
+
+// ---- 法線・弧長（変更なし）----
+function computeNormals(pts) {
+  const n = pts.length;
+  return pts.map((_, i) => {
+    const prev = pts[(i-1+n)%n];
+    const next = pts[(i+1)%n];
+    const tx = next[0]-prev[0], ty = next[1]-prev[1];
+    const len = Math.sqrt(tx*tx+ty*ty) || 1;
+    return [-ty/len, tx/len];
+  });
+}
+
+function arcLength(pts) {
+  let total = 0;
+  const lens = [0];
+  for (let i=1;i<pts.length;i++) {
+    const dx=pts[i][0]-pts[i-1][0], dy=pts[i][1]-pts[i-1][1];
+    total += Math.sqrt(dx*dx+dy*dy);
+    lens.push(total);
+  }
+  return { lens, total };
+}
+
+// ---- パス生成（位相 phase を受け取る）----
+// 全点を M + L*N + Z の統一コマンドで出力 → animate モーフィング互換
+function buildWavedPath(shape, m, amp, phase, harmonics, offsetX = 0, offsetY = 0) {
+  const base    = buildContour(shape);
+  const normals = computeNormals(base);
+  const { lens, total } = arcLength(base);
+
+  const coords = base.map((pt, i) => {
+    const s    = lens[i] / total;
+    const disp = waveDisp(s, m, amp, phase, harmonics);
+    return [
+      offsetX + pt[0] + normals[i][0]*disp,
+      offsetY + pt[1] + normals[i][1]*disp,
+    ];
+  });
+
+  const fmt = v => v.toFixed(3);
+  return [
+    `M ${fmt(coords[0][0])},${fmt(coords[0][1])}`,
+    ...coords.slice(1).map(([x,y]) => `L ${fmt(x)},${fmt(y)}`),
+    "Z",
+  ].join(" ");
+}
+
+// ---- Canvas アニメーション ----
+const cv  = document.getElementById("cv");
+const ctx = cv.getContext("2d");
+let t = 0, last = null;
+
+function draw(ts) {
+  if (last === null) last = ts;
+  const dt = Math.min((ts - last) / 1000, 0.05);
+  last = ts;
+
+  const shape     = getShape();
+  const m         = +sl.m.value;
+  const amp       = +sl.amp.value;
+  const c         = +sl.spd.value;
+  const harmonics = getHarmonics(+sl.hn.value, +sl.hd.value);
+
+  const omega = 2*Math.PI*m*c*0.05;
+  t += dt * omega;
+
+  const base    = buildContour(shape);
+  const normals = computeNormals(base);
+  const { lens, total } = arcLength(base);
+
+  // スケール計算（キャンバスにフィット）
+  const bboxW = shape.type === 'circle' ? shape.cr*2 : shape.rw;
+  const bboxH = shape.type === 'circle' ? shape.cr*2 : shape.rh;
+  const pad   = amp + 20;
+  const scale = Math.min((W - 40) / (bboxW + pad*2), (H - 50) / (bboxH + pad*2));
+
+  ctx.clearRect(0, 0, W, H);
+  ctx.save();
+  ctx.translate(CX, CY);
+  ctx.scale(scale, scale);
+
+  // 元の輪郭
+  ctx.beginPath();
+  base.forEach(([x,y],i) => i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y));
+  ctx.closePath();
+  ctx.fillStyle   = "rgba(0,0,0,0.04)";
+  ctx.fill();
+  ctx.strokeStyle = "rgba(0,0,0,0.12)";
+  ctx.lineWidth   = 0.5 / scale;
+  ctx.setLineDash([3/scale, 4/scale]);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // 進行波
+  ctx.beginPath();
+  for (let i=0; i<base.length; i++) {
+    const s    = lens[i] / total;
+    const disp = waveDisp(s, m, amp, t, harmonics);
+    const x = base[i][0] + normals[i][0]*disp;
+    const y = base[i][1] + normals[i][1]*disp;
+    i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  }
+  ctx.closePath();
+  ctx.fillStyle   = "rgba(83,74,183,0.07)";
+  ctx.fill();
+  ctx.strokeStyle = "#534AB7";
+  ctx.lineWidth   = 2 / scale;
+  ctx.stroke();
+
+  ctx.restore();
+
+  ctx.font      = "11px monospace";
+  ctx.fillStyle = "rgba(0,0,0,0.22)";
+  ctx.textAlign = "center";
+  const hn = +sl.hn.value, hd = +sl.hd.value;
+  const shapeLabel = shape.type === 'circle'
+    ? `circle cr=${shape.cr}`
+    : `rect ${shape.rw}×${shape.rh}  r=${shape.r}`;
+  ctx.fillText(`m=${m}  amp=${amp}  c=${c}  hn=${hn}  hd=${hd}  ${shapeLabel}`, W/2, H-12);
+
+  requestAnimationFrame(draw);
+}
+requestAnimationFrame(draw);
+
+// ---- SVG エクスポート ----
+document.getElementById("exportBtn").addEventListener("click", () => {
+  const shape     = getShape();
+  const m         = +sl.m.value;
+  const amp       = +sl.amp.value;
+  const dur       = +sl.dur.value;
+  const harmonics = getHarmonics(+sl.hn.value, +sl.hd.value);
+
+  const phases = [0, Math.PI/2, Math.PI, Math.PI*3/2];
+  const paths  = phases.map(ph => buildWavedPath(shape, m, amp, ph, harmonics));
+
+  // viewBox（波の振れ幅を余白に含める）
+  const pad = amp + 30;
+  let vx, vy, vw, vh;
+  if (shape.type === 'circle') {
+    const cr = shape.cr;
+    vx = -(cr + pad); vy = -(cr + pad);
+    vw = 2*(cr + pad); vh = 2*(cr + pad);
+  } else {
+    vx = -(shape.rw/2 + pad); vy = -(shape.rh/2 + pad);
+    vw = shape.rw + 2*pad;    vh = shape.rh + 2*pad;
+  }
+
+  // <animate> values: f0→f1→f2→f3→f0 で 1 周ループ
+  const values = [...paths, paths[0]].join(";");
+
+  const svgStr = [
+    `<svg xmlns="http://www.w3.org/2000/svg"`,
+    `     viewBox="${vx.toFixed(1)} ${vy.toFixed(1)} ${vw.toFixed(1)} ${vh.toFixed(1)}"`,
+    `     width="${Math.round(vw)}" height="${Math.round(vh)}">`,
+    `  <path fill="rgba(83,74,183,0.15)" stroke="#534AB7" stroke-width="2" stroke-linejoin="round">`,
+    `    <animate`,
+    `      attributeName="d"`,
+    `      values="${values}"`,
+    `      dur="${dur}s"`,
+    `      repeatCount="indefinite"/>`,
+    `  </path>`,
+    `</svg>`,
+  ].join("\n");
+
+  document.getElementById("output").value = svgStr;
+
+  // プレビュー（SVG サムネイル）
+  const preview = document.getElementById("preview");
+  preview.innerHTML = "";
+  paths.forEach((d, i) => {
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("width",   "120");
+    svg.setAttribute("height",  "80");
+    svg.setAttribute("viewBox", `${vx} ${vy} ${vw} ${vh}`);
+    const pathEl = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    pathEl.setAttribute("d",            d);
+    pathEl.setAttribute("fill",         "rgba(83,74,183,0.1)");
+    pathEl.setAttribute("stroke",       "#534AB7");
+    pathEl.setAttribute("stroke-width", "2");
+    svg.appendChild(pathEl);
+    const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    text.setAttribute("x",           "0");
+    text.setAttribute("y",           String(vy + vh - 8));
+    text.setAttribute("text-anchor", "middle");
+    text.setAttribute("font-size",   String(Math.max(14, vh * 0.07)));
+    text.setAttribute("fill",        "#888");
+    text.textContent = `f${i}`;
+    svg.appendChild(text);
+    preview.appendChild(svg);
+  });
+});
+
+document.getElementById("copyBtn").addEventListener("click", () => {
+  const ta = document.getElementById("output");
+  if (!ta.value) return;
+  navigator.clipboard.writeText(ta.value).then(() => {
+    const btn = document.getElementById("copyBtn");
+    btn.textContent = "コピーしました";
+    setTimeout(() => { btn.textContent = "クリップボードにコピー"; }, 1500);
+  });
+});
+</script>
+</body>
+</html>
