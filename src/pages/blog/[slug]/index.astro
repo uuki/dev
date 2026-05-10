@@ -10,7 +10,6 @@ import PostWysiwyg from '@/components/layouts/PostWysiwyg/PostWysiwyg.astro';
 
 import ShareButton from '@/components/features/ShareButton/ShareButton.astro';
 import PostHistory from '@/components/features/PostHistory/PostHistory.astro';
-import PostHeader from '@/components/ui/PostHeader/PostHeader.astro';
 import OptimizedImage from '@/components/ui/OptimizedImage/OptimizedImage.astro';
 import PostDate from '@/components/ui/PostDate/PostDate.astro';
 import Tag from '@/components/ui/Tag/Tag.astro';
@@ -90,13 +89,13 @@ const readingTime: number = remarkPluginFrontmatter.readingTime ?? 0;
           <ul class={styles.post__meta}>
             {created_at && (
               <li>
-                <span class={styles.listMeta__icon}><Fragment set:html={iconMap['write']} /></span>
+                <span class={styles.post__metaIcon}><Fragment set:html={iconMap['write']} /></span>
                 <PostDate date={created_at} />
               </li>
             )}
             {readingTime && (
               <li>
-                <span class={styles.listMeta__icon}><Fragment set:html={iconMap['book-open']} /></span>
+                <span class={styles.post__metaIcon}><Fragment set:html={iconMap['book-open']} /></span>
                 {Math.round(readingTime)} min read
               </li>
             )}

@@ -1,8 +1,9 @@
 ---
-import AppLayout from '@/layouts/App.astro';
-import PageHeader from '@/components/ui/PageHeader/PageHeader.astro';
-import LinkTag from '@/components/ui/LinkTag/LinkTag.astro';
 import { getAllTags, getAllTagNames } from '@/utils/tags';
+
+import AppLayout from '@/layouts/App.astro';
+import HeadingPage from '@/components/ui/HeadingPage/HeadingPage.astro';
+
 import styles from './tags.module.scss';
 
 const tagCounts = await getAllTags();
@@ -26,13 +27,13 @@ const sortedTags = Object.keys(tagCounts).sort((a, b) => tagCounts[b] - tagCount
         <div class={styles.tags__container}>
           <div class={styles.tags__content}>
             <div class={styles.tags__header}>
-              <PageHeader>Tags</PageHeader>
+              <HeadingPage heading='h1' class={styles.tags__heading}>Tags</HeadingPage>
             </div>
 
             <ul class={styles.tags__list}>
               {sortedTags.map((tagSlug) => (
-                <li class={styles.tags__item}>
-                  <LinkTag tag={slugToName[tagSlug] || tagSlug} />
+                <li>
+                  <a href={`/tags/${tagSlug}`} class={styles.tags__item}>{slugToName[tagSlug] || tagSlug}</a>
                   <span class={styles.tags__count}>({tagCounts[tagSlug]})</span>
                 </li>
               ))}

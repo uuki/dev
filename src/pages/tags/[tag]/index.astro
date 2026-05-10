@@ -6,8 +6,7 @@ import slugify from 'slugify';
 
 import AppLayout from '@/layouts/App.astro';
 import Content from '@/components/layouts/Content/Content.astro';
-import PageHeader from '@/components/ui/PageHeader/PageHeader.astro';
-// import InputText from '@/components/ui/InputText/InputText.astro';
+import HeadingPage from '@/components/ui/HeadingPage/HeadingPage.astro';
 import PostCard from '@/components/ui/PostCard/PostCard.astro';
 import { getAllTags, getAllTagNames } from '@/utils/tags';
 import { normalizeBlogEntry } from '@/utils/normalizeActivities';
@@ -67,7 +66,7 @@ const posts = rawPosts.map(normalizeBlogEntry);
       <div class={styles.tagPosts__content}>
         <div class={styles.tagPosts__container}>
           <div class={styles.tagPosts__header}>
-            <PageHeader>#{tagName} - Tags</PageHeader>
+            <HeadingPage heading='h1' class={styles.tagPosts__heading}>#{tagName} - Tags</HeadingPage>
           </div>
 
           <!-- <div class={styles.tagPosts__search}>

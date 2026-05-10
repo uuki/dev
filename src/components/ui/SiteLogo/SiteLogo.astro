@@ -1,6 +1,5 @@
 ---
 import { Image } from 'astro:assets';
-import Link, { type Props as LinkProps } from '../Link/Link.astro';
 import styles from './SiteLogo.module.scss';
 
 import imgSymbol from '@/assets/images/symbol.svg?raw';
@@ -10,12 +9,11 @@ interface Props {
   noLink?: boolean;
 }
 
-const { noLink } = Astro.props;
-const Component = (noLink ? 'span' : Link) as any;
-const atts = (noLink ? {} : { href: "/", variant: "opacity" }) as LinkProps;
+const { noLink, ...props } = Astro.props;
+const Component = (noLink ? 'span' : 'a');
 ---
 
-<Component {...atts} class={styles.siteLogo}>
+<Component href={noLink ? undefined : '/'} class={styles.siteLogo} {...props}>
   <Image
     src={imgLogo}
     width={20}

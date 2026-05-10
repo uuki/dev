@@ -31,6 +31,9 @@
   line-height: 1.6;
   letter-spacing: 0.04em;
   view-transition-name: var(--slug);
+  @media (--desktop) {
+    font-size: rem(28);
+  }
 }
 
 .post__tags {
@@ -45,9 +48,32 @@
   gap: rem(16);
   margin-top: rem(7);
 
+  > li {
+    display: flex;
+    align-items: center;
+    margin-right: rem(10);
+    font-size: rem(12);
+    font-weight: 700;
+    color: #6b7280; // gray-500
+
+    &::after {
+      content: '|';
+      margin-left: rem(10);
+      color: #d1d5db; // gray-300
+    }
+    &:last-child::after {
+      display: none;
+    }
+  }
+
   @media (--mobile) {
     margin-top: rem(8);
   }
+}
+.post__metaIcon {
+  margin-top: rem(-2);
+  margin-right: rem(5);
+  font-size: rem(14);
 }
 
 .post__heroImage {
