@@ -9,9 +9,9 @@ import {
   type PaletteScale,
   type ContrastResult,
   type TokenMap,
-} from './lib/palette';
-import { generateCss } from './lib/css';
-import { hexToOklch } from './lib/color';
+} from './palette';
+import { generateCss } from './css';
+import { hexToOklch } from './color';
 
 // ── デフォルト入力色 ─────────────────────────────────────────────────────────
 const DEFAULT_INPUTS: Record<ScaleName, ScaleInput> = {
