@@ -1,0 +1,100 @@
+@use '@/styles/tools/functions/_rem.scss' as *;
+
+%list-base {
+  display: flex;
+  flex-direction: column;
+  gap: rem(8);
+  li {
+    position: relative;
+    &:before {
+      position: absolute;
+      left: 0;
+    }
+    > ul, > ol {
+      display: flex;
+      flex-direction: column;
+      gap: rem(4);
+    }
+  }
+  @media(--mobile) {
+    li {
+      > ul, > ol {
+        margin-top: rem(4);
+      }
+    }
+  }
+  @media(--desktop) {
+    li {
+      > ul, > ol {
+        margin-top: rem(8);
+      }
+    }
+  }
+}
+
+@mixin list-bullet {
+  @extend %list-base;
+  --_list-marker-width: #{rem(8)};
+  --_list-marker-height: #{rem(8)};
+  --_list-marker-space: #{rem(12)};
+  --_list-child-marker-space: #{rem(14)};
+  --_list-child-marker-height: #{rem(2)};
+
+  li {
+    padding-left: calc(var(--_list-marker-space) + var(--_list-marker-width));
+    &::before {
+      content: '';
+      top: calc(0.5lh - 0.5 * var(--_list-marker-width));
+      width: var(--_list-marker-width);
+      height: var(--_list-marker-height);
+      clip-path: circle(50%);
+      background-color: currentColor;
+      border-radius: 50%;
+    }
+    > ul {
+      @media (--desktop) {
+        padding-left: calc(rem(100) - var(--_list-marker-space) - var(--_list-marker-width));
+      }
+      > li {
+        padding-left: calc(var(--_list-child-marker-space) + var(--_list-marker-width));
+        &::before {
+          content: '';
+          top: calc(0.5lh - 0.5 * var(--_list-child-marker-height));
+          height: var(--_list-child-marker-height);
+          border-radius: 0;
+        }
+      }
+    }
+  }
+}
+
+@mixin list-number {
+  @extend %list-base;
+  --_list-number-space: #{rem(12)};
+  counter-reset: num;
+  counter-set: num;
+
+  > li {
+    counter-increment: num;
+    &::before {
+      content: counter(num) ".";
+    }
+  }
+
+  li {
+    padding-left: calc(var(--_list-number-space) + 1em);
+    > ol {
+      counter-reset: alpha;
+      counter-set: alpha;
+      @media (--desktop) {
+        padding-left: calc(rem(100) - var(--_list-number-space) - 1em);
+      }
+      > li {
+        counter-increment: alpha;
+        &::before {
+          content: counter(alpha, lower-alpha) ".";
+        }
+      }
+    }
+  }
+}

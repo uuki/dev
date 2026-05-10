@@ -10,7 +10,7 @@ import Pagination from '@/components/objects/Pagination/Pagination.astro';
 import PostCard from '@/components/ui/PostCard/PostCard.astro';
 import HeadingPage from '@/components/ui/HeadingPage/HeadingPage.astro';
 
-import styles from './index.module.scss';
+import styles from './archive.module.scss';
 
 export const getStaticPaths = (async ({ paginate }) => {
   const allPosts = await getCollection('blog', ({ data }) => {

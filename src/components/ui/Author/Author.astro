@@ -1,20 +1,43 @@
 ---
+import { siteConfig, socialIconMap, contactIconMap } from '@/data/constants';
+import waveCircle from '@/assets/shapes/wave-circle.svg?raw';
 import OptimizedImage from '../OptimizedImage/OptimizedImage.astro';
+
 import styles from './Author.module.scss';
 
 import imgLogo from '@/assets/images/logo.jpg'
+
+const waveCircleInner = waveCircle
+  .replace(/<svg[^>]*>/, '')
+  .replace(/<\/svg>/, '')
+  .trim();
+
+const profileLinks = [
+  ...(siteConfig.social ?? []).map((l) => ({ ...l, icon: socialIconMap[l.type] })),
+  ...(siteConfig.contact ?? []).map((l) => ({ ...l, icon: contactIconMap[l.type] })),
+];
 ---
 
-<div class={styles.Author}>
-  <OptimizedImage
-    src={imgLogo.src}
-    alt="avatar"
-    width={60}
-    height={60}
-    class={styles.Author__image}
-  />
-  <div class={styles.Author__info}>
-    <p class={styles.Author__name}>uuki</p>
-    <p class={styles.Author__title}>Frontend developer</p>
+<div class={styles.author}>
+  <div class={styles.author__image}>
+    <OptimizedImage
+      src={imgLogo.src}
+      alt="avatar"
+      width={60}
+      height={60}
+    />
+  </div>
+  <div class={styles.author__info}>
+    <p class={styles.author__name}>uuki</p>
+    <p class={styles.author__title}>Frontend developer</p>
+    <ul class={styles.author__socials}>
+      {profileLinks.map((link) => (
+        <li>
+          <a href={link.url} aria-label={link.label}>
+            <Fragment set:html={link.icon} />
+          </a>
+        </li>
+      ))}
+    </ul>
   </div>
 </div>

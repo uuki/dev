@@ -13,6 +13,7 @@ import remarkMath from 'remark-math';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeKatex from 'rehype-katex';
+import rehypeExternalLinks from 'rehype-external-links';
 import { remarkCustomDirectives } from './src/plugins/remark-custom-directives';
 import { remarkEmbedDirectives } from './src/plugins/remark-embed-directives';
 import { remarkOutdatedWarning } from './src/plugins/remark-outdated-warning';
@@ -88,6 +89,7 @@ export default defineConfig({
       remarkMath,
     ],
     rehypePlugins: [
+      [rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }],
       rehypeSlug,
       rehypeAutolinkHeadings,
       rehypeKatex,

@@ -1,7 +1,3 @@
-/**
- * PostHistory Component Styles (Next.js compatible)
- */
-
 .postHistory {
   position: relative;
   display: inline-block;
@@ -10,24 +6,12 @@
 .postHistory__summary {
   display: flex;
   align-items: center;
-  cursor: pointer;
-  list-style: none;
+  gap: rem(6);
   user-select: none;
 
-  &::-webkit-details-marker {
-    display: none;
-  }
-
-  &::after {
-    content: '';
-    display: inline-block;
-    width: 0;
-    height: 0;
-    margin-left: rem(4);
-    border-left: rem(4) solid transparent;
-    border-right: rem(4) solid transparent;
-    border-top: rem(4) solid currentColor;
-    transition: transform 0.2s ease;
+  svg {
+    width: rem(16);
+    margin-top: 1px;
   }
 
   .postHistory[open] &::after {
@@ -39,10 +23,10 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%) translateY(rem(5));
-  width: rem(200);
+  width: rem(180);
   background-color: var(--color-white);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  border-radius: rem(6);
+  border-radius: var(--corners-md);
   overflow: hidden;
   z-index: 10;
 }
@@ -53,32 +37,21 @@
 }
 
 .postHistory__list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
   font-size: rem(11);
+  font-weight: 700;
   background-color: var(--color-bg);
-}
-
-.postHistory__item {
-  border-top: 1px solid var(--color-navy-400);
-
-  &:first-child {
-    border-top: none;
+  > li {
+    &:not(:first-child) {
+      border-top: 1px solid var(--color-border);
+    }
   }
 }
 
-.postHistory__link,
-.postHistory__content {
+a.postHistory__item {
   display: block;
-  padding: rem(10) rem(15);
-}
-
-.postHistory__link {
   color: inherit;
   text-decoration: none;
   transition: opacity 0.2s ease;
-
   &:hover {
     opacity: 0.7;
   }
@@ -87,27 +60,30 @@
 .postHistory__content {
   display: flex;
   align-items: flex-start;
-  gap: rem(6);
+  padding: rem(12) rem(16);
 }
 
 .postHistory__hash {
   flex-shrink: 0;
   font-family: monospace;
+  line-height: 1;
 }
 
 .postHistory__date {
-  flex: 1;
   position: relative;
-  padding-left: rem(12);
-
+  width: fit-content;
+  line-height: 1.2;
+  margin-top: -1px;
+  text-align: right;
   &::before {
     content: '';
-    position: absolute;
-    left: 0;
-    top: rem(2);
+    display: inline-block;
     width: rem(3);
     height: rem(3);
     background-color: var(--color-navy-400);
     border-radius: 50%;
+    transform: translateY(-50%);
+    margin-inline: 0.5em;
+    margin-bottom: 1px;
   }
 }

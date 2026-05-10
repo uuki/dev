@@ -1,41 +1,16 @@
-/**
- * Tags Page Styles
- * Tag listing page
- */
-
 .tags {
   display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  background-color: var(--color-bg);
+  align-items: center;
+  height: 100%;
+  justify-content: center;
 }
-
-// .tags__main {
-//   flex: 1;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-// }
-
-// .tags__wrapper {
-//   padding: rem(66) 0;
-//   width: 100%;
-// }
-
-// .tags__container {
-//   max-width: 1000px;
-//   margin: 0 auto;
-//   padding: 0 rem(20);
-// }
 
 .tags__content {
   display: flex;
+  flex-direction: row;
   align-items: center;
-
-  @media (--mobile) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+  justify-content: center;
+  padding-block: rem(20) rem(40);
 }
 
 .tags__header {
@@ -70,4 +45,15 @@
   font-size: rem(12);
   color: #6b7280;
   vertical-align: 1px;
+}
+
+@media (--mobile) {
+  .tags__content {
+    flex-direction: column;
+    width: fit-content;
+    margin-inline: auto;
+  }
+  .tags__header {
+    align-self: flex-start;
+  }
 }

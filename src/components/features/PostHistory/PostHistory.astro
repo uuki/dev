@@ -27,7 +27,7 @@ const formatDate = (dateStr: string): string => {
 ---
 
 {history.length > 0 && (
-  <details class={styles.postHistory}>
+  <details class:list={[styles.postHistory, 'u-details-reset', 'u-details-dropdown']}>
     <summary class={styles.postHistory__summary}>
       <Fragment set:html={iconMap['clock']} />
       編集履歴
@@ -41,33 +41,23 @@ const formatDate = (dateStr: string): string => {
             const compareUrl = hasCompareLink
               ? getCompareUrl(repoUrl!, item.hash, history[index + 1].hash)
               : null;
+            const Component = compareUrl ? 'a' : 'div';
+            const props = compareUrl ? { href: compareUrl, target: "_blank", rel: "noopener" } : {};
 
             return (
-              <li class={styles.postHistory__item} data-index={index}>
-                {compareUrl ? (
-                  <a
-                    href={compareUrl}
-                    class={styles.postHistory__link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <div class={styles.postHistory__content}>
-                      <span class={styles.postHistory__hash}>{item.hash}</span>
-                      <span class={styles.postHistory__date}>
-                        {formatDate(item.authorDate)}
-                        {isInitialCommit && ' (Initial commit)'}
-                      </span>
-                    </div>
-                  </a>
-                ) : (
+              <li data-index={index}>
+                <Component
+                  {...props}
+                  class={styles.postHistory__item}
+                >
                   <div class={styles.postHistory__content}>
                     <span class={styles.postHistory__hash}>{item.hash}</span>
                     <span class={styles.postHistory__date}>
                       {formatDate(item.authorDate)}
-                      {isInitialCommit && ' (Initial commit)'}
+                      {isInitialCommit && <Fragment set:html={'<br> (Initial commit)'} />}
                     </span>
                   </div>
-                )}
+                </Component>
               </li>
             );
           })}

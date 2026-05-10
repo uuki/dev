@@ -1,38 +1,40 @@
 .pageWysiwyg {
+  display: flex;
+  flex-direction: column;
   color: var(--color-text-100);
   line-height: 1.8;
 
-  :global(h2) {
+  > h2,
+  > h3 {
+    scroll-margin-top: 1em;
+  }
+
+  h2 {
     font-size: 24px;
     font-weight: 700;
-    margin-top: 40px;
-    margin-bottom: 16px;
     color: var(--color-text-400);
-
-    @media (--mobile) {
-      font-size: 20px;
-      margin-top: 32px;
-    }
   }
 
-  :global(h3) {
+  h3 {
     font-size: 20px;
     font-weight: 700;
-    margin-top: 32px;
-    margin-bottom: 12px;
     color: var(--color-text-400);
-
-    @media (--mobile) {
-      font-size: 18px;
-      margin-top: 24px;
-    }
   }
 
-  :global(p) {
-    margin-bottom: 16px;
+  ul,
+  ol {
+    padding-left: 24px;
   }
 
-  :global(a) {
+  ul {
+   @include list-bullet;
+  }
+
+  ol {
+    @include list-number;
+  }
+
+  a {
     color: var(--color-accent);
     text-decoration: underline;
 
@@ -40,20 +42,28 @@
       opacity: 0.7;
     }
   }
-
-  :global(ul),
-  :global(ol) {
-    margin-bottom: 16px;
-    padding-left: 24px;
-  }
-
-  :global(li) {
-    margin-bottom: 8px;
-  }
 }
 
 @media(--mobile) {
+  .pageWysiwyg {
+    gap: rem(16);
+    > p + :is(p, ul, ol),
+    > ul + :is(p, ul, ol),
+    > ol + :is(p, ul, ol),
+    > h3 + :is(p, ul, ol) {
+      margin-top: calc(rem(8) * -1);
+    }
+  }
 }
 
 @media(--desktop) {
+  .pageWysiwyg {
+    gap: rem(24);
+    > p + :is(p, ul, ol),
+    > ul + :is(p, ul, ol),
+    > ol + :is(p, ul, ol),
+    > h3 + :is(p, ul, ol) {
+      margin-top: calc(rem(12) * -1);
+    }
+  }
 }

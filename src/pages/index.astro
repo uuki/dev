@@ -3,8 +3,6 @@ import AppLayout from '@/layouts/App.astro';
 import { getCollection } from 'astro:content';
 import Hero from '@/components/layouts/Hero/Hero.astro';
 import SectionActivity from '@/components/layouts/SectionActivity/SectionActivity.astro';
-import Toast from '@/components/features/Toast/Toast.svelte';
-import { SESSION_KEYS } from '@/js/core/constants';
 
 import { normalizeActivities } from '@/utils/normalizeActivities';
 import styles from './top.module.scss';
@@ -38,14 +36,4 @@ const activities = normalizeActivities(allPosts, allReleases, allContributions);
       </Link> -->
     </div>
   </div>
-  <Toast
-    client:load
-    checkCompat
-    sessionKey={SESSION_KEYS.COMPAT_TOAST_DISMISSED}
-    triggers={[{ on: 'pageload', type: 'unsupported-browser', delay: 800 }]}
-    types={[{
-      name: 'unsupported-browser',
-      label: 'お使いのブラウザは一部の表示に対応していません'
-    }]}
-  />
 </AppLayout>

@@ -1,9 +1,9 @@
 .archive__content {
-  padding-block: rem(60) rem(80);
+  padding-block: var(--size-page-block-padding);
 }
 
 .archive__header {
-  margin-bottom: rem(23);
+  margin-bottom: rem(20);
 }
 
 .archive__list {

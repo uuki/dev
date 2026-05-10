@@ -1,13 +1,13 @@
-/**
- * BadgeOrigin Component Styles
- * Origin badge showing the source of the post
- */
-
 .badgeOrigin {
   display: flex;
+  width: fit-content;
+  gap: rem(6);
   align-items: center;
   font-size: rem(12);
-  font-weight: 700;
+  padding: rem(4) rem(6);
+  font-weight: 600;
+  border-radius: var(--corners-sm);
+  background-color: rgba(#fff, 0.8);
 }
 
 .badgeOrigin__logo {
@@ -15,7 +15,6 @@
 }
 
 .badgeOrigin__text {
-  margin-left: rem(8);
   font-size: rem(13.6);
 
   &:first-child {

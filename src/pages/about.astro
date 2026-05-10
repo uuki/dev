@@ -2,10 +2,9 @@
 import { getEntry, render } from 'astro:content';
 import AppLayout from '@/layouts/App.astro';
 import Author from '@/components/ui/Author/Author.astro';
-import { siteConfig, socialIconMap, contactIconMap } from '@/data/constants';
-
 import HeadingPage from '@/components/ui/HeadingPage/HeadingPage.astro';
 import Content from '@/components/layouts/Content/Content.astro';
+import PageWysiwyg from '@/components/layouts/PageWysiwyg/PageWysiwyg.astro';
 import styles from './about.module.scss';
 
 const entry = await getEntry('pages', 'about');
@@ -21,11 +20,6 @@ const meta = {
   title,
   description: description ?? undefined,
 };
-
-const profileLinks = [
-  ...(siteConfig.social ?? []).map((l) => ({ ...l, icon: socialIconMap[l.type] })),
-  ...(siteConfig.contact ?? []).map((l) => ({ ...l, icon: contactIconMap[l.type] })),
-];
 ---
 
 <AppLayout meta={meta}>
@@ -35,22 +29,13 @@ const profileLinks = [
         <div class={styles.about__header}>
           <HeadingPage heading='h1' class={styles.about__heading}>{title}</HeadingPage>
         </div>
-
-        <div class={styles.about__authorWrapper}>
+        <div class={styles.about__profile}>
           <Author />
         </div>
-        <ul class={styles.about__socialList}>
-          {profileLinks.map((link) => (
-            <li class={styles.about__socialItem}>
-              <a href={link.url} class={styles.about__socialLink} aria-label={link.label}>
-                <Fragment set:html={link.icon} />
-              </a>
-            </li>
-          ))}
-        </ul>
-
-        <article class={styles.about__article}>
-          <PageContent />
+        <article class={styles.about__body}>
+          <PageWysiwyg>
+            <PageContent />
+          </PageWysiwyg>
         </article>
       </div>
     </Content>

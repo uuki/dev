@@ -13,23 +13,16 @@
 }
 
 .postCard__content {
+  display: flex;
+  flex-direction: column;
+  gap: rem(8);
   padding: rem(16) rem(25);
 }
 
-.postCard__origin {
-  width: fit-content;
-  padding: rem(4) rem(8);
-  border-radius: var(--corners-sm);
-  background-color: rgba(#fff, 0.8);
-}
-
 .postCard__title {
-  margin-bottom: rem(7);
-  font-size: rem(18);
+  font-size: rem(16);
   font-weight: 700;
-  @media (--desktop) {
-    font-size: rem(21);
-  }
+  letter-spacing: 0.01em;
 }
 
 .postCard__tags {

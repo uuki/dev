@@ -1,8 +1,4 @@
 .tagPosts {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  background-color: var(--color-bg);
 }
 
 // .tagPosts__main {
@@ -10,7 +6,7 @@
 // }
 
 .tagPosts__content {
-  padding: rem(66) 0;
+  padding-block: var(--size-page-block-padding);
 }
 
 // .tagPosts__container {

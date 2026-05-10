@@ -1,9 +1,9 @@
 .content {
-  width: min(1366px, 100%);
+  width: min(rem(1280), 100%);
   margin-inline: auto;
   padding-inline: var(--size-content-padding);
   &.-narrow {
-    width: min(980px, 100%);
+    width: min(rem(980), 100%);
   }
 }
 

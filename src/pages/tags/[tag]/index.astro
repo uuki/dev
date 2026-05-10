@@ -62,38 +62,39 @@ const posts = rawPosts.map(normalizeBlogEntry);
 
 <AppLayout meta={{ title: `${tagName} - Tags`, description: `${tagName}タグの記事一覧` }}>
   <div class={styles.tagPosts}>
-    <Content>
+    <Content variant='narrow'>
       <div class={styles.tagPosts__content}>
-        <div class={styles.tagPosts__container}>
-          <div class={styles.tagPosts__header}>
-            <HeadingPage heading='h1' class={styles.tagPosts__heading}>#{tagName} - Tags</HeadingPage>
-          </div>
-
-          <!-- <div class={styles.tagPosts__search}>
-            <InputText
-              type="search"
-              placeholder="Search articles"
-              aria-label="Search articles"
-              class={styles.tagPosts__searchInput}
-            />
-          </div> -->
-
-          <ul class={styles.tagPosts__posts}>
-            {posts.map((post) => (
-              <li class={styles.tagPosts__postItem}>
-                <div class={styles.tagPosts__postCard}>
-                  <PostCard post={post} />
-                </div>
-              </li>
-            ))}
-          </ul>
-
-          {posts.length === 0 && (
-            <div class={styles.tagPosts__empty}>
-              <p>このタグの記事はまだありません。</p>
-            </div>
-          )}
+        <div class={styles.tagPosts__header}>
+          <HeadingPage heading='h1' class={styles.tagPosts__heading}>#{tagName} - Tags</HeadingPage>
         </div>
+
+        <!-- <div class={styles.tagPosts__search}>
+          <InputText
+            type="search"
+            placeholder="Search articles"
+            aria-label="Search articles"
+            class={styles.tagPosts__searchInput}
+          />
+        </div> -->
+
+        <ul class={styles.tagPosts__posts}>
+          {posts.map((post) => (
+            <li class={styles.tagPosts__postItem}>
+              <div class={styles.tagPosts__postCard}>
+                <PostCard post={post} />
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        {posts.length === 0 && (
+          <div class={styles.tagPosts__empty}>
+            <p>このタグの記事はまだありません。</p>
+          </div>
+        )}
+
+        <!-- <div class={styles.tagPosts__container}>
+        </div> -->
       </div>
     </Content>
   </div>

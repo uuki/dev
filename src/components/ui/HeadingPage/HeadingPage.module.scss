@@ -1,9 +1,3 @@
 .headingPage {
-  @include typography-heading('large');
-}
-
-@media(--mobile) {
-}
-
-@media(--desktop) {
+  @include typography-heading('medium');
 }

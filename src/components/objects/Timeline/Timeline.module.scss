@@ -100,14 +100,15 @@
   grid-column: 2;
   font-family: var(--font-rubik);
   font-weight: 600;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   font-size: liquid(
-    $size-at-base: 22,
-    $minmax: (min: 18, max: 22)
+    $size-at-base: 20,
+    $minmax: (min: 16, max: 20)
   );
   .timeline__item[data-type='misc'] & {
     font-size: rem(14);
     color: #A8A8A8;
+    letter-spacing: 0;
   }
 }
 

@@ -89,14 +89,14 @@ const readingTime: number = remarkPluginFrontmatter.readingTime ?? 0;
           <ul class={styles.post__meta}>
             {created_at && (
               <li>
-                <span class={styles.post__metaIcon}><Fragment set:html={iconMap['write']} /></span>
+                <span class={styles.post__metaIcon} data-icon="write"><Fragment set:html={iconMap['write']} /></span>
                 <PostDate date={created_at} />
               </li>
             )}
             {readingTime && (
               <li>
-                <span class={styles.post__metaIcon}><Fragment set:html={iconMap['book-open']} /></span>
-                {Math.round(readingTime)} min read
+                <span class={styles.post__metaIcon} data-icon="book-open"><Fragment set:html={iconMap['book-open']} /></span>
+                <span lang="en">{Math.round(readingTime)} min read</span>
               </li>
             )}
             {history.length > 0 && (
@@ -123,12 +123,12 @@ const readingTime: number = remarkPluginFrontmatter.readingTime ?? 0;
           </div>
         )}
 
-        <div class={styles.post__content}>
+        <div class={styles.post__body}>
           <PostWysiwyg>
             <PostContent />
           </PostWysiwyg>
           <aside class={styles.post__share}>
-            {(['x', 'hatena'] as const).map((type) => (
+            {(['x'] as const).map((type) => (
               <ShareButton type={type} pathname={`/blog/${slug}`} text={title} />
             ))}
           </aside>

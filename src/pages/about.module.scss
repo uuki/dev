@@ -1,28 +1,13 @@
-.about {
-  // min-height: 100vh;
-  // display: flex;
-  // flex-direction: column;
-  // background-color: var(--color-bg);
-}
-
 .about__content {
-  padding-block: rem(60) rem(80);
+  display: flex;
+  flex-direction: column;
+  padding-block: var(--size-page-block-padding);
 }
 
-// .about__container {
-//   padding: 66px 0;
-//   max-width: 800px;
-//   margin: 0 auto;
-//   padding-left: 20px;
-//   padding-right: 20px;
-// }
-
-.about__header {
-  margin-bottom: 40px;
-}
-
-.about__titleWrapper {
-  margin-bottom: 25px;
+.about__profile {
+  width: fit-content;
+  margin-inline: auto;
+  margin-top: rem(40);
 }
 
 .about__title {
@@ -36,97 +21,12 @@
   }
 }
 
-.about__authorWrapper {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.about__socialList {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.about__socialItem {
-  margin: 0 7px;
-
-  a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-text-100);
-    transition: opacity 0.3s ease;
-
-    &:hover {
-      opacity: 0.6;
-    }
-  }
-}
-
-.about__article {
+.about__body {
   background: var(--color-white);
-  border-radius: 8px;
-  padding: 50px 40px;
-
-  @media (--mobile) {
-    padding: 25px 20px;
-  }
-}
-
-.about__content {
-  color: var(--color-text-100);
-  line-height: 1.8;
-
-  :global(h2) {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-top: 40px;
-    margin-bottom: 16px;
-    color: var(--color-text-400);
-
-    @media (--mobile) {
-      font-size: 1.25rem;
-      margin-top: 32px;
-    }
-  }
-
-  :global(h3) {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin-top: 32px;
-    margin-bottom: 12px;
-    color: var(--color-text-400);
-
-    @media (--mobile) {
-      font-size: 1.125rem;
-      margin-top: 24px;
-    }
-  }
-
-  :global(p) {
-    margin-bottom: 16px;
-  }
-
-  :global(a) {
-    color: var(--color-accent);
-    text-decoration: underline;
-
-    &:hover {
-      opacity: 0.7;
-    }
-  }
-
-  :global(ul),
-  :global(ol) {
-    margin-bottom: 16px;
-    padding-left: 24px;
-  }
-
-  :global(li) {
-    margin-bottom: 8px;
-  }
+  border-radius: var(--corners-lg);
+  padding: rem(32) rem(24);
+  margin-top: rem(20);
+  // @media (--mobile) {
+  //   padding: rem(25) rem(20);
+  // }
 }
