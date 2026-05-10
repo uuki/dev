@@ -14,7 +14,7 @@
   font-size: 2.5rem;
   font-weight: 700;
   text-align: center;
-  color: var(--color-text-400);
+  color: var(--color-text-primary);
 
   @media (--mobile) {
     font-size: 2rem;
@@ -22,7 +22,7 @@
 }
 
 .about__body {
-  background: var(--color-white);
+  background: var(--color-base-surface-2);
   border-radius: var(--corners-lg);
   padding: rem(32) rem(24);
   margin-top: rem(20);

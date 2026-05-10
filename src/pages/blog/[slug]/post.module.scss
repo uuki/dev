@@ -10,6 +10,7 @@
   line-height: 1.4;
   letter-spacing: 0.04em;
   view-transition-name: var(--slug);
+  color: var(--color-text-primary);
   @media (--desktop) {
     font-size: rem(28);
   }
@@ -37,12 +38,12 @@
     gap: rem(6);
     font-size: rem(12);
     font-weight: 700;
-    color: #6b7280; // gray-500
+    color: var(--color-text-secondary);
 
     &::after {
       content: '|';
       margin-left: rem(4);
-      color: #d1d5db; // gray-300
+      color: var(--color-text-secondary);
     }
     &:last-child::after {
       display: none;
@@ -85,9 +86,10 @@
 
 .post__body {
   padding: rem(50) rem(40);
-  background-color: var(--color-white);
+  background-color: var(--color-base-surface-2);
   border-radius: rem(6);
   margin-top: rem(80);
+  color: var(--color-text-primary);
   @media (--mobile) {
     margin-bottom: rem(40);
   }

@@ -20,7 +20,7 @@
     height: calc(var(--_h) + var(--_pad));
     background: linear-gradient(
       to bottom in oklab,
-      var(--color-bg-primary) 20%,
+      var(--color-base-bg) 20%,
       transparent 100%
     );
     z-index: calc(var(--z-global-header) - 1);
@@ -46,9 +46,14 @@
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    background: relative-alpha(rgb(29 42 58), 0.9);
     backdrop-filter: blur(2px);
     z-index: -1;
+    [data-theme="light"] & {
+      background: relative-alpha(rgb(29, 42, 58), 0.9);
+    }
+    [data-theme="dark"] & {
+      background: relative-alpha(rgb(58, 67, 76), 0.9);
+    }
   }
 }
 

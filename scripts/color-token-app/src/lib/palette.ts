@@ -19,6 +19,7 @@ export type ScaleName = 'gray' | 'blue' | 'green' | 'yellow' | 'red';
 export interface ScaleInput {
   hex: string;         // ユーザー入力色
   chromaScale: number; // chroma強度 0.5〜2.0（1.0がデフォルト）
+  minL?: number;       // 最暗ステップのL下限（デフォルト 0.06）
 }
 
 export interface ScaleStep {
@@ -91,12 +92,11 @@ export function generateScale(
   const inputOklch = hexToOklch(input.hex);
   const count      = SCALE_STEP_COUNT[scaleName];
   const peakC      = SCALE_PEAK_CHROMA[scaleName] * input.chromaScale;
-
-  // peakL を入力色のLに合わせる（スケールを入力色に揃える）
   const peakL      = inputOklch.L;
   const hue        = inputOklch.H;
+  const minL       = input.minL ?? 0.06;
 
-  const lightnessSteps = genLightnessSteps(count);
+  const lightnessSteps = genLightnessSteps(count, minL);
 
   return lightnessSteps.map((L, i) => {
     const C = chromaCurve(L, peakC, peakL);

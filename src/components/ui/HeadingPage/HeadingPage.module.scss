@@ -1,3 +1,4 @@
 .headingPage {
   @include typography-heading('medium');
+  color: var(--color-text-primary);
 }

@@ -4,30 +4,30 @@
  */
 :root {
   --color-base-bg-light: #c1c4c9;
-  --color-base-surface-1-light: #bdc0c5;
-  --color-base-surface-2-light: #b0b4ba;
-  --color-container-primary-light: #aab2bb;
-  --color-container-subtle-light: #b9c0c8;
-  --color-text-primary-light: #010103;
-  --color-text-secondary-light: #0c1016;
-  --color-text-tertiary-light: #3a414a;
-  --color-border-default-light: #9ca1a7;
+  --color-base-surface-1-light: #bec1c6;
+  --color-base-surface-2-light: #b4b8bd;
+  --color-container-primary-light: #a7b2bf;
+  --color-container-subtle-light: #b7c0cc;
+  --color-text-primary-light: #1d232a;
+  --color-text-secondary-light: #2f363e;
+  --color-text-tertiary-light: #404750;
+  --color-border-default-light: #a5a9af;
   --color-semantic-success-light: #8ea07f;
   --color-semantic-warning-light: #a39977;
   --color-semantic-danger-light: #b98c8b;
 
-  --color-base-bg-dark: #030508;
-  --color-base-surface-1-dark: #0c1016;
-  --color-base-surface-2-dark: #1f252c;
-  --color-container-primary-dark: #6d7b8c;
-  --color-container-subtle-dark: #1e3045;
+  --color-base-bg-dark: #1b2128;
+  --color-base-surface-1-dark: #1d232a;
+  --color-base-surface-2-dark: #242a32;
+  --color-container-primary-dark: #1f3044;
+  --color-container-subtle-dark: #010611;
   --color-text-primary-dark: #c1c4c9;
-  --color-text-secondary-dark: #c1c4c9;
-  --color-text-tertiary-dark: #b0b4ba;
-  --color-border-default-dark: #3a414a;
-  --color-semantic-success-dark: #49583b;
-  --color-semantic-warning-dark: #565344;
-  --color-semantic-danger-dark: #724443;
+  --color-text-secondary-dark: #b4b8bd;
+  --color-text-tertiary-dark: #8f959c;
+  --color-border-default-dark: #2f363e;
+  --color-semantic-success-dark: #11180a;
+  --color-semantic-warning-dark: #161512;
+  --color-semantic-danger-dark: #260c0d;
 }
 
 :root {
@@ -45,7 +45,7 @@
   --color-semantic-danger: var(--color-semantic-danger-light);
 }
 
-:root:has([data-theme="dark"]) {
+:root:is([data-theme="dark"]) {
   --color-base-bg: var(--color-base-bg-dark);
   --color-base-surface-1: var(--color-base-surface-1-dark);
   --color-base-surface-2: var(--color-base-surface-2-dark);

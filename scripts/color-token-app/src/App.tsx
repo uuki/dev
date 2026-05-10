@@ -15,7 +15,7 @@ import { hexToOklch, inferPrimaryIdx } from './lib/color';
 
 // ── デフォルト入力色 ─────────────────────────────────────────────────────────
 const DEFAULT_INPUTS: Record<ScaleName, ScaleInput> = {
-  gray:   { hex: '#394554', chromaScale: 1.0 },
+  gray:   { hex: '#394554', chromaScale: 1.0, minL: 0.244 },
   blue:   { hex: '#394554', chromaScale: 1.0 },
   green:  { hex: '#6D7D5F', chromaScale: 1.0 },
   yellow: { hex: '#E1D9BC', chromaScale: 1.0 },

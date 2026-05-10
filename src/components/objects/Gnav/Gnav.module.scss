@@ -9,6 +9,7 @@
   }
   a {
     display: inline-block;
+    color: var(--color-text-primary);
     @include typography-nav('small');
     @include support-switch('anchor-position') using ($mode) {
       @if $mode == supported {

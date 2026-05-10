@@ -130,8 +130,6 @@ $count: length($frames);
   z-index: 0;
   cursor: crosshair;
 
-  // background-color: rgba(255,255,255,0.9);
-  // border: 2px solid #6D7D5F;
   svg {
     position: absolute;
     top: 0;
@@ -173,8 +171,8 @@ $count: length($frames);
     line-height: var(--_h);
     color: transparent;
     text-shadow:
-      0 calc(-1 * var(--_t, 0em)) rgba(#fff, 0.86),
-      0 calc(var(--_h) - var(--_t, 0em)) rgba(#fff, 1);
+      0 calc(-1 * var(--_t, 0em)) relative-alpha(var(--color-text-primary), 0.4),
+      0 calc(var(--_h) - var(--_t, 0em)) relative-alpha(var(--color-text-primary), 1);
     overflow: hidden;
     transition: text-shadow .35s var(--_delay);
   }
@@ -197,8 +195,7 @@ $count: length($frames);
 }
 .profileCard__title {
   font-size: rem(12);
-  color: rgba(255, 255, 255, 0.78);
-  font-family: var(--font-inter);
+  color: var(--color-text-primary);
 }
 
 .profileCard__progress {
@@ -233,24 +230,25 @@ $count: length($frames);
   grid-template-columns: repeat(2, 1fr);
   gap: rem(10);
   font-size: rem(12);
+  color: var(--color-text-primary);
 }
 .profileCard__listHeading {
   font-size: rem(11);
-  font-weight: normal;
+  font-weight: 500;
 }
 .profileCard__listYears {
   font-size: rem(11);
   margin-left: auto;
 }
 .profileCard__listDescription {
-  color: rgba(#fff, 0.28);
+  color: relative-alpha(var(--color-text-tertiary), 0.5);
   @include typography-description('xsmall');
 }
 .profileCard__note {
   @include typography-description('xsmall');
   line-height: 1.4;
-  color: rgba(#fff, 0.28);
-  background-color: rgba(#fff, 0.12);
+  color: relative-alpha(var(--color-text-primary), 0.5);
+  background-color: rgba(#fff, 0.05);
   padding: rem(8) rem(10);
   border-radius: calc(var(--corners-lg) - rem(16));
   word-break: break-word;

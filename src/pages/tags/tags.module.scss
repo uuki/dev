@@ -16,7 +16,7 @@
 .tags__header {
   padding-right: rem(20);
   margin-right: rem(20);
-  border-right: 2px solid #e5e7eb;
+  border-right: 2px solid var(--color-border-default);
 
   @media (--mobile) {
     padding-right: 0;
@@ -24,7 +24,6 @@
     margin-right: 0;
     margin-bottom: rem(17);
     border-right: none;
-    border-bottom: 2px solid #e5e7eb;
   }
 }
 
@@ -37,13 +36,13 @@
 
 .tags__item {
   font-weight: 600;
-  color: #3b82f6; // blue-500
+  color: var(--color-text-blue);
 }
 
 .tags__count {
   margin-left: rem(4);
   font-size: rem(12);
-  color: #6b7280;
+  color: var(--color-text-tertiary);
   vertical-align: 1px;
 }
 
