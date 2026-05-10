@@ -1,18 +1,21 @@
 ---
 import type { GetStaticPaths } from 'astro';
 import { getCollection, getEntry, render } from 'astro:content';
-import AppLayout from '@/layouts/App.astro';
-import PostHeader from '@/components/ui/PostHeader/PostHeader.astro';
-import ListTag from '@/components/ui/ListTag/ListTag.astro';
-import ListMeta from '@/components/ui/ListMeta/ListMeta.astro';
-import ListSocial from '@/components/objects/ListSocial/ListSocial.astro';
-import OptimizedImage from '@/components/ui/OptimizedImage/OptimizedImage.astro';
-import PostHistory from '@/components/objects/PostHistory/PostHistory.astro';
+import { siteConfig, iconMap } from '@/data/constants';
 import { getFileRevision } from '@/utils/git';
-import { siteConfig } from '@/data/constants';
-import PostDate from '@/components/ui/PostDate/PostDate.astro';
 
-import styles from './index.module.scss';
+import AppLayout from '@/layouts/App.astro';
+import Content from '@/components/layouts/Content/Content.astro';
+import PostWysiwyg from '@/components/layouts/PostWysiwyg/PostWysiwyg.astro';
+
+import ShareButton from '@/components/features/ShareButton/ShareButton.astro';
+import PostHistory from '@/components/features/PostHistory/PostHistory.astro';
+import PostHeader from '@/components/ui/PostHeader/PostHeader.astro';
+import OptimizedImage from '@/components/ui/OptimizedImage/OptimizedImage.astro';
+import PostDate from '@/components/ui/PostDate/PostDate.astro';
+import Tag from '@/components/ui/Tag/Tag.astro';
+
+import styles from './post.module.scss';
 
 export const getStaticPaths = (async () => {
   const allPosts = await getCollection('blog', ({ data }) => {
@@ -34,11 +37,10 @@ const { id } = Astro.props;
 const post = await getEntry('blog', id);
 
 if (!post) {
-  return Astro.redirect('/404');
+  return Astro.redirect('/');
 }
 
-const { Content, remarkPluginFrontmatter } = await render(post);
-
+const { Content: PostContent, remarkPluginFrontmatter } = await render(post);
 const { title, description, created_at, tags = [] } = post.data;
 const slug = post.id.replace(/\.mdx?$/, '');
 
@@ -50,13 +52,11 @@ const history = siteConfig.git?.enabled
     })
   : [];
 
-// Optional frontmatter fields not in schema
 interface OptionalBlogFields {
   heroImage?: string;
 }
 
 const heroImage = (post.data as typeof post.data & OptionalBlogFields).heroImage;
-
 // Use heroImage or default OG image
 // To use custom OG images per post, add them to public/og/ and reference in frontmatter
 const ogImageUrl = heroImage || `/og-default.png`;
@@ -72,60 +72,69 @@ const readingTime: number = remarkPluginFrontmatter.readingTime ?? 0;
 ---
 
 <AppLayout meta={meta}>
-  <div class={styles.blogPost}>
-    <main class={styles.blogPost__main}>
-      <article class={styles.blogPost__article}>
-        <div class={styles.blogPost__container}>
-          <div class={styles.blogPost__header}>
-            <PostHeader slug={slug}>{title}</PostHeader>
-            <div class={styles.blogPost__tags}>
-              <ListTag tags={tags} />
-            </div>
-            <ul class={styles.blogPost__meta}>
-              {created_at && (
-                <li class={styles.listMeta__item}>
-                  <span class={styles.listMeta__icon}>✏️</span>
-                  <PostDate date={created_at} />
-                </li>
-              )}
-              {readingTime && (
-                <li class={styles.listMeta__item}>
-                  <span class={styles.listMeta__icon}>📖</span>
-                  {Math.round(readingTime)} min read
-                </li>
-              )}
-              {history.length > 0 && (
+  <div class={styles.post}>
+    <Content variant="narrow">
+      <article class={styles.post__content}>
+
+        <hgroup class={styles.post__header}>
+          <h1 class={styles.post__heading} style={{ '--slug': slug }}>{title}</h1>
+
+          <ul class={styles.post__tags}>
+            {tags.map((tag) => (
+              <li>
+                <Tag variant='large'>{tag}</Tag>
+              </li>
+            ))}
+          </ul>
+
+          <ul class={styles.post__meta}>
+            {created_at && (
+              <li>
+                <span class={styles.listMeta__icon}><Fragment set:html={iconMap['write']} /></span>
+                <PostDate date={created_at} />
+              </li>
+            )}
+            {readingTime && (
+              <li>
+                <span class={styles.listMeta__icon}><Fragment set:html={iconMap['book-open']} /></span>
+                {Math.round(readingTime)} min read
+              </li>
+            )}
+            {history.length > 0 && (
+              <li>
                 <PostHistory
                   history={history}
                   repoUrl={siteConfig.git?.repoUrl}
                 />
-              )}
-            </ul>
-          </div>
+              </li>
+            )}
+          </ul>
+        </hgroup>
 
-          {heroImage && (
-            <div class={styles.blogPost__heroImage}>
-              <OptimizedImage
-                src={heroImage}
-                alt={title}
-                width={800}
-                height={450}
-                loading="eager"
-                class={styles.blogPost__heroImageElement}
-              />
-            </div>
-          )}
-
-          <div class={styles.blogPost__content}>
-            <div class={styles.prose}>
-              <Content />
-            </div>
-            <div class={styles.blogPost__share}>
-              <ListSocial pathname={`/blog/${slug}`} text={title} />
-            </div>
+        {heroImage && (
+          <div class={styles.post__heroImage}>
+            <OptimizedImage
+              src={heroImage}
+              alt={title}
+              width={800}
+              height={450}
+              loading="eager"
+              class={styles.post__heroImageElement}
+            />
           </div>
+        )}
+
+        <div class={styles.post__content}>
+          <PostWysiwyg>
+            <PostContent />
+          </PostWysiwyg>
+          <aside class={styles.post__share}>
+            {(['x', 'hatena'] as const).map((type) => (
+              <ShareButton type={type} pathname={`/blog/${slug}`} text={title} />
+            ))}
+          </aside>
         </div>
       </article>
-    </main>
+    </Content>
   </div>
 </AppLayout>

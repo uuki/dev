@@ -3,7 +3,7 @@ import AppLayout from '@/layouts/App.astro';
 import PageHeader from '@/components/ui/PageHeader/PageHeader.astro';
 import LinkTag from '@/components/ui/LinkTag/LinkTag.astro';
 import { getAllTags, getAllTagNames } from '@/utils/tags';
-import styles from './index.module.scss';
+import styles from './tags.module.scss';
 
 const tagCounts = await getAllTags();
 const tagNames = await getAllTagNames();

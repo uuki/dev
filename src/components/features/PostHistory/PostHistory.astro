@@ -4,6 +4,8 @@
  */
 import type { PostRevision } from '@/types/post';
 import { getCompareUrl } from '@/utils/git';
+import { iconMap } from '@/data/constants';
+
 import styles from './PostHistory.module.scss';
 
 interface Props {
@@ -27,6 +29,7 @@ const formatDate = (dateStr: string): string => {
 {history.length > 0 && (
   <details class={styles.postHistory}>
     <summary class={styles.postHistory__summary}>
+      <Fragment set:html={iconMap['clock']} />
       編集履歴
     </summary>
     <div class={styles.postHistory__dropdown}>

@@ -2,12 +2,16 @@
 import type { HTMLAttributes } from 'astro/types';
 import styles from './Tag.module.scss';
 
-interface Props extends HTMLAttributes<'span'> {}
+interface Props extends HTMLAttributes<'span'> {
+  class?: string;
+  variant?: 'large';
+}
 
-const { class: className, ...rest } = Astro.props;
-const combinedClass = [styles.tag, className].filter(Boolean).join(' ');
+const { class: className, variant, ...rest } = Astro.props;
+const modifiers = {
+  large: styles['-large'],
+};
 ---
-
-<span class={combinedClass} {...rest}>
+<span class:list={[styles.tag, variant ? modifiers[variant] : '', className]} {...rest}>
   <slot />
 </span>

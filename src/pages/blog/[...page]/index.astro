@@ -2,12 +2,14 @@
 import type { GetStaticPaths, Page } from 'astro';
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
-import AppLayout from '@/layouts/App.astro';
-import PageHeader from '@/components/ui/PageHeader/PageHeader.astro';
-// import InputText from '@/components/ui/InputText/InputText.astro';
-import PostCard from '@/components/ui/PostCard/PostCard.astro';
-import Pagination from '@/components/objects/Pagination/Pagination.astro';
 import { normalizeBlogEntry } from '@/utils/normalizeActivities';
+
+import AppLayout from '@/layouts/App.astro';
+import Content from '@/components/layouts/Content/Content.astro';
+import Pagination from '@/components/objects/Pagination/Pagination.astro';
+import PostCard from '@/components/ui/PostCard/PostCard.astro';
+import HeadingPage from '@/components/ui/HeadingPage/HeadingPage.astro';
+
 import styles from './index.module.scss';
 
 export const getStaticPaths = (async ({ paginate }) => {
@@ -32,32 +34,32 @@ interface Props {
 const { page } = Astro.props;
 
 const posts = page.data.map(normalizeBlogEntry);
+const meta = {
+  title: 'All Posts',
+  description: 'uuki.devのブログ記事一覧',
+};
 ---
 
-<AppLayout meta={{ title: 'All Posts', description: 'uuki.devのブログ記事一覧' }}>
-  <div class={styles.blogList}>
-    <main class={styles.blogList__main}>
-      <div class={styles.blogList__content}>
-        <div class={styles.blogList__container}>
-          <div class={styles.blogList__header}>
-            <PageHeader>All Posts</PageHeader>
-          </div>
-
-          <ul class={styles.blogList__posts}>
-            {posts.map((post) => (
-              <li class={styles.blogList__postItem}>
-                <div class={styles.blogList__postCard}>
-                  <PostCard post={post} />
-                </div>
-              </li>
-            ))}
-          </ul>
-
+<AppLayout meta={meta}>
+  <div class={styles.archive}>
+    <Content variant='narrow'>
+      <div class={styles.archive__content}>
+        <div class={styles.archive__header}>
+          <HeadingPage heading='h1'>All Posts</HeadingPage>
+        </div>
+        <ul class={styles.archive__list}>
+          {posts.map((post) => (
+            <li>
+              <PostCard post={post} />
+            </li>
+          ))}
+        </ul>
+        <nav class={styles.archive__pagination}>
           {page.lastPage > 1 && (
             <Pagination currentPage={page.currentPage} totalPages={page.lastPage} basePath="/blog" />
           )}
-        </div>
+        </nav>
       </div>
-    </main>
+    </Content>
   </div>
 </AppLayout>

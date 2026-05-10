@@ -28,6 +28,7 @@ export type IconName = keyof typeof iconMap;
 export const siteConfig = {
   lang: 'ja',
   siteName: 'uuki.dev',
+  siteUrl: 'https://uuki.dev/',
   git: {
     enabled: true,
     repoUrl: 'https://github.com/uuki/uuki.dev',

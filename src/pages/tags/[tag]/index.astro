@@ -3,13 +3,16 @@ import type { GetStaticPaths } from 'astro';
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import slugify from 'slugify';
+
 import AppLayout from '@/layouts/App.astro';
+import Content from '@/components/layouts/Content/Content.astro';
 import PageHeader from '@/components/ui/PageHeader/PageHeader.astro';
-import InputText from '@/components/ui/InputText/InputText.astro';
+// import InputText from '@/components/ui/InputText/InputText.astro';
 import PostCard from '@/components/ui/PostCard/PostCard.astro';
 import { getAllTags, getAllTagNames } from '@/utils/tags';
 import { normalizeBlogEntry } from '@/utils/normalizeActivities';
-import styles from './index.module.scss';
+
+import styles from './tag.module.scss';
 
 export const getStaticPaths = (async () => {
   const allPosts = await getCollection('blog', ({ data }) => {
@@ -60,21 +63,21 @@ const posts = rawPosts.map(normalizeBlogEntry);
 
 <AppLayout meta={{ title: `${tagName} - Tags`, description: `${tagName}タグの記事一覧` }}>
   <div class={styles.tagPosts}>
-    <main class={styles.tagPosts__main}>
+    <Content>
       <div class={styles.tagPosts__content}>
         <div class={styles.tagPosts__container}>
           <div class={styles.tagPosts__header}>
             <PageHeader>#{tagName} - Tags</PageHeader>
           </div>
 
-          <div class={styles.tagPosts__search}>
+          <!-- <div class={styles.tagPosts__search}>
             <InputText
               type="search"
               placeholder="Search articles"
               aria-label="Search articles"
               class={styles.tagPosts__searchInput}
             />
-          </div>
+          </div> -->
 
           <ul class={styles.tagPosts__posts}>
             {posts.map((post) => (
@@ -93,6 +96,6 @@ const posts = rawPosts.map(normalizeBlogEntry);
           )}
         </div>
       </div>
-    </main>
+    </Content>
   </div>
 </AppLayout>

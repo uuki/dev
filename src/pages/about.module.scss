@@ -1,21 +1,21 @@
 .about {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--color-bg);
+  // min-height: 100vh;
+  // display: flex;
+  // flex-direction: column;
+  // background-color: var(--color-bg);
 }
 
-.about__main {
-  flex: 1;
+.about__content {
+  padding-block: rem(60) rem(80);
 }
 
-.about__container {
-  padding: 66px 0;
-  max-width: 800px;
-  margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
-}
+// .about__container {
+//   padding: 66px 0;
+//   max-width: 800px;
+//   margin: 0 auto;
+//   padding-left: 20px;
+//   padding-right: 20px;
+// }
 
 .about__header {
   margin-bottom: 40px;

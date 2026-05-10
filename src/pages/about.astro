@@ -4,15 +4,18 @@ import AppLayout from '@/layouts/App.astro';
 import Author from '@/components/ui/Author/Author.astro';
 import Link from '@/components/ui/Link/Link.astro';
 import { siteConfig, socialIconMap, contactIconMap } from '@/data/constants';
+
+import HeadingPage from '@/components/ui/HeadingPage/HeadingPage.astro';
+import Content from '@/components/layouts/Content/Content.astro';
 import styles from './about.module.scss';
 
 const entry = await getEntry('pages', 'about');
 
 if (!entry) {
-  return Astro.redirect('/404');
+  return Astro.redirect('/');
 }
 
-const { Content } = await render(entry);
+const { Content: PageContent } = await render(entry);
 const { title, description } = entry.data;
 
 const meta = {
@@ -28,31 +31,29 @@ const profileLinks = [
 
 <AppLayout meta={meta}>
   <div class={styles.about}>
-    <main class={styles.about__main}>
-      <div class={styles.about__container}>
+    <Content variant='narrow'>
+      <div class={styles.about__content}>
         <div class={styles.about__header}>
-          <div class={styles.about__titleWrapper}>
-            <h1 class={styles.about__title}>{title}</h1>
-          </div>
-          <div class={styles.about__authorWrapper}>
-            <Author />
-          </div>
-          <ul class={styles.about__socialList}>
-            {profileLinks.map((link) => (
-              <li class={styles.about__socialItem}>
-                <Link href={link.url} variant="opacity" aria-label={link.label}>
-                  <Fragment set:html={link.icon} />
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <HeadingPage heading='h1' class={styles.about__heading}>{title}</HeadingPage>
         </div>
+
+        <div class={styles.about__authorWrapper}>
+          <Author />
+        </div>
+        <ul class={styles.about__socialList}>
+          {profileLinks.map((link) => (
+            <li class={styles.about__socialItem}>
+              <Link href={link.url} variant="opacity" aria-label={link.label}>
+                <Fragment set:html={link.icon} />
+              </Link>
+            </li>
+          ))}
+        </ul>
+
         <article class={styles.about__article}>
-          <div class={styles.about__content}>
-            <Content />
-          </div>
+          <PageContent />
         </article>
       </div>
-    </main>
+    </Content>
   </div>
 </AppLayout>

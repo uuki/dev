@@ -1,6 +1,6 @@
 ---
-import Link from '../../ui/Link/Link.astro';
-import ListMenu from '../../objects/ListMenu/ListMenu.astro';
+import { footerLinks } from '@/data/constants';
+
 import { siteConfig, iconMap } from '@/data/constants';
 
 import styles from './Footer.module.scss';
@@ -25,9 +25,13 @@ const currentYear = new Date().getFullYear();
         </li>
       </ul>
     </div>
-    <div class={styles.footer__menu}>
-      <ListMenu />
-    </div>
+    <ul class={styles.footer__links}>
+      {footerLinks.map((item) => (
+        <li>
+          <a href={item.path} class:list={[styles.listMenu__item, 'u-effect']} data-effect="line-in-out">{item.name}</a>
+        </li>
+      ))}
+    </ul>
   </nav>
   <div class={styles.footer__copyright}>
     <small>© 2017-{currentYear} uuki.dev</small>

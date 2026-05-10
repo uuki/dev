@@ -2,10 +2,15 @@
 import style from './Content.module.scss';
 
 interface Props {
+  class?: string;
+  variant?: 'narrow';
 }
 
-const props = Astro.props;
+const { class: className, variant } = Astro.props;
+const modifiers = {
+  narrow: style['-narrow'],
+};
 ---
-<div class={ style.content }>
+<div class:list={[style.content, variant ? modifiers[variant] : '', className]}>
   <slot />
 </div>

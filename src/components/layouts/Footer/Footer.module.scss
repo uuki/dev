@@ -61,8 +61,14 @@
   padding: rem(6);
 }
 
-.footer__menu {
-  margin-top: rem(13);
+.footer__links {
+  display: flex;
+  gap: rem(16);
+  justify-content: center;
+  margin-top: rem(16);
+  > li {
+    font-size: rem(14);
+  }
 }
 
 .footer__copyright {

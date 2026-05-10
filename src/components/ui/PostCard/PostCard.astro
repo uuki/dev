@@ -1,7 +1,7 @@
 ---
 import type { ArticleActivity } from '@/types/activity';
 import BadgeOrigin from '@/components/ui/BadgeOrigin/BadgeOrigin.astro';
-import ListTag from '@/components/ui/ListTag/ListTag.astro';
+import Tag from '@/components/ui/Tag/Tag.astro';
 import { detectOriginFromUrl } from '@/utils/origin';
 
 import styles from './PostCard.module.scss';
@@ -26,7 +26,11 @@ const origin = detectOriginFromUrl(url);
     </div>
     <h2 class={styles.postCard__title}>{title}</h2>
   </article>
-  <div class={styles.postCard__tags}>
-    <ListTag tags={tags} />
-  </div>
+  <ul class={styles.postCard__tags}>
+    {tags.map((tag) => (
+      <li>
+        <Tag>{tag}</Tag>
+      </li>
+    ))}
+  </ul>
 </a>

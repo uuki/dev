@@ -14,14 +14,14 @@ const aboutRoute = routes.find(item => item.id === 'about');
 
 ---
 <div class={styles.console}>
-  <header class={styles.console__header}>
+  <div class={styles.console__header} aria-hidden="true">
     <span class={styles.console__dots}>
       <span></span>
       <span></span>
       <span></span>
     </span>
     <span class={styles.console__title}>dev - Pane #1</span>
-  </header>
+  </div>
   <div class={styles.console__content}>
     <pre class={styles.console__splash}></pre>
     <div class={styles.console__ui}>

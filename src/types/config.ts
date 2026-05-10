@@ -30,6 +30,7 @@ export interface GitConfig {
 export interface SiteConfig {
   lang: string;
   siteName: string;
+  siteUrl: string;
   git?: GitConfig;
   social?: SocialLink[];
   contact?: ContactLink[];
