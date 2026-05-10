@@ -11,7 +11,7 @@ import {
   type TokenMap,
 } from './lib/palette';
 import { generateCss } from './lib/css';
-import { hexToOklch } from './lib/color';
+import { hexToOklch, inferPrimaryIdx } from './lib/color';
 
 // ── デフォルト入力色 ─────────────────────────────────────────────────────────
 const DEFAULT_INPUTS: Record<ScaleName, ScaleInput> = {
@@ -48,6 +48,7 @@ interface ScaleRowProps {
 function ScaleRow({ name, input, scale, onChange }: ScaleRowProps) {
   const [hexInput, setHexInput] = useState(input.hex);
   const oklch = hexToOklch(input.hex);
+  const selectedIdx = inferPrimaryIdx(oklch.L, scale.map(s => s.oklch.L));
 
   const handleHexChange = useCallback((v: string) => {
     setHexInput(v);
@@ -115,15 +116,21 @@ function ScaleRow({ name, input, scale, onChange }: ScaleRowProps) {
 
       {/* Swatch strip */}
       <div style={{ display: 'flex', gap: 2, paddingLeft: 62 }}>
-        {scale.map(step => (
+        {scale.map((step, i) => (
           <div key={step.step} style={{ flex: 1, position: 'relative' }}>
             <div
+              onClick={() => handleHexChange(step.hex)}
               title={`${name}-${step.step}: ${step.hex} (L${step.oklch.L.toFixed(2)} C${step.oklch.C.toFixed(3)})`}
               style={{
                 height: 32, borderRadius: 3,
                 background: step.hex,
-                outline: step.isGamutClipped ? '1.5px solid #e05050' : 'none',
-                outlineOffset: -1,
+                cursor: 'pointer',
+                outline: i === selectedIdx
+                  ? '2px solid rgba(255,255,255,0.75)'
+                  : step.isGamutClipped
+                    ? '1.5px solid #e05050'
+                    : 'none',
+                outlineOffset: i === selectedIdx ? -2 : -1,
               }}
             />
             <div style={{
@@ -226,13 +233,18 @@ type TabId = 'palette' | 'tokens' | 'contrast' | 'css';
 export default function App() {
   const [inputs, setInputs] = useState<Record<ScaleName, ScaleInput>>(DEFAULT_INPUTS);
   const [activeTab, setActiveTab] = useState<TabId>('palette');
+  const [darkOffset, setDarkOffset]   = useState(0);
+  const [lightOffset, setLightOffset] = useState(0);
 
   const handleChange = useCallback((name: ScaleName, input: ScaleInput) => {
     setInputs(prev => ({ ...prev, [name]: input }));
   }, []);
 
   const palette = useMemo(() => generatePalette(inputs), [inputs]);
-  const rawTokens = useMemo(() => mapTokens(palette), [palette]);
+  const rawTokens = useMemo(
+    () => mapTokens(palette, { darkOffset, lightOffset }),
+    [palette, darkOffset, lightOffset],
+  );
   const { tokens, results } = useMemo(
     () => checkAndAdjustContrast(rawTokens, palette),
     [rawTokens, palette],
@@ -344,6 +356,51 @@ export default function App() {
           <div>
             <div style={{ marginBottom: 18, fontSize: 10, color: '#3a4a5a', letterSpacing: '0.06em' }}>
               SEMANTIC TOKEN MAP
+            </div>
+
+            {/* Brightness controls */}
+            <div style={{
+              display: 'flex', gap: 32, marginBottom: 24,
+              padding: '12px 16px',
+              background: 'rgba(255,255,255,0.03)',
+              border: '0.5px solid rgba(255,255,255,0.08)',
+              borderRadius: 6,
+            }}>
+              {([
+                { label: '🌙 Dark', value: darkOffset,  set: setDarkOffset },
+                { label: '☀️ Light', value: lightOffset, set: setLightOffset },
+              ] as const).map(({ label, value, set }) => (
+                <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1 }}>
+                  <span style={{ fontSize: 10, color: '#6b7a8a', whiteSpace: 'nowrap', width: 52 }}>
+                    {label}
+                  </span>
+                  <input
+                    type="range" min={-4} max={4} step={1}
+                    value={value}
+                    onChange={e => set(Number(e.target.value))}
+                    style={{ flex: 1, accentColor: '#5a7a9a' }}
+                  />
+                  <span style={{
+                    fontSize: 10, fontFamily: 'monospace', width: 28, textAlign: 'right',
+                    color: value === 0 ? '#3a4a5a' : '#a0b8cc',
+                  }}>
+                    {value > 0 ? `+${value}` : value}
+                  </span>
+                  {value !== 0 && (
+                    <button
+                      onClick={() => set(0)}
+                      style={{
+                        fontSize: 9, padding: '2px 6px', borderRadius: 3,
+                        background: 'rgba(255,255,255,0.06)',
+                        border: '0.5px solid rgba(255,255,255,0.12)',
+                        color: '#6b7a8a', cursor: 'pointer',
+                      }}
+                    >
+                      reset
+                    </button>
+                  )}
+                </div>
+              ))}
             </div>
             <div style={{
               display: 'grid',

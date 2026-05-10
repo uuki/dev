@@ -137,14 +137,16 @@ function pickStep(scale: PaletteScale, idx: number): string {
   return scale[clamped]!.hex;
 }
 
-export function mapTokens(palette: Palette): TokenMap {
+export function mapTokens(
+  palette: Palette,
+  { darkOffset = 0, lightOffset = 0 }: { darkOffset?: number; lightOffset?: number } = {},
+): TokenMap {
   const G  = palette.gray;
   const B  = palette.blue;
   const Gr = palette.green;
   const Y  = palette.yellow;
   const R  = palette.red;
 
-  // 各スケールの primaryIdx (中間ステップ)
   const gLen = G.length;   // 12ステップ
   const bLen = B.length;   // 11ステップ
 
@@ -153,28 +155,36 @@ export function mapTokens(palette: Palette): TokenMap {
   const gSf1  = 1;
   const gSf2  = 2;
   const gBord = 3;
-  const gT3   = Math.round(gLen * 0.55); // tertiary text
-  const gT2   = Math.round(gLen * 0.75); // secondary text
-  const gT1   = gLen - 1;                // primary text
+  const gT3   = Math.round(gLen * 0.55);
+  const gT2   = Math.round(gLen * 0.75);
+  const gT1   = gLen - 1;
 
-  // blue: primaryは中間寄り
-  const bPrim  = Math.round(bLen * 0.36);
+  // blue: dark=中間寄り, light=明るいtint
+  const bPrimDark  = Math.round(bLen * 0.36);
+  const bPrimLight = Math.round(bLen * 0.75);
   const bSubtleDark  = 2;
   const bSubtleLight = Math.round(bLen * 0.82);
 
+  const semDarkRatio  = 0.25;
+  const semLightRatio = 0.60;
+
+  // offset付きpickStep
+  const d = (scale: PaletteScale, idx: number) => pickStep(scale, idx + darkOffset);
+  const l = (scale: PaletteScale, idx: number) => pickStep(scale, idx + lightOffset);
+
   return {
-    'base-bg':           { dark: pickStep(G, gBg),   light: pickStep(G, gLen-1) },
-    'base-surface-1':    { dark: pickStep(G, gSf1),  light: pickStep(G, gLen-2) },
-    'base-surface-2':    { dark: pickStep(G, gSf2),  light: pickStep(G, gLen-3) },
-    'container-primary': { dark: pickStep(B, bPrim), light: pickStep(B, bPrim) },
-    'container-subtle':  { dark: pickStep(B, bSubtleDark), light: pickStep(B, bSubtleLight) },
-    'text-primary':      { dark: pickStep(G, gT1),   light: pickStep(G, 1) },
-    'text-secondary':    { dark: pickStep(G, gT2),   light: pickStep(G, 3) },
-    'text-tertiary':     { dark: pickStep(G, gT3),   light: pickStep(G, 5) },
-    'border-default':    { dark: pickStep(G, gBord), light: pickStep(G, gLen-4) },
-    'semantic-success':  { dark: pickStep(Gr, Math.round(Gr.length*0.36)), light: pickStep(Gr, Math.round(Gr.length*0.36)) },
-    'semantic-warning':  { dark: pickStep(Y,  Math.round(Y.length*0.45)),  light: pickStep(Y,  Math.round(Y.length*0.45)) },
-    'semantic-danger':   { dark: pickStep(R,  Math.round(R.length*0.36)),  light: pickStep(R,  Math.round(R.length*0.36)) },
+    'base-bg':           { dark: d(G, gBg),        light: l(G, gLen-1) },
+    'base-surface-1':    { dark: d(G, gSf1),       light: l(G, gLen-2) },
+    'base-surface-2':    { dark: d(G, gSf2),       light: l(G, gLen-3) },
+    'container-primary': { dark: d(B, bPrimDark),  light: l(B, bPrimLight) },
+    'container-subtle':  { dark: d(B, bSubtleDark),light: l(B, bSubtleLight) },
+    'text-primary':      { dark: d(G, gT1),        light: l(G, 1) },
+    'text-secondary':    { dark: d(G, gT2),        light: l(G, 3) },
+    'text-tertiary':     { dark: d(G, gT3),        light: l(G, 5) },
+    'border-default':    { dark: d(G, gBord),      light: l(G, gLen-4) },
+    'semantic-success':  { dark: d(Gr, Math.round(Gr.length * semDarkRatio)), light: l(Gr, Math.round(Gr.length * semLightRatio)) },
+    'semantic-warning':  { dark: d(Y,  Math.round(Y.length  * semDarkRatio)), light: l(Y,  Math.round(Y.length  * semLightRatio)) },
+    'semantic-danger':   { dark: d(R,  Math.round(R.length  * semDarkRatio)), light: l(R,  Math.round(R.length  * semLightRatio)) },
   };
 }
 
