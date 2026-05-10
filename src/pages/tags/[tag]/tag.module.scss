@@ -1,8 +1,3 @@
-/**
- * Tag Posts Page Styles
- * Posts filtered by tag
- */
-
 .tagPosts {
   display: flex;
   flex-direction: column;
@@ -10,40 +5,40 @@
   background-color: var(--color-bg);
 }
 
-.tagPosts__main {
-  flex: 1;
-}
+// .tagPosts__main {
+//   flex: 1;
+// }
 
 .tagPosts__content {
   padding: rem(66) 0;
 }
 
-.tagPosts__container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 0 rem(20);
-}
+// .tagPosts__container {
+//   max-width: 1000px;
+//   margin: 0 auto;
+//   padding: 0 rem(20);
+// }
 
 .tagPosts__header {
   margin-bottom: rem(23);
 }
 
-.tagPosts__search {
-  display: flex;
-  justify-content: center;
-  margin-bottom: rem(30);
+// .tagPosts__search {
+//   display: flex;
+//   justify-content: center;
+//   margin-bottom: rem(30);
 
-  @media (--mobile) {
-    margin-bottom: rem(20);
-  }
-}
+//   @media (--mobile) {
+//     margin-bottom: rem(20);
+//   }
+// }
 
-.tagPosts__searchInput {
-  display: block;
-  width: 100%;
-  max-width: 60%;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-}
+// .tagPosts__searchInput {
+//   display: block;
+//   width: 100%;
+//   max-width: 60%;
+//   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+// }
 
 .tagPosts__posts {
   display: flex;

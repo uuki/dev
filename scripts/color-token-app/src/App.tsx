@@ -9,9 +9,9 @@ import {
   type PaletteScale,
   type ContrastResult,
   type TokenMap,
-} from './palette';
-import { generateCss } from './css';
-import { hexToOklch } from './color';
+} from './lib/palette';
+import { generateCss } from './lib/css';
+import { hexToOklch } from './lib/color';
 
 // ── デフォルト入力色 ─────────────────────────────────────────────────────────
 const DEFAULT_INPUTS: Record<ScaleName, ScaleInput> = {
@@ -72,6 +72,7 @@ function ScaleRow({ name, input, scale, onChange }: ScaleRowProps) {
           <input
             type="color"
             value={input.hex}
+            onInput={e => handleHexChange(e.currentTarget.value)}
             onChange={e => handleHexChange(e.target.value)}
             style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer', width: '100%', height: '100%' }}
           />

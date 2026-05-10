@@ -2,7 +2,10 @@
 import { getAllTags, getAllTagNames } from '@/utils/tags';
 
 import AppLayout from '@/layouts/App.astro';
+import Content from '@/components/layouts/Content/Content.astro';
+
 import HeadingPage from '@/components/ui/HeadingPage/HeadingPage.astro';
+
 
 import styles from './tags.module.scss';
 
@@ -22,25 +25,28 @@ const sortedTags = Object.keys(tagCounts).sort((a, b) => tagCounts[b] - tagCount
 
 <AppLayout meta={{ title: 'Tags', description: 'タグ一覧' }}>
   <div class={styles.tags}>
-    <main class={styles.tags__main}>
-      <div class={styles.tags__wrapper}>
-        <div class={styles.tags__container}>
-          <div class={styles.tags__content}>
-            <div class={styles.tags__header}>
-              <HeadingPage heading='h1' class={styles.tags__heading}>Tags</HeadingPage>
-            </div>
-
-            <ul class={styles.tags__list}>
-              {sortedTags.map((tagSlug) => (
-                <li>
-                  <a href={`/tags/${tagSlug}`} class={styles.tags__item}>{slugToName[tagSlug] || tagSlug}</a>
-                  <span class={styles.tags__count}>({tagCounts[tagSlug]})</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+    <Content>
+      <div class={styles.tags__content}>
+        <div class={styles.tags__header}>
+          <HeadingPage heading='h1' class={styles.tags__heading}>Tags</HeadingPage>
         </div>
+
+        <ul class={styles.tags__list}>
+          {sortedTags.map((tagSlug) => (
+            <li>
+              <a href={`/tags/${tagSlug}`} class={styles.tags__item}>{slugToName[tagSlug] || tagSlug}</a>
+              <span class={styles.tags__count}>({tagCounts[tagSlug]})</span>
+            </li>
+          ))}
+        </ul>
       </div>
-    </main>
+    </Content>
+
+    <!-- <div class={styles.tags__wrapper}>
+      <div class={styles.tags__container}>
+      </div>
+    </div> -->
+    <!-- <main class={styles.tags__main}>
+    </main> -->
   </div>
 </AppLayout>

@@ -4,13 +4,17 @@
 
 html {
   scroll-behavior: smooth;
+  block-size: 100%;
   @media (prefers-reduced-motion: reduce) {
     scroll-behavior: auto;
   }
 }
 
 :where(body) {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
   min-width: 375px;
+  min-block-size: 100dvh;
   font-family: var(--font-sans);
   word-wrap: break-word;
   background-color: var(--color-bg-primary);

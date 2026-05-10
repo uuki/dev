@@ -7,7 +7,6 @@ import {
   oklchToHex,
   chromaCurve,
   genLightnessSteps,
-  inferPrimaryIdx,
   contrastRatio,
   wcagAA,
   type OklchColor,
