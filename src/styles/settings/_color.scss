@@ -53,5 +53,11 @@
   /* Accent (legacy) */
   --color-accent: #0eb376;
 
-  --color-text-blue: #266faf;
+  --color-text-blue: #449EBB;
+
+
+  // リファクタリング
+  //  * Theme colors alternate
+  --color-alt-text-primary: rgba(255, 255, 255, 0.8);
+  --color-alt-yellow-100: #838179;
 }

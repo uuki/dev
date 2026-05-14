@@ -9,21 +9,18 @@
   }
 
   h2 {
-    font-size: 1.5em;
+    font-size: rem(24);
     font-weight: 700;
-    line-height: 1.3333333;
   }
 
   h3 {
-    font-size: 1.25em;
+    font-size: rem(20);
     font-weight: 600;
-    line-height: 1.6;
   }
 
   h4 {
-    font-size: 1.125em;
+    font-size: rem(18);
     font-weight: 600;
-    line-height: 1.5555556;
   }
 
   a {
@@ -206,23 +203,30 @@
 @media(--mobile) {
   .postWysiwyg {
     gap: rem(16);
-    > p + :is(p, ul, ol),
-    > ul + :is(p, ul, ol),
-    > ol + :is(p, ul, ol),
-    > h3 + :is(p, ul, ol) {
-      margin-top: calc(rem(8) * -1);
+    > p + :is(h2, h3, h4) {
+      margin-top: rem(8);
     }
+    // > p + :is(p, ul, ol),
+    // > ul + :is(p, ul, ol),
+    // > ol + :is(p, ul, ol),
+    // > h3 + :is(p, ul, ol) {
+    //   margin-top: calc(rem(8) * -1);
+    // }
   }
 }
 
 @media(--desktop) {
   .postWysiwyg {
     gap: rem(24);
-    > p + :is(p, ul, ol),
-    > ul + :is(p, ul, ol),
-    > ol + :is(p, ul, ol),
-    > h3 + :is(p, ul, ol) {
-      margin-top: calc(rem(12) * -1);
+    > :not(:is(h2, h3, h4)) + :is(h2, h3, h4) {
+      margin-top: rem(16);
     }
+
+    // > p + :is(p, ul, ol),
+    // > ul + :is(p, ul, ol),
+    // > ol + :is(p, ul, ol),
+    // > h3 + :is(p, ul, ol) {
+    //   margin-top: calc(rem(12) * -1);
+    // }
   }
 }

@@ -29,7 +29,7 @@ const activitiesByYear = props.data.reduce<YearGroup[]>((groups, activity) => {
 <section class:list={[style.sectionActivity, 'u-effect']} data-effect-root="progress-x">
   <div class={ style.sectionActivity__content }>
     <div class={ style.sectionActivity__profile }>
-      <ProfileCard />
+      <ProfileCard showProgress={true} />
     </div>
     <div class={ style.sectionActivity__timeline }>
       <div class={ style.sectionActivity__header }>

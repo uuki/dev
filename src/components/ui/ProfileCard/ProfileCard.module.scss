@@ -46,10 +46,14 @@ $count: length($frames);
   --_content-side: #{rem(24)};
 
   position: relative;
-  color: #fff;
+  color: var(--color-text-primary);
   border-radius: var(--corners-lg);
   overflow: hidden;
   z-index: 0;
+
+  [data-theme="light"] & {
+    color: var(--color-alt-text-primary);
+  }
 
   &::before,
   &::after {
@@ -60,6 +64,7 @@ $count: length($frames);
   }
   &::before {
     background-color: #2A3340;
+    background-color: relative-lightness(var(--color-base-surface-2), 21);
     backdrop-filter: blur(rem(20));
     z-index: -1;
   }
@@ -81,7 +86,8 @@ $count: length($frames);
   align-items: center;
   gap: rem(16);
   padding: rem(16) rem(32);
-  background-color: #4c515b;
+  // background-color: #4c515b;
+  background-color: var(--color-border-default);
   z-index: 0;
   &::before, &::after {
     content: '';
@@ -195,7 +201,6 @@ $count: length($frames);
 }
 .profileCard__title {
   font-size: rem(12);
-  color: var(--color-text-primary);
 }
 
 .profileCard__progress {
@@ -230,7 +235,6 @@ $count: length($frames);
   grid-template-columns: repeat(2, 1fr);
   gap: rem(10);
   font-size: rem(12);
-  color: var(--color-text-primary);
 }
 .profileCard__listHeading {
   font-size: rem(11);
@@ -252,6 +256,39 @@ $count: length($frames);
   padding: rem(8) rem(10);
   border-radius: calc(var(--corners-lg) - rem(16));
   word-break: break-word;
+  [data-theme="light"] & {
+    color: relative-alpha(var(--color-alt-text-primary), 0.5);
+  }
+}
+.profileCard__more {
+  font-size: rem(14);
+  font-weight: 500;
+  @include details-accordion(0.3s, var(--ease-base));
+  > summary {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    color: var(--color-alt-yellow-100);
+    [data-theme="light"] & {
+    }
+    &::after {
+      content: '';
+      margin-left: rem(6);
+      font-size: rem(10);
+      width: 0;
+      border-top: 5px solid currentColor;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      transition: rotate 0.3s;
+      margin-top: 1px;
+    }
+  }
+  &[open] > summary::after {
+    rotate: 180deg;
+  }
+}
+.profileCard__moreContent {
+  margin-top: rem(12);
 }
 
 @media(--mobile) {

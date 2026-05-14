@@ -2,6 +2,9 @@
   padding-bottom: rem(15);
   color: var(--color-text-primary);
   background-color: var(--color-navy-600);
+  [data-theme="light"] & {
+    color: var(--color-alt-text-primary);
+  }
 }
 
 .footer__content {

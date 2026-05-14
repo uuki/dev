@@ -54,7 +54,7 @@
         anchor(right)
         anchor(bottom)
         anchor(left);
-      border-radius: rem(12);
+      border-radius: var(--corners-md);
       transition:
         inset 0.25s,
         opacity 0.2s;

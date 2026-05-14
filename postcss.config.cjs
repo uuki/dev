@@ -1,4 +1,5 @@
 const postcssGlobalData = require('@csstools/postcss-global-data');
+const postcssLayerWrap = require('./scripts/postcss-layer-wrap.cjs');
 
 module.exports = {
   plugins: [
@@ -13,6 +14,9 @@ module.exports = {
       features: {
         'custom-properties': true
       }
-    })
+    }),
+    // Wrap output in @layer based on file path.
+    // Order declared in src/styles/settings/_layers.scss.
+    postcssLayerWrap(),
   ]
 };

@@ -3,8 +3,8 @@
   padding: rem(2) rem(8);
   font-size: rem(12);
   font-weight: bold;
-  color: var(--color-white);
-  background-color: var(--color-navy-600);
+  color: var(--color-text-primary);
+  background-color: relative-alpha(var(--color-text-tertiary), 0.1);
   border-radius: var(--corners-sm);
   &.-large {
     padding: rem(4) rem(10);

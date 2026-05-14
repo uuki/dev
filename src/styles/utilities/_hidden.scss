@@ -1,10 +1,17 @@
-.u-mobile-hidden {
-  @media (--mobile) {
+@media (--mobile) {
+  .u-mobile-hidden {
     display: none;
   }
 }
-.u-desktop-hidden {
-  @media (--desktop) {
+
+@media (--desktop-small) {
+  .u-desktop-small-hidden {
+    display: none;
+  }
+}
+
+@media (--desktop) {
+  .u-desktop-hidden {
     display: none;
   }
 }

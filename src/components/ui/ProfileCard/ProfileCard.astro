@@ -5,6 +5,7 @@ import waveCircle from '@/assets/shapes/wave-circle.svg?raw';
 import style from './ProfileCard.module.scss';
 
 interface Props {
+  showProgress?: boolean;
 }
 
 const props = Astro.props;
@@ -60,15 +61,17 @@ const jobNPastime = [
     <span class={ style.profileCard__status }></span>
   </hgroup>
   <div class={ style.profileCard__detail }>
-    <div class={ style.profileCard__item }>
-      <h4 class={ style.profileCard__title }>PROGRESS</h4>
-      <progress class:list={[style.profileCard__progress, 'u-effect']} data-effect="progress-x" aria-hidden="true"></progress>
-    </div>
+    {!!props.showProgress && (
+      <div class:list={[style.profileCard__item, 'u-mobile-hidden', 'u-desktop-small-hidden']}>
+        <h4 class={ style.profileCard__title }>PROGRESS</h4>
+        <progress class:list={[style.profileCard__progress, 'u-effect']} data-effect="progress-x" aria-hidden="true"></progress>
+      </div>
+    )}
     <div class={ style.profileCard__item }>
       <h4 class={ style.profileCard__title }>JOB & PASTIME</h4>
       <ul class={ style.profileCard__list }>
         {
-          jobNPastime.map(item => (
+          jobNPastime.slice(0, 4).map(item => (
             <li>
               <hgroup class={ style.profileCard__listHeader }>
                 <h5 class={ style.profileCard__listHeading }>{item.title}</h5>
@@ -79,6 +82,26 @@ const jobNPastime = [
           ))
         }
       </ul>
+      <details class:list={[style.profileCard__more, 'u-details-reset']}>
+        <summary>Show More</summary>
+        <div>
+          <div class={style.profileCard__moreContent}>
+            <ul class={ style.profileCard__list }>
+              {
+                jobNPastime.slice(4).map(item => (
+                  <li>
+                    <hgroup class={ style.profileCard__listHeader }>
+                      <h5 class={ style.profileCard__listHeading }>{item.title}</h5>
+                      <b class={ style.profileCard__listYears }>{item.type === 'job' ? 'YoE' : ''} {item.yearsOfExperience}</b>
+                    </hgroup>
+                    {!!item.description && <p class={ style.profileCard__listDescription }>{item.description}</p>}
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+      </details>
     </div>
     <div class={ style.profileCard__item }>
       <h4 class={ style.profileCard__title }>NOTE</h4>

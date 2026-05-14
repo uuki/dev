@@ -8,7 +8,7 @@
   font-weight: 600;
   border-radius: var(--corners-sm);
   color: var(--color-text-primary);
-  background-color: var(--color-base-surface-1);
+  background-color: relative-alpha(var(--color-text-tertiary), 0.1);
 }
 
 .badgeOrigin__logo {

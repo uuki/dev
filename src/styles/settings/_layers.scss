@@ -1,0 +1,11 @@
+/**
+ * @layer の優先順位宣言（後に書いたレイヤーが勝つ）
+ *   base       - reset, font-face, base element styles
+ *   animations - view-transition, keyframes
+ *   plugins    - remark directive styles
+ *   components - CSS Modules (*.module.scss)
+ *   utilities  - utility classes (styles/utilities/*.scss)
+ *
+ * レイヤー外（unlayered）は常に最優先。
+ */
+@layer base, animations, plugins, components, utilities;
