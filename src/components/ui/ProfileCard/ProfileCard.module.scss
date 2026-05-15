@@ -130,7 +130,7 @@ $count: length($frames);
 .profileCard__sprite {
   position: relative;
   display: block;
-  width: rem(60);
+  width: rem(61);
   aspect-ratio: 1;
   border-radius: 50%;
   z-index: 0;
@@ -156,7 +156,7 @@ $count: length($frames);
     inset: 0;
     background-image: url('@/assets/images/sprite.webp');
     background-repeat: no-repeat;
-    background-size: 400% auto;
+    background-size: 400% auto; // 100% * frames
     animation: _blink both linear; // steps(#{$step-count}, end) ではなく、linear
     animation-timeline: --section-progress;
     filter: grayscale(1);
