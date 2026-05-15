@@ -1,63 +1,21 @@
 :root {
   /* Neutral colors */
   --color-white: #ffffff;
-  --color-black: #000000;
+  //  * Theme colors alternate
+  --color-alt-text-primary: rgba(255, 255, 255, 0.8);
+  --color-alt-gray-100: #394554;
+  --color-alt-gray-200: #485666;
+  --color-alt-gray-300: #4a5568;
+  --color-alt-gray-400: #778aa5;
+  --color-alt-green-100: #0a8557;
+  --color-alt-green-200: #0eb376;
+  --color-alt-blue-100: #449EBB;
+  --color-alt-blue-200: #00c2ff;
+  --color-alt-yellow-100: #838179;
 
-  /* Text colors (from tailwind) */
-  --color-text-100: #606060;
-  --color-text-400: #231815;
-
-  /* Meta colors */
-  --color-meta: #707789;
-
-  /* Background colors */
-  --color-bg: #f8fafb;
-  --color-bg-card: #ffffff;
-
-  /* Border colors */
-  --color-border: #d6d7d8;
-
-  /* Gray colors */
-  --color-gray-100: #eef0f2;
-  --color-gray-300: #d6d7d8;
-
-  /* Navy colors */
-  --color-navy-400: #485666;
-  --color-navy-600: #394554;
-
-  /* Black variants */
-  --color-black-400: #2b2c30;
-  --color-black-800: #3a3d3d;
-
-  /* Link colors */
-  --color-link-100: #778aa5;
-  --color-link-400: #4a5568;
-
-  /* Green colors */
-  --color-green-100: #0eb376;
-  --color-green-200: #0a8557;
-
-  /* Blue */
-  --color-blue: #00c2ff;
-
-  /* Service colors */
+  // Service colors
   --color-twitter: #000000;
   --color-hatena: #00a5de;
   --color-zenn: #3ea8ff;
   --color-qiita: #55c500;
-  --color-pocket: #ef3f56;
-
-  /* Shadow */
-  --color-shadow: rgba(42, 43, 43, 0.15);
-
-  /* Accent (legacy) */
-  --color-accent: #0eb376;
-
-  --color-text-blue: #449EBB;
-
-
-  // リファクタリング
-  //  * Theme colors alternate
-  --color-alt-text-primary: rgba(255, 255, 255, 0.8);
-  --color-alt-yellow-100: #838179;
 }

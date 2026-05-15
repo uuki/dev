@@ -1,7 +1,7 @@
 .footer {
   padding-bottom: rem(15);
   color: var(--color-text-primary);
-  background-color: var(--color-navy-600);
+  background-color: var(--color-alt-gray-100);
   [data-theme="light"] & {
     color: var(--color-alt-text-primary);
   }
@@ -22,7 +22,7 @@
   --_surface-radius: #{rem(16)};
   position: relative;
   display: inline-flex;
-  background-color: var(--color-navy-400);
+  background-color: var(--color-alt-gray-200);
   border-radius: 0 0 rem(16) rem(16);
 
   &::before,
@@ -33,7 +33,7 @@
     block-size: var(--_surface-radius);
     aspect-ratio: 1;
     corner-shape: scoop;
-    background-color: var(--color-navy-400);
+    background-color: var(--color-alt-gray-200);
     @include is-not-supported('corner-shape') {
       display: none;
     }
