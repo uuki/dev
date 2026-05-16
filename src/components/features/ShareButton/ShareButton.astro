@@ -14,7 +14,7 @@ interface Props {
 const { type, pathname, text = '' } = Astro.props;
 
 const url = encodeURIComponent(`${siteConfig.siteUrl}${pathname}`);
-const urlText = text ? `${encodeURIComponent(text)} - ${siteConfig.siteName}` : '';
+const urlText = text ? encodeURIComponent(text) : '';
 
 const qs = (params: Record<string, string>) =>
   Object.entries(params).map(([k, v]) => `${k}=${v}`).join('&');

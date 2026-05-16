@@ -2,8 +2,6 @@ import { WEBFONT_CONFIG, SELECTORS } from './core/constants';
 import './core/windowState'; // singleton — self-initializing
 import { loadWebFonts } from './libs/WebfontLoader';
 import { createDisableScroll } from './libs/DisableScroll';
-import { setupAsciiEffect } from './features/ascii-effect';
-import { setupBlockEffect } from './features/block-effect';
 import { PopoverSupport } from './features/menu';
 
 import { isOk } from './libs/result';
@@ -38,22 +36,7 @@ class App {
       console.warn('[App] DisableScroll:', dsResult.error);
     }
 
-    // ASCII effect
-    const aeResult = setupAsciiEffect(SELECTORS.ASCII_EFFECT);
-    if (isOk(aeResult)) {
-      this.features.asciiEffect = aeResult.value;
-    } else if (import.meta.env.DEV) {
-      console.warn('[App] AsciiEffect:', aeResult.error);
-    }
-
-    // Block effect
-    const beResult = await setupBlockEffect(SELECTORS.BLOCK_EFFECT);
-    if (isOk(beResult)) {
-      this.features.blockEffect = beResult.value;
-    } else if (import.meta.env.DEV) {
-      console.warn('[App] BlockEffect:', beResult.error);
-    }
-
+    // Popover support
     new PopoverSupport();
   }
 

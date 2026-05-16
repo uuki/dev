@@ -1,13 +1,42 @@
 ---
+export interface SkipRule {
+  from?: string;   // pathname prefix — omit to match any source
+  to?: string;     // pathname prefix — omit to match any destination
+  exact?: boolean; // if true, match exact pathname instead of prefix
+}
+
+interface Props {
+  skipRules?: SkipRule[];
+}
+
+const { skipRules = [] } = Astro.props;
 ---
-<script is:inline>
+<script is:inline define:vars={{ skipRules }}>
   {
+    const matchPath = (pattern, path, exact) => {
+      if (!pattern) return true;
+      return (exact || pattern === '/') ? path === pattern : path.startsWith(pattern);
+    };
+
+    const shouldSkip = (fromHref, toHref) => {
+      if (fromHref === toHref) return true;
+      if (!skipRules.length) return false;
+      const fromPath = fromHref ? new URL(fromHref).pathname : '';
+      const toPath = new URL(toHref).pathname;
+      return skipRules.some(({ from, to, exact }) =>
+        matchPath(from, fromPath, exact) && matchPath(to, toPath, exact)
+      );
+    };
+
     window.__pageRevealVT = undefined;
     window.addEventListener('pagereveal', (e) => {
       let vt = e.viewTransition ?? null;
-      if (vt && window.navigation?.activation?.from?.url === location.href) {
-        vt.skipTransition();
-        vt = null;
+      if (vt) {
+        const fromUrl = window.navigation?.activation?.from?.url;
+        if (shouldSkip(fromUrl, location.href)) {
+          vt.skipTransition();
+          vt = null;
+        }
       }
       window.__pageRevealVT = vt;
     });

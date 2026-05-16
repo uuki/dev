@@ -15,14 +15,14 @@ $max-index: $total-frames - 1;
 @for $i from 1 through $loops {
   $frames: list.join($frames, $base-frames, comma);
 }
-$count: length($frames);
+$count: list.length($frames);
 
 // 各フレームのアニメーションを定義
 @keyframes _blink {
   @for $i from 1 through $count {
     $start: math.percentage(math.div($i - 1, $count));
     $end: math.percentage(math.div($i, $count)) - 0.001%;
-    $frame: nth($frames, $i);
+    $frame: list.nth($frames, $i);
 
     #{$start},
     #{$end} {

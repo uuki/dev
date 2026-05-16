@@ -19,6 +19,7 @@ import { remarkCustomDirectives } from './src/js/plugins/remark-custom-directive
 import { remarkEmbedDirectives } from './src/js/plugins/remark-embed-directives';
 import { remarkOutdatedWarning } from './src/js/plugins/remark-outdated-warning';
 import { remarkReadingTime } from './src/js/plugins/remark-reading-time';
+import { rehypeEncodeHeadingIds } from './src/js/plugins/rehype-encode-heading-ids';
 import { blogTitleFetcher } from './integrations/blogTitleFetcher';
 import fs from 'fs';
 
@@ -95,6 +96,7 @@ export default defineConfig({
     rehypePlugins: [
       [rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }],
       rehypeSlug,
+      rehypeEncodeHeadingIds,
       rehypeAutolinkHeadings,
       rehypeKatex,
     ],
