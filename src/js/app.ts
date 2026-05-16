@@ -30,13 +30,6 @@ class App {
       console.warn('[App] WebfontLoader:', fontsResult.error);
     }
 
-    // document.addEventListener('pageswap', (e) => {
-    //   const { viewTransition } = e as Event & { viewTransition: unknown };
-    //   if (!viewTransition) return;
-    //   // スナップショット撮影前に scroll を instant でリセット
-    //   window.scrollTo({ top: 0, behavior: 'instant' });
-    // });
-
     // Disable scroll — wired via PubSub (TOPIC_IDS.DISABLE_SCROLL_*)
     const dsResult = createDisableScroll();
     if (isOk(dsResult)) {
@@ -77,14 +70,13 @@ class App {
 
 const app = new App();
 
-// WIP
-document.addEventListener('pagereveal', (e) => {
-  const vt = (e as Event & { viewTransition?: ViewTransition }).viewTransition;
-  if (vt) {
-    void vt.finished.then(() => app.initialize());
-  } else {
-    void app.initialize();
-  }
-});
+const vt = (window as Window & { __pageRevealVT?: ViewTransition | null }).__pageRevealVT ?? null;
+if (vt) {
+  void vt.finished
+    .then(() => app.initialize())
+    .catch(() => app.initialize());
+} else {
+  void app.initialize();
+}
 
 export default app;

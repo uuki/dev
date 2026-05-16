@@ -4,6 +4,7 @@ import { type MetaProps, createMeta } from '@/utils/meta';
 import { siteConfig } from '@/data/constants';
 import metaData from '@/data/meta.yml';
 import GoogleAnalytics from '@/components/features/GoogleAnalytics/GoogleAnalytics.astro';
+import ViewTransitionBridge from '@/components/features/ViewTransitionBridge/ViewTransitionBridge.astro';
 
 import.meta.glob('@/styles/settings/**/*.scss', { eager: true });
 import.meta.glob('@/styles/generic/**/*.scss', { eager: true });
@@ -92,6 +93,7 @@ const isTop = Astro.url.pathname === '/';
     {siteConfig.feeds?.rss  && <link rel="alternate" type="application/rss+xml"  title="RSS Feed"  href={siteConfig.feeds.rss}  />}
 
     <GoogleAnalytics />
+    <ViewTransitionBridge />
     <script>
       import '@/js/app';
     </script>

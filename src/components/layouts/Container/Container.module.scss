@@ -1,3 +1,4 @@
 .container {
   view-transition-name: container;
+  background-color: var(--color-base-bg); // For view transitions snapshot
 }

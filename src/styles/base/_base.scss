@@ -5,6 +5,7 @@
 html {
   scroll-behavior: smooth;
   block-size: 100%;
+  background-color: var(--color-base-bg);
   @media (prefers-reduced-motion: reduce) {
     scroll-behavior: auto;
   }
@@ -56,18 +57,27 @@ html {
   text-decoration: none;
 }
 
+// UA default is plus-lighter which causes additive blending artifacts → override to normal
+::view-transition-old(*),
+::view-transition-new(*) {
+  mix-blend-mode: normal;
+}
+
+// Prevent white showing through the transition overlay during animation
+::view-transition {
+  background-color: var(--color-base-bg);
+}
+
 ::view-transition-old(container),
 ::view-transition-new(container) {
   --_view-transition-ease: cubic-bezier(0.22, 1, 0.36, 1);
   transform-origin: center;
-  backface-visibility: hidden;
-  will-change: transform, opacity;
 }
 
 ::view-transition-old(container) {
-  animation: vt-old 0.8s var(--_view-transition-ease) forwards;
+  animation: vt-old 0.8s var(--_view-transition-ease) both;
 }
 
 ::view-transition-new(container) {
-  animation: vt-new 0.8s var(--_view-transition-ease) forwards;
+  animation: vt-new 0.8s var(--_view-transition-ease) both;
 }

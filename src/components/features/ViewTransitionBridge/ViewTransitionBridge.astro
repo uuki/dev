@@ -1,0 +1,15 @@
+---
+---
+<script is:inline>
+  {
+    window.__pageRevealVT = undefined;
+    window.addEventListener('pagereveal', (e) => {
+      let vt = e.viewTransition ?? null;
+      if (vt && window.navigation?.activation?.from?.url === location.href) {
+        vt.skipTransition();
+        vt = null;
+      }
+      window.__pageRevealVT = vt;
+    });
+  }
+</script>
