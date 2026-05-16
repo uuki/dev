@@ -10,6 +10,7 @@ import partytown from '@astrojs/partytown';
 import sitemap from '@astrojs/sitemap';
 import remarkDirective from 'remark-directive';
 import remarkGfm from 'remark-gfm';
+import remarkBreaks from 'remark-breaks';
 import remarkMath from 'remark-math';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
@@ -90,11 +91,12 @@ export default defineConfig({
         yearsThreshold: 2,
         warningText: 'この記事は公開から{years}年以上が経過しています。内容が現在の状況と異なる場合があります。',
       }],
+      remarkBreaks,
       remarkGfm,
       remarkMath,
     ],
     rehypePlugins: [
-      [rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }],
+      [rehypeExternalLinks, { target: '_blank' }],
       rehypeSlug,
       rehypeEncodeHeadingIds,
       rehypeAutolinkHeadings,

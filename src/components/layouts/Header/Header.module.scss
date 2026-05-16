@@ -76,7 +76,8 @@
 
 .header__logo {
   transition: opacity 0.2s;
-  html:not([style]) & {
+
+  html:not([style]):global(.is-top) & {
     opacity: 0;
   }
 

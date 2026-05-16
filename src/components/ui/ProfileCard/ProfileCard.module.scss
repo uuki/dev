@@ -252,6 +252,7 @@ $count: list.length($frames);
 .profileCard__note {
   @include typography-description('xsmall');
   line-height: 1.4;
+  font-weight: 500;
   color: relative-alpha(var(--color-text-primary), 0.5);
   background-color: rgba(#fff, 0.05);
   padding: rem(8) rem(10);

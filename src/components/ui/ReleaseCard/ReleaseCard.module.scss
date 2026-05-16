@@ -6,12 +6,21 @@
   background-color: var(--color-base-surface-2);
   border-radius: var(--corners-lg);
   padding: rem(16) rem(25);
+  @media (--hover) {
+    &:hover {
+      .releaseCard__title {
+        opacity: 0.7;
+      }
+    }
+  }
 }
 
 .releaseCard__title {
   border-radius: var(--corners-lg);
   font-size: rem(18);
   font-weight: 700;
+  letter-spacing: 0.01em;
+  transition: opacity 0.3s;
 }
 
 .releaseCard__version {
