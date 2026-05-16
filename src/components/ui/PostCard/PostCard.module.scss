@@ -6,9 +6,7 @@
   background-color: var(--color-base-surface-2);
   border-radius: var(--corners-lg);
   overflow: hidden;
-  a {
-    view-transition-name: var(--slug);
-  }
+  view-transition-name: var(--slug);
 }
 
 .postCard__content {

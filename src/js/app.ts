@@ -77,10 +77,14 @@ class App {
 
 const app = new App();
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => void app.initialize());
-} else {
-  void app.initialize();
-}
+// WIP
+document.addEventListener('pagereveal', (e) => {
+  const vt = (e as Event & { viewTransition?: ViewTransition }).viewTransition;
+  if (vt) {
+    void vt.finished.then(() => app.initialize());
+  } else {
+    void app.initialize();
+  }
+});
 
 export default app;
