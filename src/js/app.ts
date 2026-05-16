@@ -3,6 +3,7 @@ import './core/windowState'; // singleton — self-initializing
 import { loadWebFonts } from './libs/WebfontLoader';
 import { createDisableScroll } from './libs/DisableScroll';
 import { PopoverSupport } from './features/menu';
+import { setupGaTracker } from './features/ga-tracker';
 
 import { isOk } from './libs/result';
 import { getUserAgent } from './utils/browser';
@@ -38,6 +39,9 @@ class App {
 
     // Popover support
     new PopoverSupport();
+
+    // GA4 event tracking
+    setupGaTracker();
   }
 
   destroy(): void {

@@ -19,7 +19,19 @@ const slug = id.replace(/\.mdx?$/, '');
 const origin = detectOriginFromUrl(url);
 ---
 
-<a href={url || `/blog/${slug}`} class={styles.postCard} style={{ '--slug': slug }}>
+<a
+  href={url || `/blog/${slug}`}
+  class={styles.postCard}
+  style={{ '--slug': slug }}
+  {...(url ? {
+    target: '_blank',
+    rel: 'noopener noreferrer',
+    'data-ga-event': 'external_blog_click',
+    'data-ga-url': url,
+    'data-ga-title': title,
+    'data-ga-origin': origin,
+  } : {})}
+>
   <article class={styles.postCard__content}>
     <div class={styles.postCard__origin}>
       <BadgeOrigin name={origin} />
