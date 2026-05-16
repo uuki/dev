@@ -1,15 +1,11 @@
 .buttonNav {
   min-width: rem(90);
-  height: rem(34);
-  padding-left: rem(15);
-  padding-right: rem(15);
+  padding: rem(12) rem(8);
   font-size: rem(14);
   font-weight: 700;
-  color: var(--color-white);
-  background-color: var(--color-alt-gray-100);
-  border: none;
-  border-radius: rem(4);
-  cursor: pointer;
+  color: var(--color-text-primary);
+  background-color: var(--color-border-default);
+  border-radius: var(--corners-sm);
   transition: opacity 0.2s ease-in-out;
 
   &:hover:not(.-disabled) {
