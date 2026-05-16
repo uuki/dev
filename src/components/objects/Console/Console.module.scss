@@ -77,7 +77,8 @@
   grid-area: 1 / 2 / 3 / 3;
 }
 .console__heading {
-  color: relative-alpha(var(--color-alt-green-200), 0.5);
+  // color: relative-alpha(var(--color-alt-green-200), 0.5);
+  color: rgba(255, 255, 255, 0.48);
   font-weight: bold;
   font-size: liquid(16, $minmax: (min: 14, max: 16));
   line-height: 1.4;
