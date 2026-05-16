@@ -38,7 +38,7 @@ const description = meta.description || metaData.description;
 const ogDescription = meta['og:description'] || metaData['og:description'] || description;
 
 // Format image URL
-const ogImage = new URL(meta['og:image'] || '/images/og-image.png', siteUrl).toString();
+const ogImage = new URL(meta['og:image'] || '/images/site-image.png', siteUrl).toString();
 
 const formats = {
   title: fullTitle,
