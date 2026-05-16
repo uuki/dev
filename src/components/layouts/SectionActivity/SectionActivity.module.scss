@@ -3,6 +3,7 @@
 }
 .sectionActivity__content {
   padding-inline: var(--size-content-padding);
+  margin-inline: auto;
 }
 
 @media(--mobile) {
@@ -19,6 +20,7 @@
     display: flex;
     flex-direction: column-reverse;
     gap: rem(40);
+    width: min(100%, rem(960));
     padding-block: rem(80);
   }
 }
@@ -27,6 +29,7 @@
   .sectionActivity__content {
     margin-top: rem(40);
     display: grid;
+    width: min(100%, rem(1280));
     gap: rem(24);
     grid-template-columns: auto 1fr;
     padding-block: rem(120);
