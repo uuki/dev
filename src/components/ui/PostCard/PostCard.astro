@@ -1,0 +1,36 @@
+---
+import type { ArticleActivity } from '@/types/activity';
+import BadgeOrigin from '@/components/ui/BadgeOrigin/BadgeOrigin.astro';
+import Tag from '@/components/ui/Tag/Tag.astro';
+import { detectOriginFromUrl } from '@/utils/origin';
+
+import styles from './PostCard.module.scss';
+
+interface Props {
+  post: ArticleActivity; // CollectionEntry<'blog'>;
+  key?: string;
+}
+
+const { post } = Astro.props;
+const { id, title, tags, url } = post;
+const slug = id.replace(/\.mdx?$/, '');
+
+// Auto-detect origin from URL
+const origin = detectOriginFromUrl(url);
+---
+
+<a href={url || `/blog/${slug}`} class={styles.postCard} style={{ '--slug': slug }}>
+  <article class={styles.postCard__content}>
+    <div class={styles.postCard__origin}>
+      <BadgeOrigin name={origin} />
+    </div>
+    <h2 class={styles.postCard__title}>{title}</h2>
+  </article>
+  <ul class={styles.postCard__tags}>
+    {tags.map((tag) => (
+      <li>
+        <Tag>{tag}</Tag>
+      </li>
+    ))}
+  </ul>
+</a>

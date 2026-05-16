@@ -1,0 +1,129 @@
+@use "sass:math";
+
+.header {
+  --_pad: var(--size-header-padding);
+  --_h: var(--size-header-height);
+  padding: var(--_pad);
+  min-height: var(--_h);
+  box-sizing: content-box;
+  :global(.is-top) & {
+    position: fixed;
+    width: 100%;
+    z-index: var(--z-global-header);
+  }
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(var(--_h) + var(--_pad));
+    background: linear-gradient(
+      to bottom in oklab,
+      var(--color-base-bg) 20%,
+      transparent 100%
+    );
+    z-index: calc(var(--z-global-header) - 1);
+  }
+}
+
+.header__content {
+  --_side-pad: #{rem(40)};
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: calc(100% - (var(--_pad) * 2));
+  min-height: inherit;
+  border-radius: rem(30);
+  color: var(--color-white);
+  box-shadow: 0 2px 8px relative-alpha(var(--color-alt-gray-100), 0.1);
+  padding: 0 var(--_side-pad);
+  z-index: var(--z-global-header);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    backdrop-filter: blur(2px);
+    z-index: -1;
+    [data-theme="light"] & {
+      background-color: relative-alpha(rgb(29, 42, 58), 0.9);
+    }
+    [data-theme="dark"] & {
+      background-color: relative-alpha(rgb(58, 67, 76), 0.9);
+    }
+  }
+}
+
+.header__logoTransformX {
+  :global(.is-top) & {
+    position: fixed;
+    top: 0;
+    pointer-events: none;
+  }
+}
+
+.header__logoTransformY {
+  :global(.is-top) & {
+    --_offset-top: calc((var(--_h) / 2) + var(--size-header-padding));
+    position: relative;
+    top: calc((var(--_h) / 2) + var(--size-header-padding));
+    height: calc(100% - var(--_offset-top));
+  }
+}
+
+.header__logo {
+  transition: opacity 0.2s;
+
+  html:not([style]):global(.is-top) & {
+    opacity: 0;
+  }
+
+  // NOTE: calc-size() がintrinsic size系のプロパティのみでなく、inset系に適用できるようになれば、親要素による初期位置の正規化不要で単体で算出可能かも
+  :global(.is-top) & {
+    position: absolute;
+    top: max(0%, calc(50% * (1 - var(--scroll-y, 0) * var(--_speed))));
+    left: max(0%, calc(50% * (1 - var(--scroll-y, 0) * var(--_speed))));
+    transform:
+      translateX(min(0%, max(-50%, calc(-50% * (1 - var(--scroll-y, 0) * var(--_speed))))))
+      translateY(min(-10px, max(calc(-50% - 10px), calc((-50% - 10px) * (1 - var(--scroll-y, 0) * var(--_speed))))))
+      scale(max(1, calc(3 - (2 * var(--scroll-y, 0) * var(--_speed)))));
+    svg {
+      filter: invert(max(0, calc(0.7 - (0.7 * var(--scroll-y, 0) * var(--_speed)))));
+    }
+  }
+}
+
+.header__nav {
+  margin-left: auto;
+}
+
+@media (--mobile) {
+  .header__logoTransformX {
+    :global(.is-top) & {
+      width: calc(100% - ((var(--size-header-padding) + var(--_side-pad)) * 2));
+      height: max(rem(400), 70svh);
+    }
+  }
+  .header__logo {
+    :global(.is-top) & {
+      --_speed: 18;
+    }
+  }
+}
+
+@media (--desktop) {
+  .header__logoTransformX {
+    :global(.is-top) & {
+      width: 50%;
+      height: 100svh;
+    }
+  }
+  .header__logo {
+    :global(.is-top) & {
+      --_speed: 10;
+    }
+  }
+}

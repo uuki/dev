@@ -5,13 +5,19 @@
   "frontMatter.content.defaultFileType": "mdx",
   "frontMatter.content.pageFolders": [
     {
-      "title": "Pages",
-      "path": "[[workspace]]/src/data/pages",
-      "excludeSubdir": true
+      "title": "Blog posts",
+      "path": "[[workspace]]/src/data/blog",
+      "contentTypes": [
+        "blog"
+      ]
     },
     {
-      "title": "Blog posts",
-      "path": "[[workspace]]/src/data/docs"
+      "title": "Pages",
+      "path": "[[workspace]]/src/data/pages",
+      "excludeSubdir": true,
+      "contentTypes": [
+        "page"
+      ]
     }
   ],
   "frontMatter.content.snippets": {
@@ -19,24 +25,39 @@
       "description": "Image with alt",
       "body": "![]([[&mediaUrl]])",
       "isMediaSnippet": true
+    },
+    "Note directive": {
+      "description": "Note directive block",
+      "body": ":::note\n[[selection]]\n:::"
+    },
+    "Warning directive": {
+      "description": "Warning directive block",
+      "body": ":::warning\n[[selection]]\n:::"
     }
   },
   "frontMatter.content.publicFolder": "public",
   "frontMatter.dashboard.openOnStart": false,
-  "frontMatter.framework.id": "next",
-  "frontMatter.framework.startCommand": "yarn dev",
-  "frontMatter.preview.host": "http://localhost:3000",
+  "frontMatter.framework.id": "astro",
+  "frontMatter.framework.startCommand": "pnpm dev",
+  "frontMatter.preview.host": "http://localhost:4321",
   "frontMatter.preview.pathName": "blog",
   "frontMatter.templates.prefix": "",
   "frontMatter.taxonomy.contentTypes": [
     {
-      "name": "default",
+      "name": "blog",
       "pageBundle": false,
       "fields": [
         {
           "title": "Title",
           "name": "title",
-          "type": "string"
+          "type": "string",
+          "required": true
+        },
+        {
+          "title": "Slug",
+          "name": "slug",
+          "type": "string",
+          "description": "URL-friendly identifier for internal posts"
         },
         {
           "title": "Description",
@@ -44,16 +65,23 @@
           "type": "string"
         },
         {
-          "title": "Publishing date",
-          "name": "date",
+          "title": "Created date",
+          "name": "created_at",
           "type": "datetime",
           "default": "{{now}}",
           "isPublishDate": true
         },
         {
+          "title": "Updated date",
+          "name": "updated_at",
+          "type": "datetime",
+          "isModifiedDate": true
+        },
+        {
           "title": "Is in draft",
           "name": "draft",
-          "type": "boolean"
+          "type": "boolean",
+          "default": false
         },
         {
           "title": "Tags",
@@ -61,24 +89,40 @@
           "type": "tags"
         },
         {
-          "title": "Origin",
-          "name": "origin",
-          "type": "choice",
-          "choices": [
-            "qiita",
-            "zenn",
-            "hatena"
-          ]
+          "title": "External URL",
+          "name": "url",
+          "type": "string",
+          "description": "URL for external posts (Zenn, Qiita, etc.)"
+        }
+      ]
+    },
+    {
+      "name": "page",
+      "pageBundle": false,
+      "fields": [
+        {
+          "title": "Title",
+          "name": "title",
+          "type": "string",
+          "required": true
         },
         {
-          "title": "lastmod",
-          "name": "lastmod",
-          "type": "datetime"
-        },
-        {
-          "title": "image",
-          "name": "image",
+          "title": "Description",
+          "name": "description",
           "type": "string"
+        },
+        {
+          "title": "Created date",
+          "name": "created_at",
+          "type": "datetime",
+          "default": "{{now}}",
+          "isPublishDate": true
+        },
+        {
+          "title": "Updated date",
+          "name": "updated_at",
+          "type": "datetime",
+          "isModifiedDate": true
         }
       ]
     }

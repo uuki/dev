@@ -1,0 +1,61 @@
+---
+import { siteConfig, iconMap } from '@/data/constants';
+
+import styles from './ShareButton.module.scss';
+
+type ShareType = 'x' | 'hatena';
+
+interface Props {
+  type: ShareType;
+  pathname: string;
+  text?: string;
+}
+
+const { type, pathname, text = '' } = Astro.props;
+
+const url = encodeURIComponent(`${siteConfig.siteUrl}${pathname}`);
+const urlText = text ? encodeURIComponent(text) : '';
+
+const qs = (params: Record<string, string>) =>
+  Object.entries(params).map(([k, v]) => `${k}=${v}`).join('&');
+
+const shareConfig = {
+  x: {
+    name: 'X (Twitter)',
+    shareUrl: `https://x.com/intent/post?${qs({ url, ...(urlText && { text: urlText }) })}`,
+    icon: iconMap['x'],
+    color: '#000000',
+  },
+  hatena: {
+    name: 'Hatena Bookmark',
+    shareUrl: `http://b.hatena.ne.jp/add?${qs({ url, mode: 'confirm' })}`,
+    icon: '',
+    color: '#00a4de',
+  },
+} satisfies Record<ShareType, { name: string; shareUrl: string; icon: string; color: string }>;
+
+const { name, shareUrl, icon, color } = shareConfig[type];
+---
+
+<button
+  type="button"
+  class={styles.socialButton}
+  data-share-url={shareUrl}
+  aria-label={`Share on ${name}`}
+  style={`--_color: ${color};`}
+>
+  <Fragment set:html={icon}></Fragment>
+</button>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll<HTMLElement>('[data-share-url]').forEach((button) => {
+      button.addEventListener('click', (e) => {
+        const shareUrl = (e.currentTarget as HTMLElement).getAttribute('data-share-url');
+        if (shareUrl) {
+          window.open(shareUrl, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=580');
+        }
+      });
+    });
+  });
+</script>

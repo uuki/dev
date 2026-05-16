@@ -1,0 +1,45 @@
+---
+import { getAllTags, getAllTagNames } from '@/utils/tags';
+
+import AppLayout from '@/layouts/App.astro';
+import Content from '@/components/layouts/Content/Content.astro';
+
+import HeadingPage from '@/components/ui/HeadingPage/HeadingPage.astro';
+
+
+import styles from './tags.module.scss';
+
+const tagCounts = await getAllTags();
+const tagNames = await getAllTagNames();
+
+// Create a map of slugified tags to original tag names
+const slugToName: Record<string, string> = {};
+tagNames.forEach((name) => {
+  const slug = name.toLowerCase().replace(/\s+/g, '-');
+  slugToName[slug] = name;
+});
+
+// Sort tags by count (descending)
+const sortedTags = Object.keys(tagCounts).sort((a, b) => tagCounts[b] - tagCounts[a]);
+---
+
+<AppLayout meta={{ title: 'Tags', description: 'タグ一覧' }}>
+  <div class={styles.tags}>
+    <Content>
+      <div class={styles.tags__content}>
+        <div class={styles.tags__header}>
+          <HeadingPage heading='h1' class={styles.tags__heading}>Tags</HeadingPage>
+        </div>
+
+        <ul class={styles.tags__list}>
+          {sortedTags.map((tagSlug) => (
+            <li>
+              <a href={`/tags/${tagSlug}`} class={styles.tags__item}>{slugToName[tagSlug] || tagSlug}</a>
+              <span class={styles.tags__count}>({tagCounts[tagSlug]})</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </Content>
+  </div>
+</AppLayout>

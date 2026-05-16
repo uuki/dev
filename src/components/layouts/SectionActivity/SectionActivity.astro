@@ -1,0 +1,47 @@
+---
+import { type Activity } from '@/types/activity';
+import ContentLayout from '@/components/layouts/Content/Content.astro';
+import Timeline from '@/components/objects/Timeline/Timeline.astro';
+import HeadingSection from '@/components/ui/HeadingSection/HeadingSection.astro';
+import ProfileCard from '@/components/ui/ProfileCard/ProfileCard.astro';
+
+import styles from './SectionActivity.module.scss';
+
+interface Props {
+  data: Activity[];
+}
+
+const props = Astro.props;
+
+type YearGroup = { year: number; items: Activity[] };
+
+const activitiesByYear = props.data.reduce<YearGroup[]>((groups, activity) => {
+  const year = Number(activity.date.slice(0, 4));
+  const group = groups.find((g) => g.year === year);
+  if (group) {
+    group.items.push(activity);
+  } else {
+    groups.push({ year, items: [activity] });
+  }
+  return groups;
+}, []);
+---
+<section class:list={[styles.sectionActivity, 'u-effect']} data-effect-root="progress-x">
+  <div class={ styles.sectionActivity__content }>
+    <div class={ styles.sectionActivity__profile }>
+      <ProfileCard showProgress={true} />
+    </div>
+    <div class={ styles.sectionActivity__timeline }>
+      <div class={ styles.sectionActivity__header }>
+        <HeadingSection heading="h2">Activity Log</HeadingSection>
+      </div>
+      {activitiesByYear.map(({ year, items }) => (
+        <Timeline year={year} data={items} />
+      ))}
+    </div>
+  </div>
+</section>
+
+<script define:vars={{ activitiesByYear }}>
+  console.log(activitiesByYear);
+</script>

@@ -1,9 +1,10 @@
 {
-  "css.customData": [
-    "./.vscode/custom.css.json"
-  ],
-  "[markdown]": {
+  "files.associations": {
+    "*.css": "postcss"
   },
-  "[mdx]": {
-  }
+  "yaml.schemaStore.enable": false,
+  "css.customData": [
+    "./.vscode/css.json"
+  ],
+  "typescript.updateImportsOnFileMove.enabled": "always"
 }

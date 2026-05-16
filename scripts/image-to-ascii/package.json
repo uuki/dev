@@ -1,0 +1,22 @@
+{
+  "type": "module",
+  "bin": {
+    "img2ascii": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/cli.ts",
+    "example": "tsx src/cli.ts ./data/input.png ./data/output.txt",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "ascii-art": "^2.8.5",
+    "commander": "^14.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.9.1",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  }
+}

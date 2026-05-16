@@ -1,0 +1,65 @@
+@use "sass:map";
+@use "sass:math";
+@use "sass:meta";
+@use '@/styles/tools/functions/rem' as *;
+
+$viewports: (
+  desktop: 1280,
+  mobile: 375,
+);
+
+@function _resolve-base($base) {
+  @if meta.type-of($base) == number {
+    @return $base;
+  }
+
+  @if map.has-key($viewports, $base) {
+    @return map.get($viewports, $base);
+  }
+
+  @error "Unknown base-vw `#{$base}`. Available: #{map.keys($viewports)}";
+}
+
+@function liquid($size-at-base, $base-vw: desktop, $minmax: null) {
+  $base: _resolve-base($base-vw);
+  $preferred: calc(#{$size-at-base} * 100vw / #{$base});
+
+  @if $minmax != null {
+    $min: map.get($minmax, min);
+    $max: map.get($minmax, max);
+
+    @return clamp(
+      #{rem($min)},
+      #{$preferred},
+      #{rem($max)}
+    );
+  }
+
+  @return $preferred;
+}
+
+@function liquid-range($min-vw: 375, $max-vw: 1280, $max-size, $min-size) {
+  @if math.compatible($min-size, 1%) {
+    $max-px: math.div($max-size, 1%) * 0.01 * $min-vw;
+    $min-px: math.div($min-size, 1%) * 0.01 * $max-vw;
+    $slope: math.div($min-px - $max-px, $max-vw - $min-vw);
+    $slope-vw: math.div(math.round($slope * 10000), 100);
+    $intercept: math.div(math.round(($max-px - $slope * $min-vw) * 100), 100);
+
+    @return clamp(
+      #{$min-size},
+      unquote("calc(#{$intercept}px + #{$slope-vw}vw)"),
+      #{$max-size}
+    );
+  }
+
+  $slope: math.div($min-size - $max-size, $max-vw - $min-vw);
+  $vw-rate: math.div(math.round($slope * 100 * 100), 100) * 1vw;
+  $intercept: math.div(math.round(($max-size - ($slope * $min-vw)) * 100), 100);
+
+  @return clamp(
+    #{$min-size},
+    unquote("calc(#{$intercept} - #{abs($vw-rate)})"),
+    #{$max-size}
+  );
+}

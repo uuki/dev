@@ -1,0 +1,39 @@
+---
+import { footerLinks } from '@/data/constants';
+
+import { siteConfig, iconMap } from '@/data/constants';
+
+import styles from './Footer.module.scss';
+const currentYear = new Date().getFullYear();
+---
+
+<footer class={styles.footer}>
+  <nav class={styles.footer__content}>
+    <div class={styles.footer__socialArea}>
+      <ul class:list={[styles.footer__list, 'u-effect']} data-effect="anchor-hover">
+        {siteConfig.social.map((it) => (
+          <li>
+            <a href={it.url} target="_blank" rel="noopener" class={styles.footer__socialItem} aria-label={it.label}>
+              <Fragment set:html={iconMap[it.type]} />
+            </a>
+          </li>
+        ))}
+        <li>
+          <a href={siteConfig.feeds.atom} target="_blank" rel="noopener" class={styles.footer__socialItem} aria-label="RSS">
+            <Fragment set:html={iconMap['rss']} />
+          </a>
+        </li>
+      </ul>
+    </div>
+    <ul class={styles.footer__links}>
+      {footerLinks.map((item) => (
+        <li>
+          <a href={item.path} class:list={[styles.listMenu__item, 'u-effect']} data-effect="line-in-out">{item.name}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+  <div class={styles.footer__copyright}>
+    <small>© 2017-{currentYear} uuki.dev</small>
+  </div>
+</footer>

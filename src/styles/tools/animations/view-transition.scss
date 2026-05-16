@@ -1,0 +1,46 @@
+@keyframes vt-old {
+  0% {
+    opacity: 1;
+    transform:
+      translate3d(0%, 0%, 0)
+      scale(1);
+  }
+  50% {
+    transform:
+      translate3d(0%, 0%, 0)
+      scale(0.98);
+  }
+  75% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+    transform:
+      translate3d(0, -6svh, 0)
+      scale(0.98);
+  }
+}
+
+@keyframes vt-new {
+  0% {
+    opacity: 0;
+    transform:
+      translate3d(0%, 0%, 0)
+      scale(1);
+  }
+  50% {
+    opacity: 0;
+    transform:
+      translate3d(0%, 20%, 0)
+      scale(1.2);
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform:
+      translate3d(0%, 0%, 0)
+      scale(1);
+  }
+}

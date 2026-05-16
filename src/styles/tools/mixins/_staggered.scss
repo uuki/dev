@@ -1,0 +1,10 @@
+@mixin staggeredPer($length, $property: 'transition') {
+  &:nth-child(-n+#{$length}) {
+    animation: none;
+  }
+  @for $i from 0 to $length {
+    &:nth-child(n+#{$length + 1}):nth-child(#{$length}n+#{$i + 1}) {
+      #{$property}-delay: #{($i * 0.14) - ($i * 0.08)}s;
+    }
+  }
+}

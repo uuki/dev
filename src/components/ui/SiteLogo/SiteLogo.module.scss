@@ -1,0 +1,29 @@
+.siteLogo {
+  display: flex;
+  align-items: center;
+}
+
+.siteLogo__image {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.siteLogo__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: rem(20);
+  height: rem(20);
+}
+
+.siteLogo__text {
+  margin-left: rem(10);
+  @include typography-nav('medium');
+  svg {
+    width: auto;
+    height: fit-content;
+    > path {
+      fill: #fff;
+    }
+  }
+}

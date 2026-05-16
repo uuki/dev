@@ -1,0 +1,36 @@
+@mixin line-in-out-multi($dur: 0.3s) {
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  background-position: right bottom;
+  transition: background-size $dur ease-in-out;
+  @media (--hover) {
+    &:hover {
+      background-position: left bottom;
+      background-size: 100% 1px;
+    }
+  }
+}
+
+@mixin line-in-out($y: -2px, $dur: 0.3s) {
+  position: relative;
+  text-decoration: none;
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: $y;
+    right: 0;
+    width: 0;
+    height: 1px;
+    background-color: currentColor;
+    transition: width $dur ease-in-out;
+  }
+  @media (--hover) {
+    &:hover::after {
+      width: 100%;
+      left: 0;
+      right: auto;
+    }
+  }
+}

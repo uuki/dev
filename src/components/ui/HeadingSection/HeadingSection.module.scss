@@ -1,0 +1,4 @@
+.headingSection {
+  @include typography-heading('medium');
+  color: var(--color-text-primary);
+}

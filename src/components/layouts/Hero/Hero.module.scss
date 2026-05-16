@@ -1,0 +1,35 @@
+.hero {
+  display: flex;
+  height: max(rem(700), 100svh);
+}
+
+.hero__console {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: liquid(
+    $size-at-base: 40,
+    $minmax: (
+      min: 20,
+      max: 60
+    )
+  );
+}
+
+@media (--mobile) {
+  .hero {
+    padding-block: rem(40);
+  }
+  .hero__console {
+    align-items: flex-end;
+    width: 100%;
+  }
+}
+
+@media (--desktop) {
+  .hero__console {
+    align-items: center;
+    width: 50%;
+  }
+}

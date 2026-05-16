@@ -1,0 +1,65 @@
+---
+import type { GetStaticPaths, Page } from 'astro';
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import { normalizeBlogEntry } from '@/utils/normalizeActivities';
+
+import AppLayout from '@/layouts/App.astro';
+import Content from '@/components/layouts/Content/Content.astro';
+import Pagination from '@/components/objects/Pagination/Pagination.astro';
+import PostCard from '@/components/ui/PostCard/PostCard.astro';
+import HeadingPage from '@/components/ui/HeadingPage/HeadingPage.astro';
+
+import styles from './archive.module.scss';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const allPosts = await getCollection('blog', ({ data }) => {
+    return !data.draft;
+  });
+
+  // Sort posts by created_at (newest first)
+  const sortedPosts = allPosts.sort((a, b) => {
+    return b.data.created_at.getTime() - a.data.created_at.getTime();
+  });
+
+  const POSTS_PER_PAGE = 10;
+
+  return paginate(sortedPosts, { pageSize: POSTS_PER_PAGE });
+}) satisfies GetStaticPaths;
+
+interface Props {
+  page: Page<CollectionEntry<'blog'>>;
+}
+
+const { page } = Astro.props;
+
+const posts = page.data.map(normalizeBlogEntry);
+const meta = {
+  title: 'All Posts',
+  description: 'uuki.devのブログ記事一覧',
+};
+---
+
+<AppLayout meta={meta}>
+  <div class={styles.archive}>
+    <Content variant='narrow'>
+      <div class={styles.archive__content}>
+        <div class={styles.archive__header}>
+          <HeadingPage heading='h1'>All Posts</HeadingPage>
+        </div>
+        <ul class={styles.archive__list}>
+          {posts.map((post) => (
+            <li>
+              <PostCard post={post} />
+            </li>
+          ))}
+        </ul>
+        <nav class={styles.archive__pagination}>
+          {page.lastPage > 1 && (
+            <Pagination currentPage={page.currentPage} totalPages={page.lastPage} basePath="/blog" />
+          )}
+        </nav>
+      </div>
+    </Content>
+  </div>
+</AppLayout>

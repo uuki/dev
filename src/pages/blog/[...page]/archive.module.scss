@@ -1,0 +1,34 @@
+.archive__content {
+  padding-block: var(--size-page-block-padding);
+}
+
+.archive__header {
+  margin-bottom: rem(20);
+}
+
+.archive__list {
+  display: grid;
+}
+
+.archive__postCard {
+  display: flex;
+  height: 100%;
+}
+
+.archive__pagination {
+  margin-top: rem(40);
+}
+
+@media (--mobile) {
+  .archive__list {
+    grid-template-columns: 1fr;
+    gap: rem(20);
+  }
+}
+
+@media (--desktop) {
+  .archive__list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: rem(30);
+  }
+}

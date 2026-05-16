@@ -1,0 +1,17 @@
+@media (--mobile) {
+  .u-hidden-mobile {
+    display: none;
+  }
+}
+
+@media (--desktop-small) {
+  .u-hidden-desktop-small {
+    display: none;
+  }
+}
+
+@media (--desktop) {
+  .u-hidden-desktop {
+    display: none;
+  }
+}

@@ -1,0 +1,85 @@
+---
+import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
+import { type Activity } from '@/types/activity';
+import { format } from 'date-fns';
+
+import PostCard from '@/components/ui/PostCard/PostCard.astro';
+import ReleaseCard from '@/components/ui/ReleaseCard/ReleaseCard.astro';
+
+import styles from './Timeline.module.scss';
+import iconWrite from '@/assets/icons/write.svg';
+import iconRocket from '@/assets/icons/rocket.svg';
+import iconRibbon from '@/assets/icons/ribbon.svg';
+import iconGitHub from '@/assets/icons/github.svg';
+import iconComment from '@/assets/icons/comment.svg';
+
+interface Props {
+  year: number;
+  data: Activity[];
+}
+
+const mapIcons = {
+  article: iconWrite,
+  release: iconRocket,
+  contribution: iconGitHub,
+  award: iconRibbon,
+};
+
+const props = Astro.props;
+
+const PLACEHOLDER_PATTERN = /\{\{(\w+)\}\}/g;
+
+const titleMap = {
+  article: 'Posted on {{date}}',
+  release: 'Released on {{date}}',
+  contribution: 'Last year contributions {{total}}',
+} as const satisfies Partial<Record<Activity['kind'], string>>;
+
+const componentMap: Partial<Record<Activity['kind'], AstroComponentFactory>> = {
+  article: PostCard,
+  release: ReleaseCard,
+} as const;
+
+const getComponentByItem = (item: Activity) =>
+  componentMap[item.kind] ?? null;
+
+const getTitleByItem = (item: Activity) => {
+  const template = titleMap[item.kind] || '';
+  return template.replace(PLACEHOLDER_PATTERN, (_, key) => {
+    if (key === 'date') {
+      return format(new Date(item.date), 'MMM. d');
+    }
+    if (key === 'total' && 'total' in item) {
+      return item.total.toLocaleString();
+    }
+    return '';
+  });
+};
+
+---
+
+<section class={ styles.timeline }>
+  <div class={ styles.timeline__header }>
+    <h3 class={ styles.timeline__year } aria-label={`Timeline year ${props.year}`} data-year={`'${String(props.year).slice(-2)}`}></h3>
+  </div>
+  <div class={ styles.timeline__row }>
+    {props.data.map((item) => (
+      <div class:list={[styles.timeline__item]} data-type={['article', 'release'].includes(item.kind) === false ? 'misc' : ''}>
+        <div class={ styles.timeline__meta }>
+          <span class:list={[styles.timeline__icon]}>
+            <img src={mapIcons[item.kind]?.src || iconComment.src} alt="" />
+          </span>
+          <h3 class={ styles.timeline__title }>{getTitleByItem(item)}</h3>
+        </div>
+        <div class:list={[styles.timeline__content]}>
+          <div>
+            {(() => {
+              const Component = getComponentByItem(item);
+              return Component ? <Component post={item} /> : null;
+            })()}
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

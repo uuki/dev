@@ -1,0 +1,61 @@
+.toast {
+  position: fixed;
+  bottom: 5vh;
+  right: 3vw;
+  display: grid;
+  align-items: center;
+  gap: rem(16);
+  grid-template-columns: 1fr auto;
+  width: min(100%, rem(360));
+  padding: rem(16) rem(20);
+  border-radius: rem(16);
+  transform: translateY(20%);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s ease;
+  transition-property: opacity, transform;
+  background-color: var(--color-alt-yellow-100);
+  &:global(.is-active) {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+}
+
+.toast__message {
+  font-size: rem(14);
+  color: #fff;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.toast__close {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  appearance: none;
+  border: none;
+  cursor: pointer;
+  padding: rem(4);
+  width: rem(32);
+  aspect-ratio: 1;
+  color: rgba(#fff, 0.6);
+  &::after {
+    content: '';
+    width: rem(16);
+    aspect-ratio: 1;
+    background:
+      linear-gradient(45deg,
+        transparent calc(50% - 1px),
+        currentColor calc(50% - 1px),
+        currentColor calc(50% + 1px),
+        transparent calc(50% + 1px)),
+      linear-gradient(-45deg,
+        transparent calc(50% - 1px),
+        currentColor calc(50% - 1px),
+        currentColor calc(50% + 1px),
+        transparent calc(50% + 1px));
+
+  }
+}

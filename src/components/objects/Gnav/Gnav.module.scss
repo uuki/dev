@@ -1,0 +1,28 @@
+.gnav__list {
+  display: flex;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.08);
+  border-radius: var(--corners-md);
+}
+
+.gnav__item {
+  @include is-supported('anchor-position') {
+    padding-inline: rem(8);
+  }
+  a {
+    display: inline-block;
+    color: var(--color-text-primary);
+    [data-theme="light"] & {
+      color: var(--color-alt-text-primary);
+    }
+    @include typography-nav('small');
+    @include support-switch('anchor-position') using ($mode) {
+      @if $mode == supported {
+        padding: rem(8) rem(6);
+      }
+      @else {
+        @include line-in-out;
+      }
+    }
+  }
+}

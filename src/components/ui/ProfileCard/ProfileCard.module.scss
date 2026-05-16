@@ -1,0 +1,300 @@
+@use "sass:math";
+@use "sass:list";
+
+// スプライトの総フレーム数
+$total-frames: 4;
+// フレームアニメーションの順序
+$base-frames: 0, 2, 3, 2, 3, 1;
+// view-timeline のエリア内におけるanimationループ数
+$loops: 3;
+
+$frames: ();
+$max-index: $total-frames - 1;
+
+// 各ループにおけるフレームのリストを生成
+@for $i from 1 through $loops {
+  $frames: list.join($frames, $base-frames, comma);
+}
+$count: list.length($frames);
+
+// 各フレームのアニメーションを定義
+@keyframes _blink {
+  @for $i from 1 through $count {
+    $start: math.percentage(math.div($i - 1, $count));
+    $end: math.percentage(math.div($i, $count)) - 0.001%;
+    $frame: list.nth($frames, $i);
+
+    #{$start},
+    #{$end} {
+      background-position:
+        calc(#{$frame} * 100% / #{$max-index})
+        50%;
+    }
+  }
+}
+
+@keyframes _rotate {
+  0% {
+    rotate: 0deg;
+  }
+  100% {
+    rotate: 360deg;
+  }
+}
+
+.profileCard {
+  --_content-side: #{rem(24)};
+
+  position: relative;
+  color: var(--color-text-primary);
+  border-radius: var(--corners-lg);
+  overflow: hidden;
+  z-index: 0;
+
+  [data-theme="light"] & {
+    color: var(--color-alt-text-primary);
+  }
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+  &::before {
+    background-color: #2A3340;
+    background-color: relative-lightness(var(--color-base-surface-2), 21);
+    backdrop-filter: blur(rem(20));
+    z-index: -1;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    @include texture-grain() {
+      opacity: 0.9;
+    };
+  }
+}
+
+.profileCard__header {
+  --_side-radius: #{rem(24)};
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: rem(16);
+  padding: rem(16) rem(32);
+  // background-color: #4c515b;
+  background-color: var(--color-border-default);
+  z-index: 0;
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    block-size: var(--_side-radius);
+    aspect-ratio: 1;
+    corner-shape: scoop;
+    background-color: inherit;
+    z-index: -1;
+    pointer-events: none;
+    @include is-not-supported('corner-shape') {
+      display: none;
+    }
+  }
+  &::before {
+    border-bottom-right-radius: 100vmax;
+    left: 0;
+  }
+  &::after {
+    border-bottom-left-radius: 100vmax;
+    right: 0;
+  }
+  @media (--hover) {
+    &:hover {
+      .profileCard__sprite {
+        svg {
+          scale: 1.28;
+        }
+      }
+      .profileCard__name {
+        > span {
+          --_t: var(--_h);
+        }
+      }
+    }
+  }
+}
+
+.profileCard__sprite {
+  position: relative;
+  display: block;
+  width: rem(61);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  z-index: 0;
+  cursor: crosshair;
+
+  svg {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    animation: _rotate 30s linear infinite;
+    transition: scale 0.2s;
+    z-index: -1;
+    path {
+      transform: scale(1.2);
+      fill: rgba(255,255,255,0.9);
+    }
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('@/assets/images/sprite.webp');
+    background-repeat: no-repeat;
+    background-size: 400% auto; // 100% * frames
+    animation: _blink both linear; // steps(#{$step-count}, end) ではなく、linear
+    animation-timeline: --section-progress;
+    filter: grayscale(1);
+  }
+}
+
+.profileCard__name {
+  display: flex;
+  flex-wrap: wrap;
+  font-family: var(--font-rubik);
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  > span {
+    --_h: 1.2em;
+    --_step: 45ms;
+    --_delay: calc((sibling-index() - 1) * var(--_step));
+    font-size: rem(40);
+    line-height: var(--_h);
+    color: transparent;
+    text-shadow:
+      0 calc(-1 * var(--_t, 0em)) relative-alpha(var(--color-text-primary), 0.4),
+      0 calc(var(--_h) - var(--_t, 0em)) relative-alpha(var(--color-text-primary), 1);
+    overflow: hidden;
+    transition: text-shadow .35s var(--_delay);
+  }
+  img {
+    width: rem(48);
+    aspect-ratio: 1;
+    border-radius: 50%;
+  }
+}
+.profileCard__detail {
+  display: flex;
+  flex-direction: column;
+  gap: rem(24);
+  padding: rem(16) var(--_content-side);
+}
+.profileCard__item {
+  display: flex;
+  flex-direction: column;
+  gap: rem(12);
+}
+.profileCard__title {
+  font-size: rem(12);
+}
+
+.profileCard__progress {
+  width: 100%;
+  height: rem(6);
+  border-radius: rem(6);
+  &[value] {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  &::-webkit-progress-bar,
+  &::-moz-progress-bar {
+    background: rgba(255, 255, 255, 0.78);
+  }
+  &::after {
+    background: #6D7D5F;
+  }
+}
+.profileCard__list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: rem(16);
+  > li {
+    display: flex;
+    flex-direction: column;
+    gap: rem(8);
+    border-bottom: 1px solid rgba(#fff, 0.18);
+    padding-bottom: rem(8);
+  }
+}
+.profileCard__listHeader {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: rem(10);
+  font-size: rem(12);
+}
+.profileCard__listHeading {
+  font-size: rem(11);
+  font-weight: 500;
+}
+.profileCard__listYears {
+  font-size: rem(11);
+  margin-left: auto;
+}
+.profileCard__listDescription {
+  color: relative-alpha(var(--color-text-tertiary), 0.5);
+  @include typography-description('xsmall');
+}
+.profileCard__note {
+  @include typography-description('xsmall');
+  line-height: 1.4;
+  font-weight: 500;
+  color: relative-alpha(var(--color-text-primary), 0.5);
+  background-color: rgba(#fff, 0.05);
+  padding: rem(8) rem(10);
+  border-radius: calc(var(--corners-lg) - rem(16));
+  word-break: break-word;
+  [data-theme="light"] & {
+    color: relative-alpha(var(--color-alt-text-primary), 0.5);
+  }
+}
+.profileCard__more {
+  font-size: rem(14);
+  font-weight: 500;
+  @include details-accordion(0.3s, var(--ease-base));
+  > summary {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    color: var(--color-alt-yellow-100);
+    [data-theme="light"] & {
+    }
+    &::after {
+      content: '';
+      margin-left: rem(6);
+      font-size: rem(10);
+      width: 0;
+      border-top: 5px solid currentColor;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      transition: rotate 0.3s;
+      margin-top: 1px;
+    }
+  }
+  &[open] > summary::after {
+    rotate: 180deg;
+  }
+}
+.profileCard__moreContent {
+  margin-top: rem(12);
+}
+
+@media(--desktop) {
+  .profileCard {
+    min-width: rem(298);
+  }
+}

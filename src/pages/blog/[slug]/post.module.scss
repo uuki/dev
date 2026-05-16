@@ -1,0 +1,115 @@
+.post__content {
+  width: min(rem(800), 100%);
+  padding-block: var(--size-page-block-padding);
+  margin-inline: auto;
+}
+
+.post__heading {
+  font-size: rem(22);
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+  view-transition-name: var(--slug);
+  color: var(--color-text-primary);
+  @media (--desktop) {
+    font-size: rem(28);
+  }
+}
+
+.post__tags {
+  margin-top: rem(16);
+  display: flex;
+  gap: rem(8);
+}
+
+.post__meta {
+  display: flex;
+  align-items: center;
+  gap: rem(12);
+  margin-top: rem(16);
+
+  [lang="en"] {
+    font-size: rem(13);
+  }
+
+  > li {
+    display: flex;
+    align-items: center;
+    gap: rem(6);
+    font-size: rem(12);
+    font-weight: 700;
+    color: var(--color-text-secondary);
+
+    &:not(:last-child)::after {
+      content: '|';
+      margin-left: rem(4);
+      color: var(--color-text-secondary);
+    }
+    &:last-child::after {
+      display: none;
+    }
+  }
+
+  @media (--mobile) {
+    margin-top: rem(8);
+  }
+}
+.post__metaIcon {
+  display: flex;
+  &[data-icon="book-open"] svg {
+    width: rem(16);
+    margin-right: -2px;
+  }
+  svg {
+    width: rem(14);
+  }
+}
+
+.post__heroImage {
+  margin-top: rem(40);
+  border-radius: rem(8);
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+  @media (--mobile) {
+    margin-top: rem(30);
+    border-radius: rem(6);
+  }
+}
+
+.post__heroImageElement {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+.post__body {
+  padding: rem(50);
+  background-color: var(--color-base-surface-2);
+  border-radius: var(--corners-lg);
+  margin-top: rem(80);
+  color: var(--color-text-primary);
+  @media (--mobile) {
+    margin-bottom: rem(40);
+  }
+
+  @media (--mobile) {
+    padding: rem(25) rem(20);
+  }
+}
+
+.post__share {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: rem(20);
+  margin-top: rem(80);
+  padding-top: rem(40);
+  border-top: 1px solid #e5e7eb;
+
+  @media (--mobile) {
+    margin-top: rem(40);
+    padding-top: rem(25);
+  }
+}

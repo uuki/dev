@@ -1,0 +1,21 @@
+@mixin details-accordion($dur: 0.2s, $ease: ease) {
+  &::details-content {
+    content-visibility: unset;
+    display: block grid;
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition: grid-template-rows #{$dur} #{$ease};
+    }
+  }
+  &:not([open])::details-content {
+    grid-template-rows: 0fr;
+  }
+  &[open]::details-content {
+    grid-template-rows: 1fr;
+  }
+
+  // for animating grid-template-rows wrapper
+  > * {
+    overflow: hidden;
+  }
+}

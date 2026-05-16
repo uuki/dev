@@ -1,0 +1,23 @@
+---
+import { navLinks } from '@/data/constants';
+import styles from './Menu.module.scss';
+
+const gnavData = navLinks.map((it) => ({
+  ...it,
+  isActive: it.path === Astro.url.pathname,
+}));
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+
+---
+<ul id="popover-menu" class:list={[styles.menu, 'js-menu', className]} popover>
+  {gnavData.map((item) => (
+    <li>
+      <a href={item.path} class:list={[item.isActive ? '-active' : '']}><span>{item.name}</span></a>
+    </li>
+  ))}
+</ul>

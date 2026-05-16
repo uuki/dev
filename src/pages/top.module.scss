@@ -1,0 +1,76 @@
+@use '@/styles/tools/functions/rem' as *;
+
+.top__content {
+  // --_speed: 4;
+  // --_clamped: clamp(0, var(--scroll-y) * var(--_speed), 1);
+
+  // transform: translateY(calc(10% * (1 - var(--_clamped))));
+  // opacity: calc(var(--_clamped) * 1.2);
+}
+
+// .top__container {
+//   max-width: rem(700);
+//   margin: 0 auto;
+//   padding-left: rem(20);
+//   padding-right: rem(20);
+
+//   @media (--desktop) {
+//     padding-left: rem(40);
+//     padding-right: rem(40);
+//   }
+// }
+
+// .top__hero {
+//   display: flex;
+//   justify-content: center;
+//   margin-bottom: rem(80);
+
+//   @media (--mobile) {
+//     margin-bottom: rem(40);
+//   }
+// }
+
+.top__content {
+  //
+}
+
+// .top__posts {
+//   list-style: none;
+//   margin: 0;
+//   padding: 0;
+// }
+
+// .top__postItem {
+//   margin-top: rem(30);
+
+//   &:first-child {
+//     margin-top: 0;
+//   }
+// }
+
+// .top__more {
+//   display: flex;
+//   justify-content: flex-end;
+//   margin-top: rem(75);
+
+//   @media (--mobile) {
+//     margin-top: rem(36);
+//   }
+// }
+
+// .top__moreLink {
+//   display: flex;
+//   align-items: center;
+//   font-size: rem(14);
+//   font-weight: 700;
+// }
+
+// .top__moreIcon {
+//   margin-left: rem(3);
+// }
+
+@media (--mobile) {
+  .top__content {
+    scroll-margin-top: var(--size-header-with-safety);
+  }
+}

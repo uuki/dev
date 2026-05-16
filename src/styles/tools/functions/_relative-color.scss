@@ -1,0 +1,31 @@
+@use 'sass:string';
+@use 'sass:map';
+
+@function relative-alpha($origin-color, $alpha, $color-function: 'hsl') {
+  $color-spaces: (
+    'hsl': 'h s l',
+    'hwb': 'h w b',
+    'lab': 'l a b',
+    'lch': 'l c h',
+    'oklab': 'l a b',
+    'oklch': 'l c h',
+    'rgb': 'r g b'
+  );
+  $channels: map.get($color-spaces, $color-function);
+  @return string.unquote('#{$color-function}(from #{$origin-color} #{$channels} / #{$alpha})');
+}
+
+// $lightness: 0-100(%)
+@function relative-lightness($origin-color, $lightness, $color-function: 'hsl') {
+  $color-spaces: (
+    'hsl': 'h s calc(#{$lightness} * 1%)',
+    'hwb': 'h calc(#{$lightness} * 1%) b',
+    'lab': 'calc(#{$lightness} * 1%) a b',
+    'lch': 'calc(#{$lightness} * 1%) c h',
+    'oklab': 'calc(#{$lightness} * 1%) a b',
+    'oklch': 'calc(#{$lightness} * 1%) c h',
+    'rgb': 'r g b'
+  );
+  $channels: map.get($color-spaces, $color-function);
+  @return string.unquote('#{$color-function}(from #{$origin-color} #{$channels})');
+}

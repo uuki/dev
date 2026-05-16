@@ -1,0 +1,20 @@
+.badgeOrigin {
+  display: flex;
+  width: fit-content;
+  gap: rem(6);
+  align-items: center;
+  font-size: rem(12);
+  padding: rem(4) rem(6);
+  font-weight: 600;
+  border-radius: var(--corners-sm);
+  color: var(--color-text-primary);
+  background-color: relative-alpha(var(--color-text-tertiary), 0.1);
+}
+
+.badgeOrigin__text {
+  font-size: rem(13.6);
+
+  &:first-child {
+    margin-left: 0;
+  }
+}

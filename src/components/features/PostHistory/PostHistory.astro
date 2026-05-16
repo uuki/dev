@@ -1,0 +1,75 @@
+---
+/**
+ * PostHistory Component
+ */
+import type { PostRevision } from '@/types/post';
+import { getCompareUrl, getFileRevision } from '@/utils/git';
+import { siteConfig, iconMap } from '@/data/constants';
+
+import styles from './PostHistory.module.scss';
+
+interface Props {
+  history: PostRevision[];
+  repoUrl?: string;
+}
+
+export const getHistory = (slug: string) => {
+  return siteConfig.git?.enabled
+    ? getFileRevision({
+        slug: `blog/${slug}`,
+        limit: siteConfig.git.maxCommits || 10
+      })
+    : [];
+}
+
+const { history, repoUrl } = Astro.props;
+
+// 日付フォーマット関数（date-fns互換）
+const formatDate = (dateStr: string): string => {
+  const date = new Date(dateStr);
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = months[date.getMonth()];
+  const year = date.getFullYear();
+  return `${day} ${month} ${year}`;
+};
+---
+
+<details class:list={[styles.postHistory, 'u-details-reset', 'u-details-dropdown']}>
+  <summary class={styles.postHistory__summary}>
+    <Fragment set:html={iconMap['clock']} />
+    編集履歴
+  </summary>
+  <div class={styles.postHistory__dropdown}>
+    <div class={styles.postHistory__scroll}>
+      <ul class={styles.postHistory__list}>
+        {history.map((item, index) => {
+          const isInitialCommit = index >= history.length - 1;
+          const hasCompareLink = !isInitialCommit && repoUrl && history[index + 1];
+          const compareUrl = hasCompareLink
+            ? getCompareUrl(repoUrl!, item.hash, history[index + 1].hash)
+            : null;
+          const Component = compareUrl ? 'a' : 'div';
+          const props = compareUrl ? { href: compareUrl, target: "_blank", rel: "noopener" } : {};
+
+          return (
+            <li data-index={index}>
+              <Component
+                {...props}
+                class={styles.postHistory__item}
+              >
+                <div class={styles.postHistory__content}>
+                  <span class={styles.postHistory__hash}>{item.hash}</span>
+                  <span class={styles.postHistory__date}>
+                    {formatDate(item.authorDate)}
+                    {isInitialCommit && <Fragment set:html={'<br> (Initial commit)'} />}
+                  </span>
+                </div>
+              </Component>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </div>
+</details>

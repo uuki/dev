@@ -1,0 +1,49 @@
+.author {
+  display: flex;
+}
+
+.author__image {
+  align-self: flex-start;
+  width: rem(60);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.author__info {
+  margin-left: rem(16);
+  letter-spacing: 0.02em;
+}
+
+.author__name {
+  font-size: rem(28);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--color-text-primary);
+}
+
+.author__title {
+  font-size: rem(11);
+  font-weight: 700;
+  margin-top: rem(3);
+  color: var(--color-text-tertiary);
+}
+
+.author__socials {
+  display: flex;
+  gap: rem(8);
+  margin-top: rem(12);
+  margin-left: calc(rem(6) * -1);
+  a {
+    display: flex;
+    color: var(--color-text-tertiary);
+    transition: opacity 0.3s ease;
+    padding: rem(6);
+
+    @media (--hover) {
+      &:hover {
+        opacity: 0.6;
+      }
+    }
+  }
+}

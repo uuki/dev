@@ -1,16 +1,16 @@
 zenn:
   name: Zenn
   url: https://zenn.dev
-  logo: /static/images/logo-zenn.svg
+  logo: /images/logo-zenn.svg
 hatena:
   name: Hatena
   url: https://hatenablog.com
-  logo: /static/images/logo-hatenablog.svg
+  logo: /images/logo-hatenablog.svg
 qiita:
   name: Qiita
   url: https://qiita.com
-  logo: "/static/images/logo-qiita.svg"
+  logo: /images/logo-qiita.svg
 uuki:
   name: Blog
   url: https://uuki.dev
-  logo: /static/images/logo-badge.png
+  logo: /images/logo-badge.png

@@ -1,21 +1,43 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
     "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "#/*": ["./types/*"]
+    },
+    "outDir": "./dist",
+    "allowJs": true,
+    "target": "esnext",
     "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
+    "moduleResolution": "bundler",
     "jsx": "preserve",
-    "incremental": true
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "lib": ["esnext", "dom", "dom.iterable"],
+    "types": [
+     "unplugin-icons/types/svelte",
+    ],
+    "plugins": [
+      {
+        "name": "typescript-svelte-plugin",
+        "enabled": true,
+        "assumeIsSvelteProject": true
+      },
+      {
+        "name": "@0no-co/graphqlsp",
+        "schemas": [
+          {
+            "name": "github",
+            "schema": "./src/graphql/github/schema.graphql",
+            "tadaOutputLocation": "./src/graphql/github/graphql-env.d.ts"
+          }
+        ]
+      }
+    ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"],
-  "extends": "./tsconfig.paths.json"
+  "extends": ["astro/tsconfigs/strict", "@tsconfig/svelte/tsconfig.json"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.astro", "src/**/*.svelte"],
+  "exclude": ["node_modules"]
 }

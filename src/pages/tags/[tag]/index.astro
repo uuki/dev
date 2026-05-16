@@ -1,0 +1,101 @@
+---
+import type { GetStaticPaths } from 'astro';
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import slugify from 'slugify';
+
+import AppLayout from '@/layouts/App.astro';
+import Content from '@/components/layouts/Content/Content.astro';
+import HeadingPage from '@/components/ui/HeadingPage/HeadingPage.astro';
+import PostCard from '@/components/ui/PostCard/PostCard.astro';
+import { getAllTags, getAllTagNames } from '@/utils/tags';
+import { normalizeBlogEntry } from '@/utils/normalizeActivities';
+
+import styles from './tag.module.scss';
+
+export const getStaticPaths = (async () => {
+  const allPosts = await getCollection('blog', ({ data }) => {
+    return !data.draft;
+  });
+
+  const tagCounts = await getAllTags();
+  const tagNames = await getAllTagNames();
+
+  // Create a map of slugified tags to original tag names
+  const slugToName: Record<string, string> = {};
+  tagNames.forEach((name) => {
+    const slug = slugify(name);
+    slugToName[slug] = name;
+  });
+
+  return Object.keys(tagCounts).map((tagSlug) => {
+    const filteredPosts = allPosts.filter((post) => {
+      return post.data.tags?.some((tag: string) => slugify(tag) === tagSlug);
+    });
+
+    // Sort by date (newest first)
+    const sortedPosts = filteredPosts.sort((a, b) => {
+      return b.data.created_at.getTime() - a.data.created_at.getTime();
+    });
+
+    return {
+      params: { tag: tagSlug },
+      props: {
+        posts: sortedPosts,
+        tagName: slugToName[tagSlug] || tagSlug,
+        tagSlug,
+      },
+    };
+  });
+}) satisfies GetStaticPaths;
+
+interface Props {
+  posts: CollectionEntry<'blog'>[];
+  tagName: string;
+  tagSlug: string;
+}
+
+const { posts: rawPosts, tagName } = Astro.props;
+
+const posts = rawPosts.map(normalizeBlogEntry);
+---
+
+<AppLayout meta={{ title: `${tagName} - Tags`, description: `${tagName}タグの記事一覧` }}>
+  <div class={styles.tagPosts}>
+    <Content variant='narrow'>
+      <div class={styles.tagPosts__content}>
+        <div class={styles.tagPosts__header}>
+          <HeadingPage heading='h1' class={styles.tagPosts__heading}>#{tagName} - Tags</HeadingPage>
+        </div>
+
+        <!-- <div class={styles.tagPosts__search}>
+          <InputText
+            type="search"
+            placeholder="Search articles"
+            aria-label="Search articles"
+            class={styles.tagPosts__searchInput}
+          />
+        </div> -->
+
+        <ul class={styles.tagPosts__posts}>
+          {posts.map((post) => (
+            <li class={styles.tagPosts__postItem}>
+              <div class={styles.tagPosts__postCard}>
+                <PostCard post={post} />
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        {posts.length === 0 && (
+          <div class={styles.tagPosts__empty}>
+            <p>このタグの記事はまだありません。</p>
+          </div>
+        )}
+
+        <!-- <div class={styles.tagPosts__container}>
+        </div> -->
+      </div>
+    </Content>
+  </div>
+</AppLayout>

@@ -1,0 +1,83 @@
+@view-transition {
+  navigation: auto;
+}
+
+html {
+  scroll-behavior: smooth;
+  block-size: 100%;
+  background-color: var(--color-base-bg);
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
+}
+
+:where(body) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0,1fr) auto;
+  min-width: 375px;
+  min-block-size: 100dvh;
+  font-family: var(--font-sans);
+  word-wrap: break-word;
+  background-color: var(--color-base-bg);
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'palt';
+}
+
+:where(body) {
+  --_font-size-min: 14;
+  --_font-size-max: 16;
+  --_vw-min: 375;
+  --_vw-max: 1366;
+  --_font-size-base: clamp(
+    calc(var(--_font-size-min) * 1px),
+    calc(
+      var(--_font-size-min) * 1px +
+      (var(--_font-size-max) - var(--_font-size-min)) *
+      (100vw - var(--_vw-min) * 1px) /
+      (var(--_vw-max) - var(--_vw-min))
+    ),
+    calc(var(--_font-size-max) * 1px)
+  );
+  font-size: calc(
+    var(--_font-size-base) +
+    var(--font-size-step) * var(--font-size-level)
+  );
+}
+
+:where(code) {
+  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+    Bitstream Vera Sans Mono, Courier New, monospace;
+}
+
+:where(a) {
+  text-decoration: none;
+}
+
+// UA default is plus-lighter which causes additive blending artifacts → override to normal
+::view-transition-old(*),
+::view-transition-new(*) {
+  mix-blend-mode: normal;
+}
+
+// Prevent white showing through the transition overlay during animation
+::view-transition {
+  background-color: var(--color-base-bg);
+}
+
+::view-transition-old(container),
+::view-transition-new(container) {
+  --_view-transition-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  transform-origin: center;
+}
+
+::view-transition-old(container) {
+  animation: vt-old 0.8s var(--_view-transition-ease) both;
+}
+
+::view-transition-new(container) {
+  animation: vt-new 0.8s var(--_view-transition-ease) both;
+}

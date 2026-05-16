@@ -1,0 +1,15 @@
+@mixin in-view(
+  $timeline-name: --in-view,
+  $range: entry 50% entry 53%,
+  $inset: 40%,
+  $timing: ease,
+  $fill: both
+) {
+  @content;
+  view-timeline-name: #{$timeline-name};
+  animation-timeline: #{$timeline-name};
+  animation-fill-mode: $fill;
+  animation-timing-function: $timing;
+  animation-range: #{$range};
+  view-timeline-inset: #{$inset};
+}

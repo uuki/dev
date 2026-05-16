@@ -1,0 +1,38 @@
+---
+import { getEntry, render } from 'astro:content';
+import AppLayout from '@/layouts/App.astro';
+import Content from '@/components/layouts/Content/Content.astro';
+import HeadingPage from '@/components/ui/HeadingPage/HeadingPage.astro';
+import PageWysiwyg from '@/components/layouts/PageWysiwyg/PageWysiwyg.astro';
+
+import styles from './page.module.scss';
+
+const entry = await getEntry('pages', 'privacy');
+
+if (!entry) {
+  return Astro.redirect('/404');
+}
+
+const { Content: PrivacyContent } = await render(entry);
+const { title, description } = entry.data;
+
+const meta = {
+  title,
+  description: description ?? undefined,
+};
+---
+
+<AppLayout meta={meta}>
+  <div class={styles.page}>
+    <Content variant='narrow'>
+      <article class={styles.page__content}>
+        <HeadingPage heading="h1" class={styles.page__title}>{title}</HeadingPage>
+        <article class={styles.page__article}>
+          <PageWysiwyg>
+            <PrivacyContent />
+          </PageWysiwyg>
+        </article>
+      </article>
+    </Content>
+  </div>
+</AppLayout>

@@ -1,0 +1,17 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import styles from './Tag.module.scss';
+
+interface Props extends HTMLAttributes<'span'> {
+  class?: string;
+  variant?: 'large';
+}
+
+const { class: className, variant, ...rest } = Astro.props;
+const modifiers = {
+  large: styles['-large'],
+};
+---
+<span class:list={[styles.tag, variant ? modifiers[variant] : '', className]} {...rest}>
+  <slot />
+</span>

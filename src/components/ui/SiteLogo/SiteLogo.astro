@@ -1,0 +1,26 @@
+---
+import { Image } from 'astro:assets';
+import styles from './SiteLogo.module.scss';
+
+import imgSymbol from '@/assets/images/symbol.svg?raw';
+import imgLogo from '@/assets/images/logo.jpg';
+
+interface Props {
+  noLink?: boolean;
+}
+
+const { noLink, ...props } = Astro.props;
+const Component = (noLink ? 'span' : 'a');
+---
+
+<Component href={noLink ? undefined : '/'} class={styles.siteLogo} {...props}>
+  <Image
+    src={imgLogo}
+    width={20}
+    height={20}
+    alt="uuki.devのアイコン画像"
+    class={styles.siteLogo__image}
+    loading="eager"
+  />
+  <span class={styles.siteLogo__text} aria-label="uuki.dev"><Fragment set:html={imgSymbol} /></span>
+</Component>

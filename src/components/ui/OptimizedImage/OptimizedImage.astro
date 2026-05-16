@@ -1,0 +1,71 @@
+---
+/**
+ * OptimizedImage Component
+ * Wrapper around Astro's Image component with sensible defaults
+ * Automatically optimizes images and converts to WebP
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: string | ImageMetadata;
+  alt: string;
+  width: number;
+  height: number;
+  format?: 'webp' | 'avif' | 'png' | 'jpg';
+  quality?: number;
+  loading?: 'lazy' | 'eager';
+  class?: string;
+  sizes?: string;
+}
+
+const {
+  src,
+  alt,
+  width,
+  height,
+  format = 'webp',
+  quality = 80,
+  loading = 'lazy',
+  class: className,
+  sizes,
+} = Astro.props;
+
+// Check if src is a string (URL) or ImageMetadata
+const isRemoteImage = typeof src === 'string' && (src.startsWith('http://') || src.startsWith('https://'));
+---
+
+{isRemoteImage ? (
+  <!-- Remote images use standard img tag -->
+  <img
+    src={src as string}
+    alt={alt}
+    width={width}
+    height={height}
+    loading={loading}
+    class={className}
+  />
+) : typeof src === 'string' ? (
+  <!-- Local public images use standard img tag -->
+  <img
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
+    loading={loading}
+    class={className}
+  />
+) : (
+  <!-- Imported images use Astro's Image optimization -->
+  <Image
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
+    format={format}
+    quality={quality}
+    loading={loading}
+    class={className}
+    sizes={sizes}
+  />
+)}

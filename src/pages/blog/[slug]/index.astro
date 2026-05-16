@@ -1,0 +1,132 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection, getEntry, render } from 'astro:content';
+import { siteConfig, iconMap } from '@/data/constants';
+// import { getFileRevision } from '@/utils/git';
+
+import AppLayout from '@/layouts/App.astro';
+import Content from '@/components/layouts/Content/Content.astro';
+import PostWysiwyg from '@/components/layouts/PostWysiwyg/PostWysiwyg.astro';
+
+import ShareButton from '@/components/features/ShareButton/ShareButton.astro';
+import PostHistory, { getHistory } from '@/components/features/PostHistory/PostHistory.astro';
+import OptimizedImage from '@/components/ui/OptimizedImage/OptimizedImage.astro';
+import PostDate from '@/components/ui/PostDate/PostDate.astro';
+import Tag from '@/components/ui/Tag/Tag.astro';
+
+import styles from './post.module.scss';
+
+export const getStaticPaths = (async () => {
+  const allPosts = await getCollection('blog', ({ data }) => {
+    // Only include posts that don't have an external URL and are not drafts
+    return !data.draft && !data.url;
+  });
+
+  return allPosts.map((post) => ({
+    params: { slug: post.id.replace(/\.mdx?$/, '') },
+    props: { id: post.id },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+const post = await getEntry('blog', id);
+
+if (!post) {
+  return Astro.redirect('/');
+}
+
+const { Content: PostContent, remarkPluginFrontmatter } = await render(post);
+const { title, description, created_at, tags = [] } = post.data;
+const slug = post.id.replace(/\.mdx?$/, '');
+const history = getHistory(slug);
+
+interface OptionalBlogFields {
+  heroImage?: string;
+}
+
+const heroImage = (post.data as typeof post.data & OptionalBlogFields).heroImage;
+// Use heroImage or default OG image
+// To use custom OG images per post, add them to public/og/ and reference in frontmatter
+const ogImageUrl = heroImage || `/og-default.png`;
+
+const meta = {
+  title,
+  description: description ?? undefined,
+  'og:image': ogImageUrl,
+  type: 'article' as const,
+};
+
+const readingTime: number = remarkPluginFrontmatter.readingTime ?? 0;
+---
+
+<AppLayout meta={meta}>
+  <div class={styles.post}>
+    <Content variant="narrow">
+      <article class={styles.post__content}>
+
+        <hgroup class={styles.post__header}>
+          <h1 class={styles.post__heading} style={{ '--slug': slug }}>{title}</h1>
+
+          <ul class={styles.post__tags}>
+            {tags.map((tag) => (
+              <li>
+                <Tag variant='large'>{tag}</Tag>
+              </li>
+            ))}
+          </ul>
+
+          <ul class={styles.post__meta}>
+            {created_at && (
+              <li>
+                <span class={styles.post__metaIcon} data-icon="write"><Fragment set:html={iconMap['write']} /></span>
+                <PostDate date={created_at} />
+              </li>
+            )}
+            {readingTime && (
+              <li>
+                <span class={styles.post__metaIcon} data-icon="book-open"><Fragment set:html={iconMap['book-open']} /></span>
+                <span lang="en">{Math.round(readingTime)} min read</span>
+              </li>
+            )}
+            {history.length > 1 && (
+              <li>
+                <PostHistory
+                  history={history}
+                  repoUrl={siteConfig.git?.repoUrl}
+                />
+              </li>
+            )}
+          </ul>
+        </hgroup>
+
+        {heroImage && (
+          <div class={styles.post__heroImage}>
+            <OptimizedImage
+              src={heroImage}
+              alt={title}
+              width={800}
+              height={450}
+              loading="eager"
+              class={styles.post__heroImageElement}
+            />
+          </div>
+        )}
+
+        <div class={styles.post__body}>
+          <PostWysiwyg>
+            <PostContent />
+          </PostWysiwyg>
+          <aside class={styles.post__share}>
+            {(['x'] as const).map((type) => (
+              <ShareButton type={type} pathname={`/blog/${slug}`} text={title} />
+            ))}
+          </aside>
+        </div>
+      </article>
+    </Content>
+  </div>
+</AppLayout>

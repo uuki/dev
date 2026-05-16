@@ -1,0 +1,39 @@
+---
+import { routes } from '@/data/constants';
+import styles from './Console.module.scss';
+// import AsciiChar from '@/data/ascii-art.txt?raw';
+
+interface Props {
+}
+const props = Astro.props;
+
+const blogRoute = routes.find(item => item.id === 'blog');
+const aboutRoute = routes.find(item => item.id === 'about');
+
+// const splashScreen = AsciiChar.trim();
+
+---
+<div class={styles.console}>
+  <div class={styles.console__header} aria-hidden="true">
+    <span class={styles.console__dots}>
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
+    <span class={styles.console__title}>dev - Pane #1</span>
+  </div>
+  <div class={styles.console__content}>
+    <pre class={styles.console__splash}></pre>
+    <div class={styles.console__ui}>
+      <h2 class={styles.console__heading}>Personal archive of code, ideas, and experiments.</h2>
+      <nav class={styles.console__nav}>
+        <p class={styles.console__command}>$ nav --list</p>
+        <ul class={styles.console__navList}>
+          <li><a href="#activity"><span>Scroll to contents</span></a></li>
+          <li><a href={blogRoute?.path}><span>Archive</span></a></li>
+          <li><a href={aboutRoute?.path}><span>About me</span></a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>

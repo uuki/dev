@@ -1,0 +1,129 @@
+// NOTE: スマホ利用をあまり想定していない配置をしているため画面下UI配置を検討
+.buttonHamburger {
+  --_color: #fff;
+  --_size-h: 3px;
+  --_radius: 2px;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-right: calc(var(--_side-pad) * -1 + rem(8));
+  transition: rotate var(--_rotate_dur) var(--_rotate-delay) ease;
+  width: rem(20);
+  aspect-ratio: 1;
+  color: var(--_color);
+
+  &::after {
+    content: '';
+    border-radius: 50%;
+    aspect-ratio: 1;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  // 構造的なため、パフォーマンスも加味して animation 不使用
+  &[aria-haspopup="true"] {
+    // Step 1
+    --_line-out-dur: 0.4s;
+    --_line-out-delay: 0s;
+    --_center-line-dur: 0.4s;
+    --_center-line-delay: 0s;
+
+    // Step 2
+    --_rotate_dur: 0.2s;
+    --_rotate-delay: var(--_line-out-dur);
+
+    // Step 3
+    --_cross-dur: 0.4s;
+    --_cross-delay: var(--_line-out-dur);
+
+    rotate: 45deg;
+
+    > span {
+      &:nth-child(1),
+      &:nth-child(3) {
+        scale: 0 1;
+      }
+      &:nth-child(2) {
+        --_length: 6%;
+        &::before, &::after {
+          scale: 1 1;
+        }
+      }
+    }
+  }
+
+  &[aria-haspopup="false"] {
+    // Step 1
+    --_cross-dur: 0.4s;
+    --_cross-delay: 0s;
+
+    // Step 2
+    --_rotate_dur: 0.2s;
+    --_rotate-delay: var(--_cross-dur);
+
+    // Step 3
+    --_line-out-dur: 0.4s;
+    --_line-out-delay: var(--_cross-dur);
+    --_center-line-dur: 0.4s;
+    --_center-line-delay: var(--_cross-dur);
+  }
+
+  > span {
+    width: 100%;
+    height: var(--_size-h);
+    background-color: currentColor;
+    border-radius: var(--_radius);
+    transition: scale var(--_line-out-dur) var(--_line-out-delay) ease;
+
+    &:nth-child(1),
+    &:nth-child(3) {
+      position: absolute;
+    }
+    &:nth-child(1) {
+      top: 0;
+      transform-origin: right;
+    }
+    &:nth-child(2) {
+      --_length: 100%;
+      top: 50%;
+      transform: translateY(calc(-50% + 1px));
+      transform-origin: center;
+      transition: background-size var(--_center-line-dur) var(--_center-line-delay) ease;
+      background:
+        linear-gradient(var(--_color), var(--_color))
+          top center / var(--_length) var(--_size-h) no-repeat,
+
+        linear-gradient(var(--_color), var(--_color))
+          bottom center / var(--_length) var(--_size-h) no-repeat,
+
+        linear-gradient(var(--_color), var(--_color))
+          left center / var(--_size-h) var(--_length) no-repeat,
+
+        linear-gradient(var(--_color), var(--_color))
+          right center / var(--_size-h) var(--_length) no-repeat;
+
+      &::before, &::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: var(--_radius);
+        left: 50%;
+        translate: -50% 0;
+        background-color: #fff;
+        scale: 0 1;
+        transform-origin: center;
+        transition: scale var(--_cross-dur) var(--_cross-delay) ease;
+      }
+      &::after {
+        rotate: 90deg;
+      }
+    }
+    &:nth-child(3) {
+      bottom: 0;
+      transform-origin: left;
+    }
+  }
+}

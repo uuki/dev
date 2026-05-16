@@ -1,0 +1,134 @@
+@use "sass:string";
+@use "sass:list";
+@use "sass:map";
+
+$feature-tests: (
+  'calc-size': (
+    type: 'declaration',
+    property: width,
+    value: 'calc-size(auto, size + 1px)'
+  ),
+
+  'subgrid': (
+    type: 'declaration',
+    property: grid-template-columns,
+    value: 'subgrid'
+  ),
+
+  'has': (
+    type: 'selector',
+    value: ':has(*)'
+  ),
+
+  'container-query': (
+    type: 'declaration',
+    property: container-type,
+    value: 'inline-size'
+  ),
+
+  'anchor-position': (
+    type: 'raw',
+    value: '(anchor-name: --a) and (top: anchor(--a top))'
+  ),
+
+  'corner-shape': (
+    type: 'declaration',
+    property: corner-shape,
+    value: 'scoop'
+  )
+);
+
+/**
+ * e.g.
+ * @include support-switch('calc-size', 'width') using ($mode) { ... }
+ * @include is-supported('has') { ... }
+ * @include is-not-supported('subgrid', 'grid-template-columns') { ... }
+*/
+@mixin support-switch(
+  $feature,
+  $property: null,
+  $override-value: null
+) {
+  $config: map.get($feature-tests, $feature);
+
+  @if $config == null {
+    @error "Unknown feature: #{$feature}";
+  }
+
+  $type: map.get($config, type);
+  $value: map.get($config, value);
+
+  @if $override-value != null {
+    $value: $override-value;
+  }
+
+  // -------------------------
+  // selector()
+  // -------------------------
+  @if $type == 'selector' {
+    @supports selector(#{$value}) {
+      @content (supported);
+    }
+    @supports not selector(#{$value}) {
+      @content (fallback);
+    }
+  }
+
+  // -------------------------
+  // property: value
+  // -------------------------
+  @else if $type == 'declaration' {
+    $resolved-property: $property;
+
+    @if $resolved-property == null {
+      $resolved-property: map.get($config, property);
+    }
+
+    @if $resolved-property == null {
+      @error "Property is required for declaration feature: #{$feature}";
+    }
+
+    @supports (#{$resolved-property}: #{$value}) {
+      @content (supported);
+    }
+
+    @supports not (#{$resolved-property}: #{$value}) {
+      @content (fallback);
+    }
+  }
+
+  // -------------------------
+  // raw condition
+  // -------------------------
+  @else if $type == 'raw' {
+    $cond: string.unquote($value);
+
+    @supports #{$cond} {
+      @content (supported);
+    }
+
+    @supports not (#{$cond}) {
+      @content (fallback);
+    }
+  }
+
+  @else {
+    @error "Unknown feature type: #{$type}";
+  }
+}
+
+@mixin is-supported($feature, $property: null) {
+  @include support-switch($feature, $property) using ($mode) {
+    @if $mode == supported {
+      @content;
+    }
+  }
+}
+
+@mixin is-not-supported($feature, $property: null) {
+  @include support-switch($feature, $property) using ($mode) {
+    @if $mode == fallback {
+      @content;
+    }
+  }
+}

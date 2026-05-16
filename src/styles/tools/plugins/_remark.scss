@@ -1,0 +1,101 @@
+/**
+ * Remark Plugin Styles
+ * Used by remark-custom-directives plugin
+ */
+
+:root {
+  --remark-directive-border: #d6d7d8;
+  --remark-directive-title: #394554;
+}
+
+.remark-directive {
+  padding: rem(16);
+  margin: rem(24) 0;
+  border-left: 4px solid;
+  border-radius: 4px;
+  background-color: color-mix(in srgb, var(--remark-directive-bg) 10%, transparent);
+  border-color: var(--remark-directive-border);
+
+  > *:first-child {
+    margin-top: 0;
+  }
+
+  > *:last-child {
+    margin-bottom: 0;
+  }
+
+  // Note variant (blue)
+  &.-note {
+    --remark-directive-bg: #3b82f6; // blue-500
+    --remark-directive-border: #2563eb; // blue-600
+    --remark-directive-title: #1d4ed8; // blue-700
+  }
+
+  // Warning variant (yellow/orange)
+  &.-warning {
+    --remark-directive-bg: #fbbf24; // amber-400
+    --remark-directive-border: #f59e0b; // amber-500
+    --remark-directive-title: #d97706; // amber-600
+  }
+
+  // Info variant (cyan)
+  &.-info {
+    --remark-directive-bg: #22d3ee; // cyan-400
+    --remark-directive-border: #06b6d4; // cyan-500
+    --remark-directive-title: #0e7490; // cyan-700
+  }
+
+  // Tip variant (green)
+  &.-tip {
+    --remark-directive-bg: #22c55e; // green-500
+    --remark-directive-border: #16a34a; // green-600
+    --remark-directive-title: #15803d; // green-700
+  }
+}
+
+.remark-directive__title {
+  font-weight: 600;
+  margin-bottom: rem(8);
+  color: var(--remark-directive-title);
+}
+
+.remark-outdated-warning {
+  display: flex;
+  gap: rem(12);
+  padding: rem(24) rem(16);
+  font-weight: 600;
+  border-radius: var(--corners-md);
+  color: var(--color-alt-blue-100);
+  background-color: relative-alpha(var(--color-alt-blue-200), 0.08);
+  letter-spacing: 0.06em;
+  &::before {
+    align-self: flex-start;
+    content: 'i';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: rem(12);
+    height: rem(12);
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    padding: rem(12);
+  }
+}
+
+/**
+ * Remark GFM
+ */
+[data-footnotes] {
+  display: flex;
+  flex-direction: column;
+}
+@media(--mobile) {
+  [data-footnotes] {
+    gap: rem(12);
+  }
+}
+@media(--desktop) {
+  [data-footnotes] {
+    gap: rem(24);
+  }
+}

@@ -1,0 +1,39 @@
+---
+import AppLayout from '@/layouts/App.astro';
+import { getCollection } from 'astro:content';
+import Hero from '@/components/layouts/Hero/Hero.astro';
+import SectionActivity from '@/components/layouts/SectionActivity/SectionActivity.astro';
+
+import { normalizeActivities } from '@/utils/normalizeActivities';
+import styles from './top.module.scss';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const allReleases = await getCollection('releases');
+const allContributions = await getCollection('contributions');
+
+const activities = normalizeActivities(allPosts, allReleases, allContributions);
+
+---
+<AppLayout>
+  <Hero />
+
+  <div id="activity" class={styles.top__content}>
+
+    <SectionActivity data={activities} />
+
+    <!-- <ul class={styles.top__posts}>
+      {recentPosts.map((post, i) => (
+        <li class={styles.top__postItem}>
+          <PostCard post={post} key={String(i)} />
+        </li>
+      ))}
+    </ul> -->
+
+    <div class={styles.top__more}>
+      <!-- <Link href="/blog/" variant="opacity" class={styles.top__moreLink}>
+        <span>記事一覧へ</span>
+        <span class={styles.top__moreIcon}>→</span>
+      </Link> -->
+    </div>
+  </div>
+</AppLayout>

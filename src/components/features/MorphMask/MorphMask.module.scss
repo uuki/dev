@@ -1,0 +1,15 @@
+.morphMaskWrapper {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.morphMaskContent {
+  width: 100%;
+  height: 100%;
+}
+
+.morphMaskSvg {
+  position: absolute;
+  pointer-events: none;
+}
