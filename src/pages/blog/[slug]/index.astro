@@ -2,14 +2,14 @@
 import type { GetStaticPaths } from 'astro';
 import { getCollection, getEntry, render } from 'astro:content';
 import { siteConfig, iconMap } from '@/data/constants';
-import { getFileRevision } from '@/utils/git';
+// import { getFileRevision } from '@/utils/git';
 
 import AppLayout from '@/layouts/App.astro';
 import Content from '@/components/layouts/Content/Content.astro';
 import PostWysiwyg from '@/components/layouts/PostWysiwyg/PostWysiwyg.astro';
 
 import ShareButton from '@/components/features/ShareButton/ShareButton.astro';
-import PostHistory from '@/components/features/PostHistory/PostHistory.astro';
+import PostHistory, { getHistory } from '@/components/features/PostHistory/PostHistory.astro';
 import OptimizedImage from '@/components/ui/OptimizedImage/OptimizedImage.astro';
 import PostDate from '@/components/ui/PostDate/PostDate.astro';
 import Tag from '@/components/ui/Tag/Tag.astro';
@@ -42,14 +42,7 @@ if (!post) {
 const { Content: PostContent, remarkPluginFrontmatter } = await render(post);
 const { title, description, created_at, tags = [] } = post.data;
 const slug = post.id.replace(/\.mdx?$/, '');
-
-// Git history retrieval
-const history = siteConfig.git?.enabled
-  ? getFileRevision({
-      slug: `blog/${slug}`,
-      limit: siteConfig.git.maxCommits || 10
-    })
-  : [];
+const history = getHistory(slug);
 
 interface OptionalBlogFields {
   heroImage?: string;
@@ -99,7 +92,7 @@ const readingTime: number = remarkPluginFrontmatter.readingTime ?? 0;
                 <span lang="en">{Math.round(readingTime)} min read</span>
               </li>
             )}
-            {history.length > 0 && (
+            {history.length > 1 && (
               <li>
                 <PostHistory
                   history={history}

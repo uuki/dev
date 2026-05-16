@@ -17,7 +17,7 @@ export function remarkOutdatedWarning(options: OutdatedWarningOptions = {}): Ret
   const {
     enabled = true,
     yearsThreshold = 2,
-    warningText = 'この記事は{years}年以上前に書かれた内容です。情報が古くなっている可能性があります。',
+    warningText = 'This article was written more than {years} years ago. The information may be outdated.',
     include,
   } = options;
 

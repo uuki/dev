@@ -60,9 +60,24 @@
 }
 
 .remark-outdated-warning {
-  padding: rem(12);
-  border: 1px solid var(--color-alt-yellow-500);
+  display: flex;
+  gap: rem(12);
+  padding: rem(24) rem(16);
+  font-weight: 600;
   border-radius: var(--corners-md);
-  // background-color: color-mix(in srgb, var(--color-alt-yellow-500) 10%, transparent);
-  // color: var(--color-alt-yellow-700);
+  color: var(--color-alt-blue-100);
+  background-color: relative-alpha(var(--color-alt-blue-200), 0.08);
+  letter-spacing: 0.06em;
+  &::before {
+    align-self: flex-start;
+    content: 'i';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: rem(12);
+    height: rem(12);
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    padding: rem(12);
+  }
 }

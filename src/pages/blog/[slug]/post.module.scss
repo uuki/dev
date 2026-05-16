@@ -40,7 +40,7 @@
     font-weight: 700;
     color: var(--color-text-secondary);
 
-    &::after {
+    &:not(:last-child)::after {
       content: '|';
       margin-left: rem(4);
       color: var(--color-text-secondary);

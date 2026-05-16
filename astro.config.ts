@@ -87,7 +87,7 @@ export default defineConfig({
         include: /\/data\/blog\//,
         enabled: true,
         yearsThreshold: 2,
-        warningText: 'この記事は{years}年以上前に書かれた内容です。情報が古くなっている可能性があります。',
+        warningText: 'この記事は公開から{years}年以上が経過しています。内容が現在の状況と異なる場合があります。',
       }],
       remarkGfm,
       remarkMath,
