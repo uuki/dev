@@ -1,8 +1,6 @@
 ---
-import type { GetStaticPaths, Page } from 'astro';
-import type { CollectionEntry } from 'astro:content';
-import { getCollection } from 'astro:content';
 import { normalizeBlogEntry } from '@/utils/normalizeActivities';
+import { getSortedPosts, POSTS_PER_PAGE, getBlogPageUrl } from '@/utils/blog';
 
 import AppLayout from '@/layouts/App.astro';
 import Content from '@/components/layouts/Content/Content.astro';
@@ -12,28 +10,10 @@ import HeadingPage from '@/components/ui/HeadingPage/HeadingPage.astro';
 
 import styles from './archive.module.scss';
 
-export const getStaticPaths = (async ({ paginate }) => {
-  const allPosts = await getCollection('blog', ({ data }) => {
-    return !data.draft;
-  });
+const allPosts = await getSortedPosts();
+const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
+const posts = allPosts.slice(0, POSTS_PER_PAGE).map(normalizeBlogEntry);
 
-  // Sort posts by created_at (newest first)
-  const sortedPosts = allPosts.sort((a, b) => {
-    return b.data.created_at.getTime() - a.data.created_at.getTime();
-  });
-
-  const POSTS_PER_PAGE = 10;
-
-  return paginate(sortedPosts, { pageSize: POSTS_PER_PAGE });
-}) satisfies GetStaticPaths;
-
-interface Props {
-  page: Page<CollectionEntry<'blog'>>;
-}
-
-const { page } = Astro.props;
-
-const posts = page.data.map(normalizeBlogEntry);
 const meta = {
   title: 'All Posts',
   description: 'uuki.devのブログ記事一覧',
@@ -55,8 +35,8 @@ const meta = {
           ))}
         </ul>
         <nav class={styles.archive__pagination}>
-          {page.lastPage > 1 && (
-            <Pagination currentPage={page.currentPage} totalPages={page.lastPage} basePath="/blog" />
+          {totalPages > 1 && (
+            <Pagination currentPage={1} totalPages={totalPages} getPageUrl={getBlogPageUrl} />
           )}
         </nav>
       </div>
