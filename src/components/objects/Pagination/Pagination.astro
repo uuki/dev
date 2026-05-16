@@ -5,16 +5,13 @@ import styles from './Pagination.module.scss';
 interface Props {
   currentPage: number;
   totalPages: number;
-  basePath?: string;
+  getPageUrl: (page: number) => string;
 }
 
-const { currentPage, totalPages, basePath = '/blog' } = Astro.props;
+const { currentPage, totalPages, getPageUrl } = Astro.props;
 
-const prevPage = currentPage > 1 ? `${basePath}/${currentPage - 1}` : null;
-const nextPage = currentPage < totalPages ? `${basePath}/${currentPage + 1}` : null;
-
-// Special case: page 1 should link to /blog (without page number)
-const prevLink = currentPage === 2 ? basePath : prevPage;
+const prevLink = currentPage > 1 ? getPageUrl(currentPage - 1) : null;
+const nextLink = currentPage < totalPages ? getPageUrl(currentPage + 1) : null;
 ---
 
 <div class={styles.pagination}>
@@ -39,8 +36,8 @@ const prevLink = currentPage === 2 ? basePath : prevPage;
       {totalPages}
     </span>
 
-    {nextPage ? (
-      <a href={nextPage} class={styles.pagination__link}>
+    {nextLink ? (
+      <a href={nextLink} class={styles.pagination__link}>
         <ButtonNav>
           Next
           <span class={styles.pagination__arrow}>→</span>

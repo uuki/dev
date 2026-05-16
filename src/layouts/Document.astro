@@ -23,7 +23,7 @@ const meta = createMeta(props.meta);
 
 // Site URLs and canonical
 const siteUrl = Astro.site || import.meta.env.PUBLIC_ORIGIN || Astro.url.origin;
-const canonicalURL = new URL(Astro.url.pathname, siteUrl);
+const canonicalURL = new URL(meta.canonical || Astro.url.pathname, siteUrl);
 
 // Format titles and descriptions
 const fullTitle = meta.title
@@ -97,6 +97,7 @@ const isTop = Astro.url.pathname === '/';
       { to: '/' },
       { to: '/tags/' },
       { to: '/blog/', exact: true },
+      { to: '/blog/page/' },
     ]} />
     <script>
       import '@/js/app';
