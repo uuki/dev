@@ -1,7 +1,7 @@
 ---
 import { siteConfig, iconMap } from '@/data/constants';
 
-import style from './ShareButton.module.scss';
+import styles from './ShareButton.module.scss';
 
 type ShareType = 'x' | 'hatena';
 
@@ -39,7 +39,7 @@ const { name, shareUrl, icon, color } = shareConfig[type];
 
 <button
   type="button"
-  class={style.socialButton}
+  class={styles.socialButton}
   data-share-url={shareUrl}
   aria-label={`Share on ${name}`}
   style={`--_color: ${color};`}

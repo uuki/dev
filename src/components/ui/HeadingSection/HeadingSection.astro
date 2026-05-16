@@ -1,5 +1,5 @@
 ---
-import style from './HeadingSection.module.scss';
+import styles from './HeadingSection.module.scss';
 
 interface Props {
   heading: 'h2' | 'h3';
@@ -13,6 +13,6 @@ const {
 } = Astro.props;
 
 ---
-<TagName class:list={[style.headingSection,`${className ?? ''}`]} {...props}>
+<TagName class:list={[styles.headingSection,`${className ?? ''}`]} {...props}>
   <slot />
 </TagName>

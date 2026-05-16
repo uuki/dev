@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 import PostCard from '@/components/ui/PostCard/PostCard.astro';
 import ReleaseCard from '@/components/ui/ReleaseCard/ReleaseCard.astro';
 
-import style from './Timeline.module.scss';
+import styles from './Timeline.module.scss';
 import iconWrite from '@/assets/icons/write.svg';
 import iconRocket from '@/assets/icons/rocket.svg';
 import iconRibbon from '@/assets/icons/ribbon.svg';
@@ -58,20 +58,20 @@ const getTitleByItem = (item: Activity) => {
 
 ---
 
-<section class={ style.timeline }>
-  <div class={ style.timeline__header }>
-    <h3 class={ style.timeline__year } aria-label={`Timeline year ${props.year}`} data-year={`'${String(props.year).slice(-2)}`}></h3>
+<section class={ styles.timeline }>
+  <div class={ styles.timeline__header }>
+    <h3 class={ styles.timeline__year } aria-label={`Timeline year ${props.year}`} data-year={`'${String(props.year).slice(-2)}`}></h3>
   </div>
-  <div class={ style.timeline__row }>
+  <div class={ styles.timeline__row }>
     {props.data.map((item) => (
-      <div class:list={[style.timeline__item]} data-type={['article', 'release'].includes(item.kind) === false ? 'misc' : ''}>
-        <div class={ style.timeline__meta }>
-          <span class:list={[style.timeline__icon]}>
+      <div class:list={[styles.timeline__item]} data-type={['article', 'release'].includes(item.kind) === false ? 'misc' : ''}>
+        <div class={ styles.timeline__meta }>
+          <span class:list={[styles.timeline__icon]}>
             <img src={mapIcons[item.kind]?.src || iconComment.src} alt="" />
           </span>
-          <h3 class={ style.timeline__title }>{getTitleByItem(item)}</h3>
+          <h3 class={ styles.timeline__title }>{getTitleByItem(item)}</h3>
         </div>
-        <div class:list={[style.timeline__content]}>
+        <div class:list={[styles.timeline__content]}>
           <div>
             {(() => {
               const Component = getComponentByItem(item);

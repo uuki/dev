@@ -1,5 +1,5 @@
 ---
-import style from './ButtonHamburger.module.scss';
+import styles from './ButtonHamburger.module.scss';
 
 interface Props {
   class?: string;
@@ -8,7 +8,7 @@ interface Props {
 const { class: className } = Astro.props;
 
 ---
-<button type="button" class:list={[style.buttonHamburger, className]} aria-haspopup="false" popovertarget="popover-menu">
+<button type="button" class:list={[styles.buttonHamburger, className]} aria-haspopup="false" popovertarget="popover-menu">
   <span></span>
   <span></span>
   <span></span>

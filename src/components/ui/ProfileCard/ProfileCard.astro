@@ -2,7 +2,7 @@
 import { format, differenceInYears } from 'date-fns';
 import waveCircle from '@/assets/shapes/wave-circle.svg?raw';
 
-import style from './ProfileCard.module.scss';
+import styles from './ProfileCard.module.scss';
 
 interface Props {
   showProgress?: boolean;
@@ -50,51 +50,51 @@ const jobNPastime = [
   }
 ];
 ---
-<div class={ style.profileCard }>
-  <hgroup class={ style.profileCard__header }>
-    <span class={ style.profileCard__sprite }>
+<div class={ styles.profileCard }>
+  <hgroup class={ styles.profileCard__header }>
+    <span class={ styles.profileCard__sprite }>
       <Fragment set:html={waveCircle} / >
     </span>
-    <h3 class={ style.profileCard__name }>
+    <h3 class={ styles.profileCard__name }>
       {'uuki'.split('').map(char => <span>{char}</span>)}
     </h3>
-    <span class={ style.profileCard__status }></span>
+    <span class={ styles.profileCard__status }></span>
   </hgroup>
-  <div class={ style.profileCard__detail }>
+  <div class={ styles.profileCard__detail }>
     {!!props.showProgress && (
-      <div class:list={[style.profileCard__item, 'u-hidden-mobile', 'u-hidden-desktop-small']}>
-        <h4 class={ style.profileCard__title }>PROGRESS</h4>
-        <progress class:list={[style.profileCard__progress, 'u-effect']} data-effect="progress-x" aria-hidden="true"></progress>
+      <div class:list={[styles.profileCard__item, 'u-hidden-mobile', 'u-hidden-desktop-small']}>
+        <h4 class={ styles.profileCard__title }>PROGRESS</h4>
+        <progress class:list={[styles.profileCard__progress, 'u-effect']} data-effect="progress-x" aria-hidden="true"></progress>
       </div>
     )}
-    <div class={ style.profileCard__item }>
-      <h4 class={ style.profileCard__title }>JOB & PASTIME</h4>
-      <ul class={ style.profileCard__list }>
+    <div class={ styles.profileCard__item }>
+      <h4 class={ styles.profileCard__title }>JOB & PASTIME</h4>
+      <ul class={ styles.profileCard__list }>
         {
           jobNPastime.slice(0, 4).map(item => (
             <li>
-              <hgroup class={ style.profileCard__listHeader }>
-                <h5 class={ style.profileCard__listHeading }>{item.title}</h5>
-                <b class={ style.profileCard__listYears }>{item.type === 'job' ? 'YoE' : ''} {item.yearsOfExperience}</b>
+              <hgroup class={ styles.profileCard__listHeader }>
+                <h5 class={ styles.profileCard__listHeading }>{item.title}</h5>
+                <b class={ styles.profileCard__listYears }>{item.type === 'job' ? 'YoE' : ''} {item.yearsOfExperience}</b>
               </hgroup>
-              {!!item.description && <p class={ style.profileCard__listDescription }>{item.description}</p>}
+              {!!item.description && <p class={ styles.profileCard__listDescription }>{item.description}</p>}
             </li>
           ))
         }
       </ul>
-      <details class:list={[style.profileCard__more, 'u-details-reset']}>
+      <details class:list={[styles.profileCard__more, 'u-details-reset']}>
         <summary>Show More</summary>
         <div>
-          <div class={style.profileCard__moreContent}>
-            <ul class={ style.profileCard__list }>
+          <div class={styles.profileCard__moreContent}>
+            <ul class={ styles.profileCard__list }>
               {
                 jobNPastime.slice(4).map(item => (
                   <li>
-                    <hgroup class={ style.profileCard__listHeader }>
-                      <h5 class={ style.profileCard__listHeading }>{item.title}</h5>
-                      <b class={ style.profileCard__listYears }>{item.type === 'job' ? 'YoE' : ''} {item.yearsOfExperience}</b>
+                    <hgroup class={ styles.profileCard__listHeader }>
+                      <h5 class={ styles.profileCard__listHeading }>{item.title}</h5>
+                      <b class={ styles.profileCard__listYears }>{item.type === 'job' ? 'YoE' : ''} {item.yearsOfExperience}</b>
                     </hgroup>
-                    {!!item.description && <p class={ style.profileCard__listDescription }>{item.description}</p>}
+                    {!!item.description && <p class={ styles.profileCard__listDescription }>{item.description}</p>}
                   </li>
                 ))
               }
@@ -103,9 +103,9 @@ const jobNPastime = [
         </div>
       </details>
     </div>
-    <div class={ style.profileCard__item }>
-      <h4 class={ style.profileCard__title }>NOTE</h4>
-      <div class={ style.profileCard__note }>
+    <div class={ styles.profileCard__item }>
+      <h4 class={ styles.profileCard__title }>NOTE</h4>
+      <div class={ styles.profileCard__note }>
         <p>Sample Profile Text Sample Profile TextSample Profile TextSample Profile TextSample Profile TextSample Profile TextSample Profile Text</p>
       </div>
     </div>

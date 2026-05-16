@@ -1,5 +1,5 @@
 ---
-import style from './Content.module.scss';
+import styles from './Content.module.scss';
 
 interface Props {
   class?: string;
@@ -8,9 +8,9 @@ interface Props {
 
 const { class: className, variant } = Astro.props;
 const modifiers = {
-  narrow: style['-narrow'],
+  narrow: styles['-narrow'],
 };
 ---
-<div class:list={[style.content, variant ? modifiers[variant] : '', className]}>
+<div class:list={[styles.content, variant ? modifiers[variant] : '', className]}>
   <slot />
 </div>
