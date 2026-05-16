@@ -1,17 +1,17 @@
 @media (--mobile) {
-  .u-mobile-hidden {
+  .u-hidden-mobile {
     display: none;
   }
 }
 
 @media (--desktop-small) {
-  .u-desktop-small-hidden {
+  .u-hidden-desktop-small {
     display: none;
   }
 }
 
 @media (--desktop) {
-  .u-desktop-hidden {
+  .u-hidden-desktop {
     display: none;
   }
 }

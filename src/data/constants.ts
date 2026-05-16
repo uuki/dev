@@ -6,6 +6,8 @@ export const routes = [
   { id: 'about', name: 'About', path: '/about/' },
 ] as const;
 
+export const navLinks = routes.filter(it => ['blog', 'search', 'about', 'tags'].includes(it.id));
+
 export const footerLinks = [
   { path: '/privacy/', name: 'Privacy Policy' },
 ];

@@ -49,10 +49,10 @@
     backdrop-filter: blur(2px);
     z-index: -1;
     [data-theme="light"] & {
-      background: relative-alpha(rgb(29, 42, 58), 0.9);
+      background-color: relative-alpha(rgb(29, 42, 58), 0.9);
     }
     [data-theme="dark"] & {
-      background: relative-alpha(rgb(58, 67, 76), 0.9);
+      background-color: relative-alpha(rgb(58, 67, 76), 0.9);
     }
   }
 }

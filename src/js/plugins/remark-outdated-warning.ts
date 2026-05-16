@@ -64,7 +64,7 @@ export function remarkOutdatedWarning(options: OutdatedWarningOptions = {}): Ret
       data: {
         hName: 'div',
         hProperties: {
-          className: ['outdated-warning'],
+          className: ['remark-outdated-warning'],
         },
       },
     };

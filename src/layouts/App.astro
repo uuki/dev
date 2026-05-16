@@ -4,6 +4,8 @@ import Header from '@/components/layouts/Header/Header.astro';
 import Footer from '@/components/layouts/Footer/Footer.astro';
 import Container from '@/components/layouts/Container/Container.astro';
 import Toast from '@/components/features/Toast/Toast.svelte';
+import Menu from '@/components/layouts/Menu/Menu.astro';
+
 import { SESSION_KEYS } from '@/js/core/constants';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
@@ -30,4 +32,5 @@ const props = Astro.props;
       label: 'お使いのブラウザは一部表示に未対応のため、正しく表示されない場合があります。'
     }]}
   />
+  <Menu />
 </DocumentLayout>

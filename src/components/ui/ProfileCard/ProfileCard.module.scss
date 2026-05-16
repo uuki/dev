@@ -291,9 +291,6 @@ $count: length($frames);
   margin-top: rem(12);
 }
 
-@media(--mobile) {
-}
-
 @media(--desktop) {
   .profileCard {
     min-width: rem(298);

@@ -1,17 +1,20 @@
 ---
-import { routes } from '@/data/constants';
+import { navLinks } from '@/data/constants';
 import styles from './Gnav.module.scss';
 
-const gnavData = routes
-  .filter(it => ['blog', 'search', 'about', 'tags'].includes(it.id))
-  .map((it) => ({
-    ...it,
-    isActive: it.path === Astro.url.pathname,
+const gnavData = navLinks.map((it) => ({
+  ...it,
+  isActive: it.path === Astro.url.pathname,
 }));
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
 
 ---
 
-<nav class={styles.gnav}>
+<nav class:list={[styles.gnav, className]}>
   <ul class:list={[styles.gnav__list, 'u-effect']} data-effect="anchor-hover">
     {gnavData.map((item) => (
       <li class={styles.gnav__item}>

@@ -4,6 +4,8 @@ import { loadWebFonts } from './libs/WebfontLoader';
 import { createDisableScroll } from './libs/DisableScroll';
 import { setupAsciiEffect } from './features/ascii-effect';
 import { setupBlockEffect } from './features/block-effect';
+import { PopoverSupport } from './features/menu';
+
 import { isOk } from './libs/result';
 import { getUserAgent } from './utils/browser';
 import type { AppFeatures } from './types';
@@ -58,6 +60,13 @@ class App {
     } else if (import.meta.env.DEV) {
       console.warn('[App] BlockEffect:', beResult.error);
     }
+
+    const meResult = new PopoverSupport();
+    // if (isOk(meResult)) {
+    //   this.features.menu = meResult.value;
+    // } else if (import.meta.env.DEV) {
+    //   console.warn('[App] Menu:', meResult.error);
+    // }
 
   }
 

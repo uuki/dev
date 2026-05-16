@@ -11,11 +11,6 @@
   padding-left: rem(20);
   padding-right: rem(20);
   text-align: center;
-
-  @media (--desktop) {
-    padding-left: rem(40);
-    padding-right: rem(40);
-  }
 }
 
 .footer__socialArea {
@@ -80,5 +75,12 @@
 
   small {
     font-size: rem(12);
+  }
+}
+
+@media (--desktop) {
+  .footer__content {
+    padding-left: rem(40);
+    padding-right: rem(40);
   }
 }

@@ -5,6 +5,7 @@ import yaml from '@rollup/plugin-yaml';
 import svelte from '@astrojs/svelte';
 import mdx from '@astrojs/mdx';
 import expressiveCode from 'astro-expressive-code';
+import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers';
 import partytown from '@astrojs/partytown';
 import sitemap from '@astrojs/sitemap';
 import remarkDirective from 'remark-directive';
@@ -14,10 +15,10 @@ import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeKatex from 'rehype-katex';
 import rehypeExternalLinks from 'rehype-external-links';
-import { remarkCustomDirectives } from './src/plugins/remark-custom-directives';
-import { remarkEmbedDirectives } from './src/plugins/remark-embed-directives';
-import { remarkOutdatedWarning } from './src/plugins/remark-outdated-warning';
-import { remarkReadingTime } from './src/plugins/remark-reading-time';
+import { remarkCustomDirectives } from './src/js/plugins/remark-custom-directives';
+import { remarkEmbedDirectives } from './src/js/plugins/remark-embed-directives';
+import { remarkOutdatedWarning } from './src/js/plugins/remark-outdated-warning';
+import { remarkReadingTime } from './src/js/plugins/remark-reading-time';
 import { blogTitleFetcher } from './integrations/blogTitleFetcher';
 import fs from 'fs';
 
@@ -51,8 +52,8 @@ export default defineConfig({
   integrations: [
     blogTitleFetcher({ enabled: false }),
     expressiveCode({
-      // Shiki設定（Prismから移行）
-      themes: ['github-dark', 'github-light'],
+      themes: ['nord', 'github-light'],
+      plugins: [pluginLineNumbers()],
       shiki: {
         langAlias: {
           'shell-session': 'shellscript',
@@ -60,8 +61,11 @@ export default defineConfig({
         },
       },
       styleOverrides: {
-        borderRadius: '8px',
-        borderWidth: '1px',
+        borderRadius: '12px',
+        borderWidth: '0',
+        frames: {
+          shadowColor: 'transparent',
+        },
       },
     }),
     mdx(),
@@ -80,7 +84,7 @@ export default defineConfig({
       remarkCustomDirectives,
       remarkEmbedDirectives,
       [remarkOutdatedWarning, {
-        include: /\/content\/blog\//,
+        include: /\/data\/blog\//,
         enabled: true,
         yearsThreshold: 2,
         warningText: 'この記事は{years}年以上前に書かれた内容です。情報が古くなっている可能性があります。',

@@ -58,3 +58,11 @@
   margin-bottom: rem(8);
   color: var(--remark-directive-title);
 }
+
+.remark-outdated-warning {
+  padding: rem(12);
+  border: 1px solid var(--color-alt-yellow-500);
+  border-radius: var(--corners-md);
+  // background-color: color-mix(in srgb, var(--color-alt-yellow-500) 10%, transparent);
+  // color: var(--color-alt-yellow-700);
+}

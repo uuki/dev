@@ -87,7 +87,7 @@
 .post__body {
   padding: rem(50);
   background-color: var(--color-base-surface-2);
-  border-radius: rem(6);
+  border-radius: var(--corners-lg);
   margin-top: rem(80);
   color: var(--color-text-primary);
   @media (--mobile) {

@@ -25,6 +25,7 @@ export const SELECTORS = {
   TOAST:        '.js-toast',
   ASCII_EFFECT: '.js-ascii-effect',
   BLOCK_EFFECT: '.js-block-effect',
+  MENU:        '.js-menu',
 } as const;
 
 export const WEBFONT_CONFIG = {

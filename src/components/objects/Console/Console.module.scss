@@ -77,7 +77,7 @@
   grid-area: 1 / 2 / 3 / 3;
 }
 .console__heading {
-  color: var(--color-alt-green-200);
+  color: relative-alpha(var(--color-alt-green-200), 0.5);
   font-weight: bold;
   font-size: liquid(16, $minmax: (min: 14, max: 16));
   line-height: 1.4;
@@ -165,8 +165,6 @@
     --_speed: 16;
     max-height: 50%;
     aspect-ratio: 1.618 / 1;
-  }
-  .console__content {
   }
 }
 

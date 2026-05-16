@@ -1,6 +1,8 @@
 ---
-import SiteLogo from '../../ui/SiteLogo/SiteLogo.astro';
-import Gnav from '../../objects/Gnav/Gnav.astro';
+import SiteLogo from '@/components/ui/SiteLogo/SiteLogo.astro';
+import Gnav from '@/components/objects/Gnav/Gnav.astro';
+import ButtonHamburger from '@/components/ui/ButtonHamburger/ButtonHamburger.astro';
+
 import styles from './Header.module.scss';
 
 const isTop = Astro.url.pathname === '/';
@@ -17,7 +19,8 @@ const Component = isTop ? 'h1' : 'div';
       </div>
     </div>
     <div class={styles.header__nav}>
-      <Gnav />
+      <Gnav class="u-hidden-mobile" />
+      <ButtonHamburger class="u-hidden-desktop" />
     </div>
   </div>
 </header>

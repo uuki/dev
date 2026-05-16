@@ -72,7 +72,7 @@ const getTitleByItem = (item: Activity) => {
           <h3 class={ style.timeline__title }>{getTitleByItem(item)}</h3>
         </div>
         <div class:list={[style.timeline__content]}>
-          <div class:list={[style.timeline__contentInner]}>
+          <div>
             {(() => {
               const Component = getComponentByItem(item);
               return Component ? <Component post={item} /> : null;
