@@ -51,7 +51,7 @@ interface OptionalBlogFields {
 const heroImage = (post.data as typeof post.data & OptionalBlogFields).heroImage;
 // Use heroImage or default OG image
 // To use custom OG images per post, add them to public/og/ and reference in frontmatter
-const ogImageUrl = heroImage || `/og-default.png`;
+const ogImageUrl = heroImage || `/og/${slug}.png`;
 
 const meta = {
   title,
