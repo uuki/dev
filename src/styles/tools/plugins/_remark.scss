@@ -81,3 +81,21 @@
     padding: rem(12);
   }
 }
+
+/**
+ * Remark GFM
+ */
+[data-footnotes] {
+  display: flex;
+  flex-direction: column;
+}
+@media(--mobile) {
+  [data-footnotes] {
+    gap: rem(12);
+  }
+}
+@media(--desktop) {
+  [data-footnotes] {
+    gap: rem(24);
+  }
+}

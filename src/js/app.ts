@@ -61,13 +61,7 @@ class App {
       console.warn('[App] BlockEffect:', beResult.error);
     }
 
-    const meResult = new PopoverSupport();
-    // if (isOk(meResult)) {
-    //   this.features.menu = meResult.value;
-    // } else if (import.meta.env.DEV) {
-    //   console.warn('[App] Menu:', meResult.error);
-    // }
-
+    new PopoverSupport();
   }
 
   destroy(): void {

@@ -24,13 +24,13 @@
   }
 }
 .timeline__header {
-  width: clamp(rem(40), 8.2svw, rem(120));
+  width: clamp(rem(16), 6svw, rem(120));
 }
 .timeline__year {
   --_year-size: #{rem(96)};
   position: sticky;
   top: 30%;
-  font-size: clamp(rem(60), 14svw, var(--_year-size));
+  font-size: clamp(rem(54), 7.5svw, var(--_year-size));
   height: 0.8lh;
   color: relative-alpha(var(--color-text-primary), 0.4);
   line-height: 1;

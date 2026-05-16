@@ -211,7 +211,8 @@ $count: length($frames);
     -webkit-appearance: none;
     appearance: none;
   }
-  &::-webkit-progress-bar {
+  &::-webkit-progress-bar,
+  &::-moz-progress-bar {
     background: rgba(255, 255, 255, 0.78);
   }
   &::after {
