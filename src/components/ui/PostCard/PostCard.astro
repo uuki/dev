@@ -20,7 +20,7 @@ const origin = detectOriginFromUrl(url);
 ---
 
 <a
-  href={url || `/blog/${slug}`}
+  href={url || `/blog/${slug}/`}
   class={styles.postCard}
   style={{ '--slug': slug }}
   {...(url ? {

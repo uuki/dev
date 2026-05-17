@@ -47,6 +47,7 @@ const additionalScssData = [
  */
 export default defineConfig({
   site: process.env.PUBLIC_ORIGIN || 'https://uuki.dev',
+  trailingSlash: 'always',
   devToolbar: {
     enabled: false
   },

@@ -8,4 +8,4 @@ export const getSortedPosts = async () => {
 };
 
 export const getBlogPageUrl = (page: number): string =>
-  page === 1 ? '/blog/' : `/blog/page/${page}`;
+  page === 1 ? '/blog/' : `/blog/page/${page}/`;

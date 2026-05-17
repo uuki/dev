@@ -34,7 +34,7 @@ const sortedTags = Object.keys(tagCounts).sort((a, b) => tagCounts[b] - tagCount
         <ul class={styles.tags__list}>
           {sortedTags.map((tagSlug) => (
             <li>
-              <a href={`/tags/${tagSlug}`} class={styles.tags__item}>{slugToName[tagSlug] || tagSlug}</a>
+              <a href={`/tags/${tagSlug}/`} class={styles.tags__item}>{slugToName[tagSlug] || tagSlug}</a>
               <span class={styles.tags__count}>({tagCounts[tagSlug]})</span>
             </li>
           ))}
