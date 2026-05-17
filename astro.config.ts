@@ -6,7 +6,6 @@ import svelte from '@astrojs/svelte';
 import mdx from '@astrojs/mdx';
 import expressiveCode from 'astro-expressive-code';
 import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers';
-import partytown from '@astrojs/partytown';
 import sitemap from '@astrojs/sitemap';
 import remarkDirective from 'remark-directive';
 import remarkGfm from 'remark-gfm';
@@ -72,11 +71,6 @@ export default defineConfig({
     }),
     mdx(),
     svelte(),
-    partytown({
-      config: {
-        forward: ['dataLayer.push', 'gtag'],
-      },
-    }),
     sitemap(),
   ],
   markdown: {

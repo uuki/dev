@@ -7,7 +7,7 @@ interface Props {
   name?: string;
 }
 
-const { name = 'uuki' } = Astro.props;
+const { name = 'uuki', ...props } = Astro.props;
 
 type OriginData = {
   name: string;
@@ -18,7 +18,7 @@ type OriginData = {
 const data: OriginData = (originConfig as Record<string, OriginData>)[name] || (originConfig as Record<string, OriginData>).uuki;
 ---
 
-<div class={styles.badgeOrigin}>
+<div class={styles.badgeOrigin} {...props}>
   {data.logo && (
     <Image
       src={data.logo}

@@ -1,9 +1,4 @@
 ---
-/**
- * Google Analytics component with Partytown
- * @see https://docs.astro.build/en/guides/integrations-guide/partytown/
- */
-
 const GA_ID = import.meta.env.PUBLIC_GOOGLE_ANALYTICS_ID;
 const isProduction = import.meta.env.PROD;
 const shouldLoadGA = isProduction && GA_ID;
@@ -11,13 +6,12 @@ const shouldLoadGA = isProduction && GA_ID;
 
 {shouldLoadGA && (
   <>
-    <!-- Google tag (gtag.js) with Partytown -->
-    <script is:inline type="text/partytown" async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
-    <script is:inline type="text/partytown">
+    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
+    <script is:inline define:vars={{ GA_ID }}>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', GA_ID);
+      window.gtag = function() { window.dataLayer.push(arguments); };
+      window.gtag('js', new Date());
+      window.gtag('config', GA_ID);
     </script>
   </>
 )}

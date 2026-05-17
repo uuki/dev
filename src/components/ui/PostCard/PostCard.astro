@@ -25,18 +25,15 @@ const origin = detectOriginFromUrl(url);
   style={{ '--slug': slug }}
   {...(url ? {
     target: '_blank',
-    rel: 'noopener noreferrer',
-    'data-ga-event': 'external_blog_click',
-    'data-ga-url': url,
-    'data-ga-title': title,
-    'data-ga-origin': origin,
+    'data-ga-event': 'external',
   } : {})}
+  data-ga-url
 >
   <article class={styles.postCard__content}>
     <div class={styles.postCard__origin}>
-      <BadgeOrigin name={origin} />
+      <BadgeOrigin name={origin} data-ga-origin />
     </div>
-    <h2 class={styles.postCard__title}>{title}</h2>
+    <h2 class={styles.postCard__title} data-ga-title>{title}</h2>
   </article>
   <ul class={styles.postCard__tags}>
     {tags.map((tag) => (
