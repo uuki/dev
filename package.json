@@ -5,6 +5,7 @@
   "private": true,
   "author": "uuki <uuki.dev@gmail.com>",
   "scripts": {
+    "sync:tags": "node scripts/sync-tags.mjs",
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build && pagefind --site dist",
