@@ -33,7 +33,7 @@ const profileLinks = [
     <ul class={styles.author__socials}>
       {profileLinks.map((link) => (
         <li>
-          <a href={link.url} aria-label={link.label}>
+          <a href={link.url} target="_blank" aria-label={link.label}>
             <Fragment set:html={link.icon} />
           </a>
         </li>
