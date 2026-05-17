@@ -1,0 +1,119 @@
+{
+  // ─── Custom Directives (remark-custom-directives) ───────────────────────────
+
+  "Directive: note": {
+    "scope": "mdx,markdown",
+    "prefix": "dir-note",
+    "body": [":::note", "${1:${TM_SELECTED_TEXT:内容}}", ":::"],
+    "description": "Note ブロック"
+  },
+  "Directive: note (with label)": {
+    "scope": "mdx,markdown",
+    "prefix": "dir-note-label",
+    "body": [":::note{label=\"${1:ラベル}\"}", "${2:内容}", ":::"],
+    "description": "ラベル付き Note ブロック"
+  },
+  "Directive: info": {
+    "scope": "mdx,markdown",
+    "prefix": "dir-info",
+    "body": [":::info", "${1:${TM_SELECTED_TEXT:内容}}", ":::"],
+    "description": "Info ブロック"
+  },
+  "Directive: info (with label)": {
+    "scope": "mdx,markdown",
+    "prefix": "dir-info-label",
+    "body": [":::info{label=\"${1:ラベル}\"}", "${2:内容}", ":::"],
+    "description": "ラベル付き Info ブロック"
+  },
+  "Directive: tip": {
+    "scope": "mdx,markdown",
+    "prefix": "dir-tip",
+    "body": [":::tip", "${1:${TM_SELECTED_TEXT:内容}}", ":::"],
+    "description": "Tip ブロック"
+  },
+  "Directive: tip (with label)": {
+    "scope": "mdx,markdown",
+    "prefix": "dir-tip-label",
+    "body": [":::tip{label=\"${1:ラベル}\"}", "${2:内容}", ":::"],
+    "description": "ラベル付き Tip ブロック"
+  },
+  "Directive: warning": {
+    "scope": "mdx,markdown",
+    "prefix": "dir-warning",
+    "body": [":::warning", "${1:${TM_SELECTED_TEXT:内容}}", ":::"],
+    "description": "Warning ブロック"
+  },
+  "Directive: warning (with label)": {
+    "scope": "mdx,markdown",
+    "prefix": "dir-warning-label",
+    "body": [":::warning{label=\"${1:ラベル}\"}", "${2:内容}", ":::"],
+    "description": "ラベル付き Warning ブロック"
+  },
+
+  // ─── Embed Directives (remark-embed-directives) ──────────────────────────────
+
+  "Embed: YouTube": {
+    "scope": "mdx,markdown",
+    "prefix": "embed-youtube",
+    "body": ["::youtube{id=\"${1:VIDEO_ID}\"}"],
+    "description": "YouTube 動画を埋め込む"
+  },
+  "Embed: Twitter / X": {
+    "scope": "mdx,markdown",
+    "prefix": "embed-twitter",
+    "body": ["::twitter{id=\"${1:TWEET_ID}\"}"],
+    "description": "Twitter / X のポストを埋め込む"
+  },
+  "Embed: Vimeo": {
+    "scope": "mdx,markdown",
+    "prefix": "embed-vimeo",
+    "body": ["::vimeo{id=\"${1:VIDEO_ID}\"}"],
+    "description": "Vimeo 動画を埋め込む"
+  },
+  "Embed: GitHub": {
+    "scope": "mdx,markdown",
+    "prefix": "embed-github",
+    "body": ["::github{url=\"${1:https://github.com/owner/repo}\"}"],
+    "description": "GitHub リポジトリを埋め込む"
+  },
+
+  // ─── Math (remark-math + rehype-katex) ──────────────────────────────────────
+
+  "Math: inline": {
+    "scope": "mdx,markdown",
+    "prefix": "math-inline",
+    "body": ["$${1:式}$"],
+    "description": "インライン数式 (KaTeX)"
+  },
+  "Math: block": {
+    "scope": "mdx,markdown",
+    "prefix": "math-block",
+    "body": ["$$", "${1:式}", "$$"],
+    "description": "ブロック数式 (KaTeX)"
+  },
+
+  // ─── GFM (remark-gfm) ────────────────────────────────────────────────────────
+
+  "GFM: table": {
+    "scope": "mdx,markdown",
+    "prefix": "gfm-table",
+    "body": [
+      "| ${1:列1} | ${2:列2} | ${3:列3} |",
+      "| --- | --- | --- |",
+      "| ${4:} | ${5:} | ${6:} |"
+    ],
+    "description": "GFM テーブル"
+  },
+  "GFM: strikethrough": {
+    "scope": "mdx,markdown",
+    "prefix": "gfm-strike",
+    "body": ["~~${1:${TM_SELECTED_TEXT:テキスト}}~~"],
+    "description": "打ち消し線"
+  },
+  "GFM: task list": {
+    "scope": "mdx,markdown",
+    "prefix": "gfm-task",
+    "body": ["- [ ] ${1:タスク}"],
+    "description": "タスクリスト"
+  }
+}

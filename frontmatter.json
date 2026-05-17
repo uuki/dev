@@ -40,12 +40,13 @@
   "frontMatter.framework.id": "astro",
   "frontMatter.framework.startCommand": "pnpm dev",
   "frontMatter.preview.host": "http://localhost:4321",
-  "frontMatter.preview.pathName": "blog",
+  "frontMatter.preview.pathName": "/blog/",
   "frontMatter.templates.prefix": "",
   "frontMatter.taxonomy.contentTypes": [
     {
       "name": "blog",
       "pageBundle": false,
+      "previewPath": "/blog/{{fileName}}/",
       "fields": [
         {
           "title": "Title",
@@ -99,6 +100,7 @@
     {
       "name": "page",
       "pageBundle": false,
+      "previewPath": "/{{fileName}}/",
       "fields": [
         {
           "title": "Title",

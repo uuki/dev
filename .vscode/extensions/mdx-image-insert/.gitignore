@@ -1,0 +1,9 @@
+# Build output
+dist/
+
+# Node modules
+node_modules/
+pnpm-lock.yaml
+
+# VSIX packages
+*.vsix
