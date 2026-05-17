@@ -122,7 +122,7 @@ const readingTime: number = remarkPluginFrontmatter.readingTime ?? 0;
           </PostWysiwyg>
           <aside class={styles.post__share}>
             {(['x'] as const).map((type) => (
-              <ShareButton type={type} pathname={`/blog/${slug}`} text={title} />
+              <ShareButton type={type} pathname={`/blog/${slug}/`} text={title} />
             ))}
           </aside>
         </div>

@@ -1,0 +1,98 @@
+{
+  "name": "mdx-image-insert",
+  "displayName": "MDX Image Insert",
+  "description": "Insert images into MDX/Markdown files — copies to public directory with optional WebP conversion",
+  "version": "0.1.0",
+  "private": true,
+  "publisher": "uuki",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uuki/uuki.dev"
+  },
+  "engines": {
+    "vscode": "^1.86.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "mdxImageInsert.insertImage",
+        "title": "Insert Image",
+        "category": "MDX"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "mdxImageInsert.insertImage",
+        "key": "ctrl+alt+i",
+        "mac": "cmd+alt+i",
+        "when": "editorLangId == mdx || editorLangId == markdown"
+      }
+    ],
+    "configuration": {
+      "title": "MDX Image Insert",
+      "properties": {
+        "mdxImageInsert.destination": {
+          "type": "string",
+          "default": "public/media/${year}/${month}/",
+          "description": "Image copy destination relative to workspace root. Supports ${year}, ${month}."
+        },
+        "mdxImageInsert.webRoot": {
+          "type": "string",
+          "default": "public",
+          "description": "Directory treated as web root. This prefix is stripped when generating the inserted path."
+        },
+        "mdxImageInsert.onConflict": {
+          "type": "string",
+          "enum": [
+            "overwrite",
+            "rename",
+            "prompt"
+          ],
+          "enumDescriptions": [
+            "Overwrite the existing file",
+            "Append a numeric suffix (image-1.png, image-2.png, ...)",
+            "Ask each time"
+          ],
+          "default": "rename",
+          "description": "Behavior when the destination file already exists."
+        },
+        "mdxImageInsert.optimize.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Convert images to WebP on save. Skipped automatically for SVG and WebP sources."
+        },
+        "mdxImageInsert.optimize.quality": {
+          "type": "number",
+          "default": 82,
+          "minimum": 1,
+          "maximum": 100,
+          "description": "WebP quality (1–100)."
+        },
+        "mdxImageInsert.optimize.fallbackOnError": {
+          "type": "boolean",
+          "default": true,
+          "description": "Copy the original file as-is if WebP conversion fails."
+        }
+      }
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/sharp": "^0.32.0",
+    "@types/vscode": "^1.86.0",
+    "@vscode/vsce": "^3.0.0",
+    "esbuild": "^0.21.0",
+    "typescript": "^5.4.0"
+  },
+  "scripts": {
+    "build": "node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
+    "package": "pnpm build && pnpm exec vsce package --no-dependencies",
+    "publish": "echo 'This extension is private and must not be published to the Marketplace.' && exit 1"
+  }
+}
