@@ -19,12 +19,21 @@ const slug = id.replace(/\.mdx?$/, '');
 const origin = detectOriginFromUrl(url);
 ---
 
-<a href={url || `/blog/${slug}`} class={styles.postCard} style={{ '--slug': slug }}>
+<a
+  href={url || `/blog/${slug}/`}
+  class={styles.postCard}
+  style={{ '--slug': slug }}
+  {...(url ? {
+    target: '_blank',
+    'data-ga-event': 'external',
+  } : {})}
+  data-ga-url
+>
   <article class={styles.postCard__content}>
     <div class={styles.postCard__origin}>
-      <BadgeOrigin name={origin} />
+      <BadgeOrigin name={origin} data-ga-origin />
     </div>
-    <h2 class={styles.postCard__title}>{title}</h2>
+    <h2 class={styles.postCard__title} data-ga-title>{title}</h2>
   </article>
   <ul class={styles.postCard__tags}>
     {tags.map((tag) => (

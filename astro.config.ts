@@ -6,7 +6,6 @@ import svelte from '@astrojs/svelte';
 import mdx from '@astrojs/mdx';
 import expressiveCode from 'astro-expressive-code';
 import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers';
-import partytown from '@astrojs/partytown';
 import sitemap from '@astrojs/sitemap';
 import remarkDirective from 'remark-directive';
 import remarkGfm from 'remark-gfm';
@@ -48,6 +47,7 @@ const additionalScssData = [
  */
 export default defineConfig({
   site: process.env.PUBLIC_ORIGIN || 'https://uuki.dev',
+  trailingSlash: 'always',
   devToolbar: {
     enabled: false
   },
@@ -72,11 +72,6 @@ export default defineConfig({
     }),
     mdx(),
     svelte(),
-    partytown({
-      config: {
-        forward: ['dataLayer.push'],
-      },
-    }),
     sitemap(),
   ],
   markdown: {
