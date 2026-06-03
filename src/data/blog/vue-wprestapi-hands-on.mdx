@@ -3,7 +3,7 @@ title: "Vue.js＋WP REST API ハンズオン【Vue.js #3 Advent Calendar 2017】
 slug: vue-wprestapi-hands-on
 description: "Vue.js #3 Advent Calendar 2017 - Qiita、12日目の記事です。この記事では、Vue.jsとWP REST APIを連携して、簡単な記事表示〜非公開記事をプレビューするまでの手順を、できるだけシンプルにハンズオン形式で書いていこうと思います。"
 created_at: 2017-12-09T02:54:10.000Z
-updated_at: 2024-11-30T10:34:15.423Z
+updated_at: 2026-06-01T02:39:24.829Z
 draft: false
 tags:
   - Vue2
@@ -244,7 +244,7 @@ $ eval $(docker-machine env vue-wp-project)
 $ docker-compose up -d
 ```
 
-ここまで来るとブラウザから http://192.168.99.100:6001 にアクセスすると、次の画面が出るはずです。
+ここまで来るとブラウザから `http://localhost:6001` にアクセスすると、次の画面が出るはずです。
 
 ![wordpress_setup_.png](/media/2017/12/wordpress_setup_.png)
 
@@ -254,7 +254,7 @@ $ docker-compose up -d
 ![select_themes.png](/media/2017/12/select_themes.png)
 
 
-再度 http://192.168.99.100:6001 にアクセスすると、スクショのような画面になっているかと思います。
+再度 `http://localhost:6001` にアクセスすると、スクショのような画面になっているかと思います。
 
 ![hello_world.png](/media/2017/12/hello_world.png)
 
@@ -293,7 +293,7 @@ export default new Vuex.Store({
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'http://192.168.99.100:6001/wp-json/wp/v2'
+  baseURL: 'http://localhost:6001/wp-json/wp/v2'
 });
 
 const stateObject = {
@@ -461,7 +461,7 @@ export default new Router({
 
 
 ## 確認〜Wordpressへ展開
-ここまで終えたら、`$ npm run dev`を実行し、http://localhost:8080 を確認します。
+ここまで終えたら、`$ npm run dev`を実行し、`http://localhost:8080` を確認します。
 すると、以下のような画面が出ているかと思います。
 
 ![wp_list.png](/media/2017/12/wp_list.png)
@@ -471,7 +471,7 @@ hello-worldのリンクをクリックして、スクショのように記事本
 ![wp_article.png](/media/2017/12/wp_article.png)
 
 
-最後に、`$ npm run build`でビルドし、Theme側に展開されたら http://192.168.99.100:6001/
+最後に、`$ npm run build`でビルドし、Theme側に展開されたら `http://localhost:6001/`
  へアクセスしてWordpress上でも動作している事が確認できれば、成功です。
 
 ![wp_build.png](/media/2017/12/wp_build.png)
@@ -528,13 +528,13 @@ wp_localize_script( 'app', 'WP_API_Settings', array(
 
 ```js
 const api = axios.create({
-  baseURL: 'http://192.168.99.100:6001/wp-json/wp/v2',
+  baseURL: 'http://localhost:6001/wp-json/wp/v2',
   headers: { 'X-WP-Nonce': window.WP_API_Settings.nonce }
 });
 ```
 
 
-ここまで終えたら、再度npm run buildを行い、http://192.168.99.100:6001/article/1/
+ここまで終えたら、再度npm run buildを行い、`http://localhost:6001/article/1/`
  にアクセスすると、非公開の記事が表示されているはずです。
 
 ![nonce.jpg](/media/2017/12/nonce.jpg)
